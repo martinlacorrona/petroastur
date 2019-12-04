@@ -1,3 +1,4 @@
+
 # PetroAstur
 Aplicación de Android para conocer precios actualizados de las estaciones de servicio Asturianas.
 
@@ -8,7 +9,6 @@ Aplicación de Android para conocer precios actualizados de las estaciones de se
   │   └── src
   │      └── java/com/grupocumb/petrosastur
   │         └── ui/
-  │            └── MainActivity.java
   │         └── model/
   │            └── EstacionServicio.java
   │         └── controller/
@@ -20,7 +20,7 @@ Aplicación de Android para conocer precios actualizados de las estaciones de se
   │            └── UpdateService.java
   │            └── SQLService.java
   │      └── res/
-  │      └── AndroidManifest.xml
+  │      └── MainActivity.java
   ├── gradle
   ├── .gitignore
   └── README.md
