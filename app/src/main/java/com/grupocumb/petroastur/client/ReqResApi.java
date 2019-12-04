@@ -12,6 +12,7 @@ public interface ReqResApi {
     /**
      * Petición get al servicio
      * 03 -> Código Asturias
+     *
      * @return Objeto ResponseApi con la lista de estaciones de servicio
      */
     @GET("FiltroCCAA/03")

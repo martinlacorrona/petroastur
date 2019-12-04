@@ -1,4 +1,3 @@
-
 package com.grupocumb.petroastur.model;
 
 import com.google.gson.annotations.Expose;
