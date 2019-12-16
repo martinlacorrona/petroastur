@@ -1,8 +1,13 @@
 package com.grupocumb.petroastur.model;
 
+import androidx.annotation.NonNull;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+@Entity
 public class EstacionServicio {
 
     @SerializedName("C.P.")
@@ -31,25 +36,25 @@ public class EstacionServicio {
     private String municipio;
     @SerializedName("Precio Biodiesel")
     @Expose
-    private Object precioBiodiesel;
+    private double precioBiodiesel;
     @SerializedName("Precio Bioetanol")
     @Expose
-    private Object precioBioetanol;
+    private double precioBioetanol;
     @SerializedName("Precio Gas Natural Comprimido")
     @Expose
-    private Object precioGasNaturalComprimido;
+    private double precioGasNaturalComprimido;
     @SerializedName("Precio Gas Natural Licuado")
     @Expose
-    private Object precioGasNaturalLicuado;
+    private double precioGasNaturalLicuado;
     @SerializedName("Precio Gases licuados del petr\u00f3leo")
     @Expose
-    private Object precioGasesLicuadosDelPetrLeo;
+    private double precioGasesLicuadosDelPetrLeo;
     @SerializedName("Precio Gasoleo A")
     @Expose
     private String precioGasoleoA;
     @SerializedName("Precio Gasoleo B")
     @Expose
-    private Object precioGasoleoB;
+    private double precioGasoleoB;
     @SerializedName("Precio Gasolina 95 Protecci\u00f3n")
     @Expose
     private String precioGasolina95ProtecciN;
@@ -79,6 +84,8 @@ public class EstacionServicio {
     private String sterMetLico;
     @SerializedName("IDEESS")
     @Expose
+    @PrimaryKey
+    @NonNull
     private String iDEESS;
     @SerializedName("IDMunicipio")
     @Expose
@@ -154,43 +161,43 @@ public class EstacionServicio {
         this.municipio = municipio;
     }
 
-    public Object getPrecioBiodiesel() {
+    public double getPrecioBiodiesel() {
         return precioBiodiesel;
     }
 
-    public void setPrecioBiodiesel(Object precioBiodiesel) {
+    public void setPrecioBiodiesel(double precioBiodiesel) {
         this.precioBiodiesel = precioBiodiesel;
     }
 
-    public Object getPrecioBioetanol() {
+    public double getPrecioBioetanol() {
         return precioBioetanol;
     }
 
-    public void setPrecioBioetanol(Object precioBioetanol) {
+    public void setPrecioBioetanol(double precioBioetanol) {
         this.precioBioetanol = precioBioetanol;
     }
 
-    public Object getPrecioGasNaturalComprimido() {
+    public double getPrecioGasNaturalComprimido() {
         return precioGasNaturalComprimido;
     }
 
-    public void setPrecioGasNaturalComprimido(Object precioGasNaturalComprimido) {
+    public void setPrecioGasNaturalComprimido(double precioGasNaturalComprimido) {
         this.precioGasNaturalComprimido = precioGasNaturalComprimido;
     }
 
-    public Object getPrecioGasNaturalLicuado() {
+    public double getPrecioGasNaturalLicuado() {
         return precioGasNaturalLicuado;
     }
 
-    public void setPrecioGasNaturalLicuado(Object precioGasNaturalLicuado) {
+    public void setPrecioGasNaturalLicuado(double precioGasNaturalLicuado) {
         this.precioGasNaturalLicuado = precioGasNaturalLicuado;
     }
 
-    public Object getPrecioGasesLicuadosDelPetrLeo() {
+    public double getPrecioGasesLicuadosDelPetrLeo() {
         return precioGasesLicuadosDelPetrLeo;
     }
 
-    public void setPrecioGasesLicuadosDelPetrLeo(Object precioGasesLicuadosDelPetrLeo) {
+    public void setPrecioGasesLicuadosDelPetrLeo(double precioGasesLicuadosDelPetrLeo) {
         this.precioGasesLicuadosDelPetrLeo = precioGasesLicuadosDelPetrLeo;
     }
 
@@ -202,11 +209,11 @@ public class EstacionServicio {
         this.precioGasoleoA = precioGasoleoA;
     }
 
-    public Object getPrecioGasoleoB() {
+    public double getPrecioGasoleoB() {
         return precioGasoleoB;
     }
 
-    public void setPrecioGasoleoB(Object precioGasoleoB) {
+    public void setPrecioGasoleoB(double precioGasoleoB) {
         this.precioGasoleoB = precioGasoleoB;
     }
 
