@@ -6,6 +6,7 @@ import com.grupocumb.petroastur.client.ReqResApi;
 import com.grupocumb.petroastur.client.RetrofitClient;
 import com.grupocumb.petroastur.model.EstacionServicio;
 import com.grupocumb.petroastur.model.ResponseAPI;
+import com.grupocumb.petroastur.model.TransactionStatus;
 import com.grupocumb.petroastur.service.APIRequestService;
 import com.grupocumb.petroastur.service.SQLService;
 
@@ -19,6 +20,13 @@ public class APIRequestServiceImpl implements APIRequestService {
     private ReqResApi clienteReqResAPI = RetrofitClient.getClient(ReqResApi.BASE_URL)
             .create(ReqResApi.class);
 
+    private TransactionStatus status = TransactionStatus.WAITING;
+
+    @Override
+    public TransactionStatus getTransactionStatus() {
+        return status;
+    }
+
     @Override
     public void update(final SQLService sqlService) {
         Call<ResponseAPI> call = clienteReqResAPI.getEstaciones();
@@ -31,9 +39,11 @@ public class APIRequestServiceImpl implements APIRequestService {
                         List<EstacionServicio> estaciones = data.getListaEESSPrecio();
                         sqlService.deleteAll();
                         sqlService.insertAll(estaciones);
+                        status = TransactionStatus.DONE;
                         break;
                     default:
                         call.cancel();
+                        status = TransactionStatus.FAILED;
                         break;
                 }
             }
@@ -41,6 +51,7 @@ public class APIRequestServiceImpl implements APIRequestService {
             @Override
             public void onFailure(Call<ResponseAPI> call, Throwable t) {
                 Log.e("Lista - error", t.toString());
+                status = TransactionStatus.FAILED;
             }
         });
     }

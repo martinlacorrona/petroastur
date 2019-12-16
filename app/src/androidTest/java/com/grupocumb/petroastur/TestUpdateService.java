@@ -5,6 +5,7 @@ import android.content.Context;
 import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.runner.AndroidJUnit4;
 
+import com.grupocumb.petroastur.model.TransactionStatus;
 import com.grupocumb.petroastur.service.APIRequestService;
 import com.grupocumb.petroastur.service.SQLService;
 import com.grupocumb.petroastur.service.UpdateService;
@@ -37,7 +38,7 @@ public class TestUpdateService {
         sqlService = new SQLServiceImpl(mockContext);
         apiRequestService = new APIRequestServiceImpl();
 
-        updateService = new UpdateServiceImpl();
+        updateService = new UpdateServiceImpl(sqlService, apiRequestService);
 
         //Reset database
         mockContext.deleteDatabase("estacionesservicio-db");
@@ -49,10 +50,12 @@ public class TestUpdateService {
         assertTrue(sqlService.getAll().size() == 0);
 
         //1. update the database
-        updateService.update(sqlService, apiRequestService);
+        updateService.update();
 
-        //2. wait 5 seconds
-        Thread.sleep(5000);
+        //2. waiting
+        while(updateService.getStatus() == TransactionStatus.WAITING) {
+            //WAITING...
+        }
 
         //3.chqeuamos que en la base tenemos mas de 1
         assertTrue(sqlService.getAll().size() > 0);
