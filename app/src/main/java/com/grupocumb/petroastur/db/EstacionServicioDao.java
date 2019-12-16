@@ -14,14 +14,14 @@ public interface EstacionServicioDao {
     @Query("SELECT * FROM estacionservicio")
     List<EstacionServicio> getAll();
 
-    @Query("SELECT * FROM estacionservicio WHERE iDEESS IN (:ids)")
+    @Query("SELECT * FROM estacionservicio WHERE id IN (:ids)")
     List<EstacionServicio> getByIds(int[] ids);
 
-    @Query("SELECT * FROM estacionservicio WHERE iDEESS == (:id)")
+    @Query("SELECT * FROM estacionservicio WHERE id == (:id)")
     EstacionServicio getById(int id);
 
     @Insert
-    void insertAll(EstacionServicio... list);
+    void insertAll(List<EstacionServicio> list);
 
     @Query("DELETE FROM estacionservicio")
     void deleteAll();
