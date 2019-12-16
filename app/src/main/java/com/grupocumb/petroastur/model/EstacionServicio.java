@@ -12,10 +12,10 @@ public class EstacionServicio {
 
     @SerializedName("C.P.")
     @Expose
-    private String cP;
+    private String codigoPostal;
     @SerializedName("Direcci\u00f3n")
     @Expose
-    private String direcciN;
+    private String direccion;
     @SerializedName("Horario")
     @Expose
     private String horario;
@@ -36,28 +36,28 @@ public class EstacionServicio {
     private String municipio;
     @SerializedName("Precio Biodiesel")
     @Expose
-    private double precioBiodiesel;
+    private String precioBiodiesel;
     @SerializedName("Precio Bioetanol")
     @Expose
-    private double precioBioetanol;
+    private String precioBioetanol;
     @SerializedName("Precio Gas Natural Comprimido")
     @Expose
-    private double precioGasNaturalComprimido;
+    private String precioGasNaturalComprimido;
     @SerializedName("Precio Gas Natural Licuado")
     @Expose
-    private double precioGasNaturalLicuado;
+    private String precioGasNaturalLicuado;
     @SerializedName("Precio Gases licuados del petr\u00f3leo")
     @Expose
-    private double precioGasesLicuadosDelPetrLeo;
+    private String precioGasesLicuadosDelPetroleo;
     @SerializedName("Precio Gasoleo A")
     @Expose
     private String precioGasoleoA;
     @SerializedName("Precio Gasoleo B")
     @Expose
-    private double precioGasoleoB;
+    private String precioGasoleoB;
     @SerializedName("Precio Gasolina 95 Protecci\u00f3n")
     @Expose
-    private String precioGasolina95ProtecciN;
+    private String precioGasolina95Proteccion;
     @SerializedName("Precio Gasolina  98")
     @Expose
     private String precioGasolina98;
@@ -69,10 +69,10 @@ public class EstacionServicio {
     private String provincia;
     @SerializedName("Remisi\u00f3n")
     @Expose
-    private String remisiN;
+    private String remision;
     @SerializedName("R\u00f3tulo")
     @Expose
-    private String rTulo;
+    private String empresa;
     @SerializedName("Tipo Venta")
     @Expose
     private String tipoVenta;
@@ -81,244 +81,244 @@ public class EstacionServicio {
     private String bioEtanol;
     @SerializedName("% \u00c9ster met\u00edlico")
     @Expose
-    private String sterMetLico;
+    private String esterMetilico;
     @SerializedName("IDEESS")
     @Expose
     @PrimaryKey
     @NonNull
-    private String iDEESS;
+    private String id;
     @SerializedName("IDMunicipio")
     @Expose
-    private String iDMunicipio;
+    private String idMunicipio;
     @SerializedName("IDProvincia")
     @Expose
-    private String iDProvincia;
+    private String idProvincia;
     @SerializedName("IDCCAA")
     @Expose
-    private String iDCCAA;
+    private String idCCAA;
 
-    public String getCP() {
-        return cP;
+    public void setCodigoPostal(String codigoPostal) {
+        this.codigoPostal = codigoPostal;
     }
 
-    public void setCP(String cP) {
-        this.cP = cP;
-    }
-
-    public String getDirecciN() {
-        return direcciN;
-    }
-
-    public void setDirecciN(String direcciN) {
-        this.direcciN = direcciN;
-    }
-
-    public String getHorario() {
-        return horario;
+    public void setDireccion(String direccion) {
+        this.direccion = direccion;
     }
 
     public void setHorario(String horario) {
         this.horario = horario;
     }
 
-    public String getLatitud() {
-        return latitud;
-    }
-
     public void setLatitud(String latitud) {
         this.latitud = latitud;
-    }
-
-    public String getLocalidad() {
-        return localidad;
     }
 
     public void setLocalidad(String localidad) {
         this.localidad = localidad;
     }
 
-    public String getLongitudWGS84() {
-        return longitudWGS84;
-    }
-
     public void setLongitudWGS84(String longitudWGS84) {
         this.longitudWGS84 = longitudWGS84;
-    }
-
-    public String getMargen() {
-        return margen;
     }
 
     public void setMargen(String margen) {
         this.margen = margen;
     }
 
-    public String getMunicipio() {
-        return municipio;
-    }
-
     public void setMunicipio(String municipio) {
         this.municipio = municipio;
     }
 
-    public double getPrecioBiodiesel() {
-        return precioBiodiesel;
-    }
-
-    public void setPrecioBiodiesel(double precioBiodiesel) {
+    public void setPrecioBiodiesel(String precioBiodiesel) {
         this.precioBiodiesel = precioBiodiesel;
     }
 
-    public double getPrecioBioetanol() {
-        return precioBioetanol;
-    }
-
-    public void setPrecioBioetanol(double precioBioetanol) {
+    public void setPrecioBioetanol(String precioBioetanol) {
         this.precioBioetanol = precioBioetanol;
     }
 
-    public double getPrecioGasNaturalComprimido() {
-        return precioGasNaturalComprimido;
-    }
-
-    public void setPrecioGasNaturalComprimido(double precioGasNaturalComprimido) {
+    public void setPrecioGasNaturalComprimido(String precioGasNaturalComprimido) {
         this.precioGasNaturalComprimido = precioGasNaturalComprimido;
     }
 
-    public double getPrecioGasNaturalLicuado() {
-        return precioGasNaturalLicuado;
-    }
-
-    public void setPrecioGasNaturalLicuado(double precioGasNaturalLicuado) {
+    public void setPrecioGasNaturalLicuado(String precioGasNaturalLicuado) {
         this.precioGasNaturalLicuado = precioGasNaturalLicuado;
     }
 
-    public double getPrecioGasesLicuadosDelPetrLeo() {
-        return precioGasesLicuadosDelPetrLeo;
-    }
-
-    public void setPrecioGasesLicuadosDelPetrLeo(double precioGasesLicuadosDelPetrLeo) {
-        this.precioGasesLicuadosDelPetrLeo = precioGasesLicuadosDelPetrLeo;
-    }
-
-    public String getPrecioGasoleoA() {
-        return precioGasoleoA;
+    public void setPrecioGasesLicuadosDelPetroleo(String precioGasesLicuadosDelPetroleo) {
+        this.precioGasesLicuadosDelPetroleo = precioGasesLicuadosDelPetroleo;
     }
 
     public void setPrecioGasoleoA(String precioGasoleoA) {
         this.precioGasoleoA = precioGasoleoA;
     }
 
-    public double getPrecioGasoleoB() {
-        return precioGasoleoB;
-    }
-
-    public void setPrecioGasoleoB(double precioGasoleoB) {
+    public void setPrecioGasoleoB(String precioGasoleoB) {
         this.precioGasoleoB = precioGasoleoB;
     }
 
-    public String getPrecioGasolina95ProtecciN() {
-        return precioGasolina95ProtecciN;
-    }
-
-    public void setPrecioGasolina95ProtecciN(String precioGasolina95ProtecciN) {
-        this.precioGasolina95ProtecciN = precioGasolina95ProtecciN;
-    }
-
-    public String getPrecioGasolina98() {
-        return precioGasolina98;
+    public void setPrecioGasolina95Proteccion(String precioGasolina95Proteccion) {
+        this.precioGasolina95Proteccion = precioGasolina95Proteccion;
     }
 
     public void setPrecioGasolina98(String precioGasolina98) {
         this.precioGasolina98 = precioGasolina98;
     }
 
-    public String getPrecioNuevoGasoleoA() {
-        return precioNuevoGasoleoA;
-    }
-
     public void setPrecioNuevoGasoleoA(String precioNuevoGasoleoA) {
         this.precioNuevoGasoleoA = precioNuevoGasoleoA;
-    }
-
-    public String getProvincia() {
-        return provincia;
     }
 
     public void setProvincia(String provincia) {
         this.provincia = provincia;
     }
 
-    public String getRemisiN() {
-        return remisiN;
+    public void setRemision(String remision) {
+        this.remision = remision;
     }
 
-    public void setRemisiN(String remisiN) {
-        this.remisiN = remisiN;
-    }
-
-    public String getRTulo() {
-        return rTulo;
-    }
-
-    public void setRTulo(String rTulo) {
-        this.rTulo = rTulo;
-    }
-
-    public String getTipoVenta() {
-        return tipoVenta;
+    public void setEmpresa(String empresa) {
+        this.empresa = empresa;
     }
 
     public void setTipoVenta(String tipoVenta) {
         this.tipoVenta = tipoVenta;
     }
 
-    public String getBioEtanol() {
-        return bioEtanol;
-    }
-
     public void setBioEtanol(String bioEtanol) {
         this.bioEtanol = bioEtanol;
     }
 
-    public String getSterMetLico() {
-        return sterMetLico;
+    public void setEsterMetilico(String esterMetilico) {
+        this.esterMetilico = esterMetilico;
     }
 
-    public void setSterMetLico(String sterMetLico) {
-        this.sterMetLico = sterMetLico;
+    public void setId(@NonNull String id) {
+        this.id = id;
     }
 
-    public String getIDEESS() {
-        return iDEESS;
+    public void setIdMunicipio(String idMunicipio) {
+        this.idMunicipio = idMunicipio;
     }
 
-    public void setIDEESS(String iDEESS) {
-        this.iDEESS = iDEESS;
+    public void setIdProvincia(String idProvincia) {
+        this.idProvincia = idProvincia;
     }
 
-    public String getIDMunicipio() {
-        return iDMunicipio;
+    public void setIdCCAA(String idCCAA) {
+        this.idCCAA = idCCAA;
     }
 
-    public void setIDMunicipio(String iDMunicipio) {
-        this.iDMunicipio = iDMunicipio;
+    public String getCodigoPostal() {
+        return codigoPostal;
     }
 
-    public String getIDProvincia() {
-        return iDProvincia;
+    public String getDireccion() {
+        return direccion;
     }
 
-    public void setIDProvincia(String iDProvincia) {
-        this.iDProvincia = iDProvincia;
+    public String getHorario() {
+        return horario;
     }
 
-    public String getIDCCAA() {
-        return iDCCAA;
+    public String getLatitud() {
+        return latitud;
     }
 
-    public void setIDCCAA(String iDCCAA) {
-        this.iDCCAA = iDCCAA;
+    public String getLocalidad() {
+        return localidad;
     }
 
+    public String getLongitudWGS84() {
+        return longitudWGS84;
+    }
+
+    public String getMargen() {
+        return margen;
+    }
+
+    public String getMunicipio() {
+        return municipio;
+    }
+
+    public String getPrecioBiodiesel() {
+        return precioBiodiesel;
+    }
+
+    public String getPrecioBioetanol() {
+        return precioBioetanol;
+    }
+
+    public String getPrecioGasNaturalComprimido() {
+        return precioGasNaturalComprimido;
+    }
+
+    public String getPrecioGasNaturalLicuado() {
+        return precioGasNaturalLicuado;
+    }
+
+    public String getPrecioGasesLicuadosDelPetroleo() {
+        return precioGasesLicuadosDelPetroleo;
+    }
+
+    public String getPrecioGasoleoA() {
+        return precioGasoleoA;
+    }
+
+    public String getPrecioGasoleoB() {
+        return precioGasoleoB;
+    }
+
+    public String getPrecioGasolina95Proteccion() {
+        return precioGasolina95Proteccion;
+    }
+
+    public String getPrecioGasolina98() {
+        return precioGasolina98;
+    }
+
+    public String getPrecioNuevoGasoleoA() {
+        return precioNuevoGasoleoA;
+    }
+
+    public String getProvincia() {
+        return provincia;
+    }
+
+    public String getRemision() {
+        return remision;
+    }
+
+    public String getEmpresa() {
+        return empresa;
+    }
+
+    public String getTipoVenta() {
+        return tipoVenta;
+    }
+
+    public String getBioEtanol() {
+        return bioEtanol;
+    }
+
+    public String getEsterMetilico() {
+        return esterMetilico;
+    }
+
+    @NonNull
+    public String getId() {
+        return id;
+    }
+
+    public String getIdMunicipio() {
+        return idMunicipio;
+    }
+
+    public String getIdProvincia() {
+        return idProvincia;
+    }
+
+    public String getIdCCAA() {
+        return idCCAA;
+    }
 }
