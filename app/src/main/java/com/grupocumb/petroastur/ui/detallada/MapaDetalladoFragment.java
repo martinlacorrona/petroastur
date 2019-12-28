@@ -1,4 +1,4 @@
-package com.grupocumb.petroastur.ui.gallery;
+package com.grupocumb.petroastur.ui.detallada;
 
 import android.Manifest;
 import android.app.AlertDialog;
@@ -18,12 +18,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
@@ -40,6 +38,7 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.grupocumb.petroastur.R;
 import com.grupocumb.petroastur.model.EstacionServicio;
+import com.grupocumb.petroastur.ui.gallery.GalleryViewModel;
 import com.grupocumb.petroastur.ui.home.HomeViewModel;
 
 import java.io.IOException;
@@ -49,7 +48,7 @@ import java.util.Locale;
 
 import static androidx.core.content.ContextCompat.checkSelfPermission;
 
-public class GalleryFragment extends Fragment implements OnMapReadyCallback {
+public class MapaDetalladoFragment extends Fragment implements OnMapReadyCallback {
 
     private GalleryViewModel galleryViewModel;
     private GoogleMap gmap;
@@ -63,42 +62,21 @@ public class GalleryFragment extends Fragment implements OnMapReadyCallback {
     private EditText editText;
     private String direccion = "";
     private Location loc;
-    private HomeViewModel homeViewModel;
+    private EstacionServicio e;
+
+    public MapaDetalladoFragment(EstacionServicio e){
+        this.e=e;
+    }
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        galleryViewModel =
-                ViewModelProviders.of(this).get(GalleryViewModel.class);
 
-        homeViewModel =
-                ViewModelProviders.of(getActivity()).get(HomeViewModel.class);
         View root = inflater.inflate(R.layout.fragment_gallery, container, false);
 
-        galleryViewModel.getText().observe(this, new Observer<Location>() {
-            @Override
-            public void onChanged(@Nullable Location s) {
-            }
-        });
+
         return root;
     }
-    private void Busqueda(String busqueda){
-        if(isConnected(context) && busqueda != null && busqueda.trim().length() != 0) {
-            gmap.clear();
-            Geocoder geocoder = new Geocoder(context);
-            List<Address> posiblesDirecciones = null;
-            MarkerOptions markerOptions = new MarkerOptions();
-            try {
-                posiblesDirecciones = geocoder.getFromLocationName(busqueda.toUpperCase(), 1);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            for (int i = 0; i < posiblesDirecciones.size(); i++) {
-                Address posiblesDireccione = posiblesDirecciones.get(i);
-                LatLng latLng = new LatLng(posiblesDireccione.getLatitude(), posiblesDireccione.getLongitude());
-                CargarMarker(latLng);
-            }
-        }
-    }
+
 
 
 
@@ -130,10 +108,8 @@ public class GalleryFragment extends Fragment implements OnMapReadyCallback {
                 }
                 gmap.setMyLocationEnabled(true);
                 gmap.getUiSettings().setMyLocationButtonEnabled(true);
-                locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
-                loc=locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
                 //LatLng centro = new LatLng(40, -3);
-                LatLng centro = new LatLng(loc.getLatitude(),loc.getLongitude());
+                LatLng centro = new LatLng(Integer.getInteger(e.getLatitud()),Integer.getInteger(e.getLongitudWGS84()));
                 gmap.moveCamera(CameraUpdateFactory.newLatLngZoom(centro, 15.5f));
                 gmap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
                     @Override
@@ -141,12 +117,7 @@ public class GalleryFragment extends Fragment implements OnMapReadyCallback {
                         //CargarMarker(latLng);
                     }
                 });
-                List<EstacionServicio> estaciones=homeViewModel.getText().getValue();
-                for (EstacionServicio e:estaciones){
-                    //Necesitamos la altitud y longitud de las estaciones de servicio
-                    LatLng c=new LatLng(Integer.getInteger(e.getLatitud()),Integer.getInteger(e.getLongitudWGS84()));
-                    CargarMarker(c);
-                }
+
 //                if (!coordenada.equals("")) {
 //                    String[] aux = coordenada.split(",");
 //                    double latitud = Double.parseDouble(aux[0]);
@@ -175,8 +146,8 @@ public class GalleryFragment extends Fragment implements OnMapReadyCallback {
         NetworkInfo netinfo = cm.getActiveNetworkInfo();
 
         if (netinfo != null && netinfo.isConnectedOrConnecting()) {
-            android.net.NetworkInfo wifi = cm.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
-            android.net.NetworkInfo mobile = cm.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+            NetworkInfo wifi = cm.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+            NetworkInfo mobile = cm.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
 
             if((mobile != null && mobile.isConnectedOrConnecting()) || (wifi != null && wifi.isConnectedOrConnecting())) return true;
             else return false;
