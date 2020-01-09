@@ -61,47 +61,53 @@ public class AppControllerImpl implements AppController {
     }
 
     @Override
-    public void addFavourite(int id) {
+    public void addFavourite(String id) {
+        String[] listaActual = settingsController.getFavourites();
+        String[] listaNueva = new String[listaActual.length + 1];
+        for(int i = 0; i < listaActual.length; i++) {
+            listaNueva[i] = listaActual[i];
+        }
+        listaActual[listaNueva.length - 1] = id;
+        settingsController.setFavourites(listaNueva);
+    }
+
+    @Override
+    public void removeFavourite(String id) {
 
     }
 
     @Override
-    public void removeFavourite(int id) {
-
-    }
-
-    @Override
-    public List<EstacionServicio> getEESSByIds(int[] id) {
-        return null;
+    public List<EstacionServicio> getEESSByIds(int[] ids) {
+        return dataController.getByIds(ids);
     }
 
     @Override
     public FuelType getSettingFavouriteFuel() {
-        return null;
+        return settingsController.getFavouriteFuel();
     }
 
     @Override
     public void setSettingFavouriteFuel(FuelType fuelType) {
-
+        settingsController.setFavouriteFuel(fuelType);
     }
 
     @Override
     public OrderType getSettingOrder() {
-        return null;
+        return settingsController.getFavouriteOrder();
     }
 
     @Override
     public void setSettingOrder(OrderType orderType) {
-
+        settingsController.setFavouriteOrder(orderType);
     }
 
     @Override
     public double getSettingMaxDistance() {
-        return 0;
+        return settingsController.getMaxDistance();
     }
 
     @Override
     public void setSettingMaxDistance(double settingMaxDistance) {
-
+        settingsController.setMaxDistance(settingMaxDistance);
     }
 }
