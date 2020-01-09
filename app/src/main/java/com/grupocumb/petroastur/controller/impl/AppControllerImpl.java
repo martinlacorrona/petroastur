@@ -43,16 +43,22 @@ public class AppControllerImpl implements AppController {
 
     @Override
     public List<EstacionServicio> getAllEESSOrdered() {
+        //TODO VALORES PARA TEST, CAMBIAR !!!!!!!!!!!!!!!!
         OrderType favouriteOrder = OrderType.PRECIO;//settingsController.getFavouriteOrder();
         FuelType favouriteFuel = FuelType.GASOLEO_A;//settingsController.getFavouriteFuel();
 
         if(favouriteOrder == OrderType.PRECIO) {
             return dataController.getAll().stream()
-                    .filter(estacionServicio -> estacionServicio.getPrecioGasolina98Double()>0.0)
-                    .sorted(Comparator.comparingDouble(
-                    EstacionServicio::getPrecioGasolina98Double)).collect(Collectors.toList());
+                    .filter(estacionServicio -> estacionServicio
+                            .getPrecioCombustible(favouriteFuel) > 0.0)
+                    .sorted(Comparator.comparingDouble(estacionServicio -> estacionServicio
+                            .getPrecioCombustible(favouriteFuel)))
+                    .collect(Collectors.toList());
         }
-        return null;
+        else {
+            // TODO ORDEN POR DISTANCIA
+            return null;
+        }
     }
 
     @Override
@@ -67,7 +73,7 @@ public class AppControllerImpl implements AppController {
 
     @Override
     public void removeFavourite(int id) {
-
+        
     }
 
     @Override

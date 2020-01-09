@@ -323,9 +323,35 @@ public class EstacionServicio {
     }
 
     //DOUBLE RETURNS
-    public Double getPrecioGasolina98Double() {
-        if(precioGasolina98 != null)
-            return Double.parseDouble(precioGasolina98.replace(",","."));
+    public Double getPrecioCombustible(FuelType type) {
+        if(getPrecioCombustibleConcreto(type) != null)
+            return Double.parseDouble(getPrecioCombustibleConcreto(type).replace(",","."));
         return 0.0;
+    }
+
+    private String getPrecioCombustibleConcreto(FuelType type) {
+        switch (type){
+            case BIODIESEL:
+                return getPrecioBiodiesel();
+            case BIOETANOL:
+                return getPrecioBioetanol();
+            case GASOLEO_A:
+                return getPrecioGasoleoA();
+            case GASOLEO_B:
+                return getPrecioGasoleoB();
+            case GASOLINA_95:
+                return getPrecioGasolina95Proteccion();
+            case GASOLINA_98:
+                return getPrecioGasolina98();
+            case NUEVO_GASOLEO_A:
+                return getPrecioNuevoGasoleoA();
+            case GAS_NATURAL_LICUADO:
+                return getPrecioGasNaturalLicuado();
+            case GAS_NATURAL_COMPRIMIDO:
+                return getPrecioGasNaturalComprimido();
+            case GASES_LICUADOS_PETROLEO:
+                return getPrecioGasesLicuadosDelPetroleo();
+        }
+        return null;
     }
 }
