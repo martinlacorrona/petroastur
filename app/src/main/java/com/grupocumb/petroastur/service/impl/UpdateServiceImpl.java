@@ -9,7 +9,6 @@ public class UpdateServiceImpl implements UpdateService {
 
     private final SQLService sqlService;
     private final APIRequestService apiRequestService;
-    private TransactionStatus status = TransactionStatus.WAITING;
 
     public UpdateServiceImpl(SQLService sqlService, APIRequestService apiRequestService) {
         this.sqlService = sqlService;
@@ -25,4 +24,5 @@ public class UpdateServiceImpl implements UpdateService {
     public TransactionStatus getStatus() {
         return apiRequestService.getTransactionStatus();
     }
+
 }
