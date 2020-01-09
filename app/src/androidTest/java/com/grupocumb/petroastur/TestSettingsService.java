@@ -1,27 +1,17 @@
 package com.grupocumb.petroastur;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 
 import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.runner.AndroidJUnit4;
-
-import com.grupocumb.petroastur.model.TransactionStatus;
-import com.grupocumb.petroastur.service.APIRequestService;
-import com.grupocumb.petroastur.service.SQLService;
 import com.grupocumb.petroastur.service.SettingsService;
-import com.grupocumb.petroastur.service.UpdateService;
-import com.grupocumb.petroastur.service.impl.APIRequestServiceImpl;
-import com.grupocumb.petroastur.service.impl.SQLServiceImpl;
 import com.grupocumb.petroastur.service.impl.SettingsServiceImpl;
-import com.grupocumb.petroastur.service.impl.UpdateServiceImpl;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import static junit.framework.TestCase.assertEquals;
-import static junit.framework.TestCase.assertTrue;
 
 /**
  * Instrumented test, which will execute on an Android device.
@@ -39,10 +29,9 @@ public class TestSettingsService {
         settingsService = new SettingsServiceImpl(mockContext);
 
         //RESET PREFERENCES FOR TEST
-        SharedPreferences sharedPref = mockContext.getSharedPreferences(
+        mockContext.getSharedPreferences(
                 mockContext.getResources().getString(R.string.SETTINGS_NAME_FILE),
-                Context.MODE_PRIVATE);
-        sharedPref.edit().clear().commit();
+                Context.MODE_PRIVATE).edit().clear().commit();
     }
 
     @Test
