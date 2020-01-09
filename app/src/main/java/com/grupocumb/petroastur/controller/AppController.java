@@ -3,6 +3,7 @@ package com.grupocumb.petroastur.controller;
 import com.grupocumb.petroastur.model.EstacionServicio;
 import com.grupocumb.petroastur.model.FuelType;
 import com.grupocumb.petroastur.model.OrderType;
+import com.grupocumb.petroastur.model.TransactionStatus;
 
 import java.util.List;
 
@@ -29,13 +30,13 @@ public interface AppController {
      * Añade un favorito, por id.
      * @param id
      */
-    void addFavourite(int id);
+    void addFavourite(String id);
 
     /**
      * Borra un favorito.
      * @param id
      */
-    void removeFavourite(int id);
+    void removeFavourite(String id);
 
     /**
      * Devuelve las estaciones de servicio por id.
@@ -79,4 +80,10 @@ public interface AppController {
      * @param settingMaxDistance
      */
     void setSettingMaxDistance(double settingMaxDistance);
+
+    /**
+     * Indica si los datos están o no actualizados
+     * @return TransactionStatus
+     */
+    TransactionStatus isUpdated();
 }
