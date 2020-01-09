@@ -10,7 +10,6 @@ public interface SettingsService {
      */
     void setSetting(String setting, String value);
 
-
     /**
      * Devuelve el valor de un setting
      * @param setting opcion que es, debemos usar los que estan en la clase
