@@ -26,6 +26,7 @@ import com.grupocumb.petroastur.MainActivity;
 import com.grupocumb.petroastur.R;
 import com.grupocumb.petroastur.controller.impl.DataControllerImpl;
 import com.grupocumb.petroastur.model.EstacionServicio;
+import com.grupocumb.petroastur.ui.ASyncBBDDLoader;
 import com.grupocumb.petroastur.ui.detallada.DetalladaFragment;
 
 import java.util.ArrayList;
@@ -45,9 +46,10 @@ public class HomeFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-//        homeViewModel =
-//                ViewModelProviders.of(getActivity()).get(HomeViewModel.class);
         View root = inflater.inflate(R.layout.fragment_home, container, false);
+
+        //Tarea de background
+        new ASyncBBDDLoader(((MainActivity)getActivity())).execute();
 
         recyclerView=(RecyclerView)root.findViewById(R.id.recycler);
         RecyclerView.LayoutManager mLayoutManager=
