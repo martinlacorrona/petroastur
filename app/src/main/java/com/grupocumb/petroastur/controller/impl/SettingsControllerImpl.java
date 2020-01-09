@@ -59,11 +59,7 @@ public class SettingsControllerImpl implements SettingsController {
             return new String[0];
 
         String[] favourites = value.split("-");
-        String[] favouritesIntList = new String[favourites.length];
-        for (int i = 0; i < favourites.length; i++) {
-            favouritesIntList[i] = favourites[i];
-        }
-        return favouritesIntList;
+        return favourites;
     }
 
     @Override
