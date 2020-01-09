@@ -20,6 +20,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.grupocumb.petroastur.MainActivity;
 import com.grupocumb.petroastur.R;
 import com.grupocumb.petroastur.model.EstacionServicio;
+import com.grupocumb.petroastur.ui.ASyncBBDDLoader;
 import com.grupocumb.petroastur.ui.detallada.DetalladaFragment;
 
 import java.util.ArrayList;
@@ -39,9 +40,13 @@ public class HomeFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_home, container, false);
+        //Tarea de background
+        new ASyncBBDDLoader(((MainActivity)getActivity())).execute();
 
-        recyclerView = (RecyclerView) root.findViewById(R.id.recycler);
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
+        recyclerView=(RecyclerView)root.findViewById(R.id.recycler);
+        RecyclerView.LayoutManager mLayoutManager=
+                new LinearLayoutManager(getContext());
+
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
 
