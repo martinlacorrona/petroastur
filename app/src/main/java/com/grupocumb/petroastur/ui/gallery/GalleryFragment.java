@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.location.Address;
+import android.location.Criteria;
 import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
@@ -38,6 +39,7 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.grupocumb.petroastur.MainActivity;
 import com.grupocumb.petroastur.R;
 import com.grupocumb.petroastur.model.EstacionServicio;
 import com.grupocumb.petroastur.ui.home.HomeViewModel;
@@ -49,7 +51,7 @@ import java.util.Locale;
 
 import static androidx.core.content.ContextCompat.checkSelfPermission;
 
-public class GalleryFragment extends Fragment implements OnMapReadyCallback {
+public class GalleryFragment extends Fragment implements OnMapReadyCallback{
 
     private GalleryViewModel galleryViewModel;
     private GoogleMap gmap;
@@ -112,18 +114,22 @@ public class GalleryFragment extends Fragment implements OnMapReadyCallback {
                 }
                 gmap.setMyLocationEnabled(true);
                 gmap.getUiSettings().setMyLocationButtonEnabled(true);
-                locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
-                loc=locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-                //LatLng centro = new LatLng(40, -3);
-                LatLng centro = new LatLng(loc.getLatitude(),loc.getLongitude());
-                gmap.moveCamera(CameraUpdateFactory.newLatLngZoom(centro, 15.5f));
+
+////                //LatLng centro = new LatLng(40, -3);
+
+                //locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+                //loc=locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+                    LatLng centro = new LatLng(43.3602900,-5.8447600);
+                    gmap.moveCamera(CameraUpdateFactory.newLatLngZoom(centro, 9.5f));
+
+
                 gmap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
                     @Override
                     public void onMapClick(LatLng latLng) {
                         //CargarMarker(latLng);
                     }
                 });
-                List<EstacionServicio> estaciones=homeViewModel.getText().getValue();
+                List<EstacionServicio> estaciones=((MainActivity)getActivity()).getAppController().getAllEESSOrdered();
                 if (estaciones!=null){
                     for (EstacionServicio e:estaciones){
                         //Necesitamos la altitud y longitud de las estaciones de servicio
@@ -132,13 +138,6 @@ public class GalleryFragment extends Fragment implements OnMapReadyCallback {
                     }
                 }
 
-//                if (!coordenada.equals("")) {
-//                    String[] aux = coordenada.split(",");
-//                    double latitud = Double.parseDouble(aux[0]);
-//                    double longitud = Double.parseDouble(aux[1]);
-//                    LatLng latLng = new LatLng(latitud, longitud);
-//                    CargarMarker(latLng);
-//                }
             }
         } else {
             final AlertDialog.Builder alertOpciones=new AlertDialog.Builder(context);

@@ -22,6 +22,7 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.grupocumb.petroastur.MainActivity;
 import com.grupocumb.petroastur.R;
 import com.grupocumb.petroastur.controller.impl.DataControllerImpl;
 import com.grupocumb.petroastur.model.EstacionServicio;
@@ -32,7 +33,7 @@ import java.util.List;
 
 public class HomeFragment extends Fragment {
 
-    private HomeViewModel homeViewModel;
+   // private HomeViewModel homeViewModel;
     private RecyclerView recyclerView;
     private EstacionServicioAdapter mAdapter;
     private List<EstacionServicio> esta=new ArrayList<EstacionServicio>();
@@ -40,18 +41,12 @@ public class HomeFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
-//        EstacionServicio e=new EstacionServicio();
-//        e.setLatitud("43.3602905");
-//        e.setLongitudWGS84("-5.8447599");
-//        e.setId("Inés");
-//        esta.add(e);
-
     }
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        homeViewModel =
-                ViewModelProviders.of(getActivity()).get(HomeViewModel.class);
+//        homeViewModel =
+//                ViewModelProviders.of(getActivity()).get(HomeViewModel.class);
         View root = inflater.inflate(R.layout.fragment_home, container, false);
 
         recyclerView=(RecyclerView)root.findViewById(R.id.recycler);
@@ -62,7 +57,7 @@ public class HomeFragment extends Fragment {
 
         recyclerView.addItemDecoration(new DividerItemDecoration(getContext(),LinearLayoutManager.VERTICAL));
 
-        mAdapter=new EstacionServicioAdapter(esta);
+        mAdapter=new EstacionServicioAdapter(((MainActivity)getActivity()).getAppController().getAllEESSOrdered(),(MainActivity)getActivity());
         recyclerView.setAdapter(mAdapter);
 
         recyclerView.addOnItemTouchListener(new RecyclerTouchListener(getContext(), recyclerView, new RecyclerTouchListener.ClickListener() {
@@ -86,13 +81,6 @@ public class HomeFragment extends Fragment {
             }
         }));
 
-        homeViewModel.getText().observe(this, new Observer<List<EstacionServicio>>() {
-            @Override
-            public void onChanged(@Nullable List<EstacionServicio> s) {
-                mAdapter=new EstacionServicioAdapter(homeViewModel.getText().getValue());
-                recyclerView.setAdapter(mAdapter);
-            }
-        });
         return root;
     }
 }

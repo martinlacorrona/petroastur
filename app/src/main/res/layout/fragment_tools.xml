@@ -146,5 +146,11 @@
             android:layout_height="wrap_content"
             android:checked="true"
             android:text="@string/distancia_max_2" />
+
+        <RadioButton
+            android:id="@+id/sin_maxima"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/sin_maxima" />
     </RadioGroup>
 </LinearLayout>
