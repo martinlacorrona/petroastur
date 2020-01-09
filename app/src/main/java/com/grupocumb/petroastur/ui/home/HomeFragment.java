@@ -40,8 +40,6 @@ public class HomeFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_home, container, false);
-        //Tarea de background
-        new ASyncBBDDLoader(((MainActivity)getActivity())).execute();
 
         recyclerView=(RecyclerView)root.findViewById(R.id.recycler);
         RecyclerView.LayoutManager mLayoutManager=

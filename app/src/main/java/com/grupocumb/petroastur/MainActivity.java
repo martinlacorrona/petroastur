@@ -42,6 +42,12 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
+
+        //Tarea de background
+        //TODO: dentro de esta funcion es donde se debe de mandar una vista o otra
+        //TODO, de primeras mostrar la pantalla de carga, y si es satisfactoria la transaccion
+        //TODO, lanzar la correspondiente
+        new ASyncBBDDLoader(this).execute();
     }
 
     @Override
