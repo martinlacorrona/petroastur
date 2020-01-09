@@ -29,13 +29,13 @@ public interface AppController {
      * Añade un favorito, por id.
      * @param id
      */
-    void addFavourite(int id);
+    void addFavourite(String id);
 
     /**
      * Borra un favorito.
      * @param id
      */
-    void removeFavourite(int id);
+    void removeFavourite(String id);
 
     /**
      * Devuelve las estaciones de servicio por id.
