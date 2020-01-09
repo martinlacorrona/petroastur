@@ -3,6 +3,7 @@ package com.grupocumb.petroastur.controller;
 import com.grupocumb.petroastur.model.EstacionServicio;
 import com.grupocumb.petroastur.model.FuelType;
 import com.grupocumb.petroastur.model.OrderType;
+import com.grupocumb.petroastur.model.TransactionStatus;
 
 import java.util.List;
 
@@ -79,4 +80,10 @@ public interface AppController {
      * @param settingMaxDistance
      */
     void setSettingMaxDistance(double settingMaxDistance);
+
+    /**
+     * Indica si los datos están o no actualizados
+     * @return TransactionStatus
+     */
+    TransactionStatus isUpdated();
 }

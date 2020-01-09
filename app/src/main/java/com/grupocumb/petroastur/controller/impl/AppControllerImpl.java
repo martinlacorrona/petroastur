@@ -10,8 +10,10 @@ import com.grupocumb.petroastur.controller.SettingsController;
 import com.grupocumb.petroastur.model.EstacionServicio;
 import com.grupocumb.petroastur.model.FuelType;
 import com.grupocumb.petroastur.model.OrderType;
+import com.grupocumb.petroastur.model.TransactionStatus;
 
 import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -23,17 +25,12 @@ public class AppControllerImpl implements AppController {
     public AppControllerImpl(Context context) {
         dataController = new DataControllerImpl(context);
         settingsController = new SettingsControllerImpl(context);
+        this.updateAll();
     }
 
-    /**
-     *
-     */
     private void updateAll() {
-        //TODO
-        //1. Chequea la ultima fecha de actalizacion en settings
-        //2. Si no es la hora que se actalizadba y demas hace un update.
-        //   Si esta actualiza cambia el valor a updated a true.
-        //3. Una vez actualizado cambiar el estado a actualizado.
+        dataController.update();
+        settingsController.setLastUpdate(new Date());
     }
 
     @Override
@@ -115,5 +112,10 @@ public class AppControllerImpl implements AppController {
     @Override
     public void setSettingMaxDistance(double settingMaxDistance) {
         settingsController.setMaxDistance(settingMaxDistance);
+    }
+
+    @Override
+    public TransactionStatus isUpdated() {
+        return dataController.isUpdated();
     }
 }
