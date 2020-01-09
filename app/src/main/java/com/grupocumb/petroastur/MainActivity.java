@@ -22,6 +22,7 @@ import com.grupocumb.petroastur.controller.AppController;
 import com.grupocumb.petroastur.controller.DataController;
 import com.grupocumb.petroastur.controller.impl.AppControllerImpl;
 import com.grupocumb.petroastur.model.TransactionStatus;
+import com.grupocumb.petroastur.ui.ASyncBBDDLoader;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -62,6 +63,7 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupWithNavController(navigationView, navController);
 
         //loadWhenLoad();
+        //new ASyncBBDDLoader(this, appController).loadInBackground();
     }
 
     private void loadWhenLoad() {
