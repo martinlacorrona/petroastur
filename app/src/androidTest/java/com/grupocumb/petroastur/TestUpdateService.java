@@ -5,6 +5,8 @@ import android.content.Context;
 import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.runner.AndroidJUnit4;
 
+import com.grupocumb.petroastur.controller.impl.AppControllerImpl;
+import com.grupocumb.petroastur.model.EstacionServicio;
 import com.grupocumb.petroastur.model.TransactionStatus;
 import com.grupocumb.petroastur.service.APIRequestService;
 import com.grupocumb.petroastur.service.SQLService;
@@ -16,6 +18,8 @@ import com.grupocumb.petroastur.service.impl.UpdateServiceImpl;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
+import java.util.List;
 
 import static junit.framework.TestCase.assertTrue;
 
@@ -30,6 +34,7 @@ public class TestUpdateService {
     SQLService sqlService;
     APIRequestService apiRequestService;
     Context mockContext;
+    AppControllerImpl appController;
 
     @Before
     public void load() {
@@ -39,6 +44,8 @@ public class TestUpdateService {
         apiRequestService = new APIRequestServiceImpl();
 
         updateService = new UpdateServiceImpl(sqlService, apiRequestService);
+
+        appController = new AppControllerImpl(mockContext);
 
         //Reset database
         mockContext.deleteDatabase("estacionesservicio-db");
@@ -63,5 +70,8 @@ public class TestUpdateService {
         //4. lo imrpimimos para chequear
         System.out.println(sqlService.getAll());
         System.out.println("Tamaño: " + sqlService.getAll().size());
+
+        List<EstacionServicio> lista = appController.getAllEESSOrdered();
+        System.out.println("Lista:" + lista);
     }
 }

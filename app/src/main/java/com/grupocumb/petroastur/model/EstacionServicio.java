@@ -321,4 +321,11 @@ public class EstacionServicio {
     public String getIdCCAA() {
         return idCCAA;
     }
+
+    //DOUBLE RETURNS
+    public Double getPrecioGasolina98Double() {
+        if(precioGasolina98 != null)
+            return Double.parseDouble(precioGasolina98.replace(",","."));
+        return 0.0;
+    }
 }
