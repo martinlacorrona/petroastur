@@ -17,7 +17,8 @@ public class GalleryViewModel extends ViewModel {
     public LiveData<Location> getText() {
         return mText;
     }
-    public void setmText(Location e){
+
+    public void setmText(Location e) {
         this.mText.setValue(e);
     }
 }

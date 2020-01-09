@@ -324,13 +324,13 @@ public class EstacionServicio {
 
     //DOUBLE RETURNS
     public Double getPrecioCombustible(FuelType type) {
-        if(getPrecioCombustibleConcreto(type) != null)
-            return Double.parseDouble(getPrecioCombustibleConcreto(type).replace(",","."));
+        if (getPrecioCombustibleConcreto(type) != null)
+            return Double.parseDouble(getPrecioCombustibleConcreto(type).replace(",", "."));
         return 0.0;
     }
 
     private String getPrecioCombustibleConcreto(FuelType type) {
-        switch (type){
+        switch (type) {
             case BIODIESEL:
                 return getPrecioBiodiesel();
             case BIOETANOL:

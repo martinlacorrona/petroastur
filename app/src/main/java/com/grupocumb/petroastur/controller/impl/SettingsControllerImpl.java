@@ -27,7 +27,7 @@ public class SettingsControllerImpl implements SettingsController {
         String settingName = context.getString(R.string.SETTINGS_LAST_UPDATE);
         String settingLastUpdate = settingsService.getSetting(settingName);
 
-        if(settingLastUpdate != null && settingLastUpdate != "") { //tenemos fecha
+        if (settingLastUpdate != null && settingLastUpdate != "") { //tenemos fecha
             Calendar cal = Calendar.getInstance();
             String[] date = settingLastUpdate.split("-");
             cal.set(Calendar.YEAR, Integer.parseInt(date[0]));
@@ -55,12 +55,12 @@ public class SettingsControllerImpl implements SettingsController {
         String settingName = context.getString(R.string.SETTINGS_ID_FAVOURITE_ES);
         //las listas de favoritos se guardan como [0-1-3-4] Separado por guiones
         String value = settingsService.getSetting(settingName);
-        if(value == null) //Si devuelve null es que nunca se creo nada.
+        if (value == null) //Si devuelve null es que nunca se creo nada.
             return new String[0];
 
         String[] favourites = value.split("-");
         String[] favouritesIntList = new String[favourites.length];
-        for(int i = 0; i < favourites.length; i++) {
+        for (int i = 0; i < favourites.length; i++) {
             favouritesIntList[i] = favourites[i];
         }
         return favouritesIntList;
@@ -71,9 +71,9 @@ public class SettingsControllerImpl implements SettingsController {
         String settingName = context.getString(R.string.SETTINGS_ID_FAVOURITE_ES);
         String formattedFavourites = "";
 
-        for(int i = 0; i < favourites.length; i++) {
+        for (int i = 0; i < favourites.length; i++) {
             formattedFavourites += favourites[i];
-            if(i != favourites.length - 1) //si es la ultima no agrega guion
+            if (i != favourites.length - 1) //si es la ultima no agrega guion
                 formattedFavourites += "-";
         }
 
@@ -84,7 +84,7 @@ public class SettingsControllerImpl implements SettingsController {
     public FuelType getFavouriteFuel() {
         String settingName = context.getString(R.string.SETTINGS_NAME_FAVOURITE_FUEL);
         String value = settingsService.getSetting(settingName);
-        if(value == null)
+        if (value == null)
             return FuelType.GASOLEO_A;
         FuelType favouriteFuel = FuelType.valueOf(value);
         return favouriteFuel;
@@ -101,7 +101,7 @@ public class SettingsControllerImpl implements SettingsController {
     public OrderType getFavouriteOrder() {
         String settingName = context.getString(R.string.SETTINGS_ORDER_LIST);
         String value = settingsService.getSetting(settingName);
-        if(value == null)
+        if (value == null)
             return OrderType.PRECIO;
         OrderType favouriteOrder = OrderType.valueOf(value);
         return favouriteOrder;
@@ -118,7 +118,7 @@ public class SettingsControllerImpl implements SettingsController {
     public double getMaxDistance() {
         String settingName = context.getString(R.string.SETTINGS_DISTANCE_MAX);
         String value = settingsService.getSetting(settingName);
-        if(value == null)
+        if (value == null)
             return Double.MAX_VALUE;
         double maxDistance = Double.parseDouble(value);
         return maxDistance;

@@ -6,13 +6,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.grupocumb.petroastur.R;
@@ -23,15 +20,16 @@ public class ShareFragment extends Fragment {
     private Button buttonWhatsapp;
     private Button buttonTwitter;
     private Button buttonFacebook;
-    private String spam="La mejor aplicación de gasolineras, petroastur!";
+    private String spam = "La mejor aplicación de gasolineras, petroastur!";
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         shareViewModel =
                 ViewModelProviders.of(this).get(ShareViewModel.class);
         View root = inflater.inflate(R.layout.fragment_share, container, false);
-        buttonFacebook=(Button)root.findViewById(R.id.buttonFace);
-        buttonTwitter=(Button)root.findViewById(R.id.buttonTw);
-        buttonWhatsapp=(Button)root.findViewById(R.id.buttonWha);
+        buttonFacebook = (Button) root.findViewById(R.id.buttonFace);
+        buttonTwitter = (Button) root.findViewById(R.id.buttonTw);
+        buttonWhatsapp = (Button) root.findViewById(R.id.buttonWha);
         buttonFacebook.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -42,8 +40,8 @@ public class ShareFragment extends Fragment {
                 //startActivity(intent);
                 if (intent.resolveActivity(getActivity().getPackageManager()) != null) {
                     startActivity(intent);
-                }else{
-                    Toast.makeText(getActivity(),"Instala la aplicacion elegida",Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getActivity(), "Instala la aplicacion elegida", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -58,8 +56,8 @@ public class ShareFragment extends Fragment {
                 //startActivity(intent);
                 if (intent.resolveActivity(getActivity().getPackageManager()) != null) {
                     startActivity(intent);
-                }else{
-                    Toast.makeText(getActivity(),"Instala la aplicacion elegida",Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getActivity(), "Instala la aplicacion elegida", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -73,8 +71,8 @@ public class ShareFragment extends Fragment {
                 //startActivity(intent);
                 if (intent.resolveActivity(getActivity().getPackageManager()) != null) {
                     startActivity(intent);
-                }else{
-                    Toast.makeText(getActivity(),"Instala la aplicacion elegida",Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getActivity(), "Instala la aplicacion elegida", Toast.LENGTH_SHORT).show();
                 }
             }
         });

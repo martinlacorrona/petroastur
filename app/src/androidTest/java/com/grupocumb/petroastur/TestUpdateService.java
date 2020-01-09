@@ -60,7 +60,7 @@ public class TestUpdateService {
         updateService.update();
 
         //2. waiting
-        while(updateService.getStatus() == TransactionStatus.WAITING) {
+        while (updateService.getStatus() == TransactionStatus.WAITING) {
             //WAITING...
         }
 

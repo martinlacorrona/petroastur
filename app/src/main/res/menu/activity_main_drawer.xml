@@ -9,15 +9,15 @@
             android:icon="@drawable/ic_bomba_de_gasolina"
             android:title="@string/menu_home" />
         <item
-            android:id="@+id/nav_gallery"
+            android:id="@+id/nav_mapa"
             android:icon="@drawable/ic_punto_relleno_de_marcador_de_posicion"
             android:title="@string/menu_gallery" />
         <item
-            android:id="@+id/nav_slideshow"
+            android:id="@+id/nav_favoritas"
             android:icon="@drawable/ic_estrella"
             android:title="@string/menu_slideshow" />
         <item
-            android:id="@+id/nav_tools"
+            android:id="@+id/nav_ajustes"
             android:icon="@drawable/ic_menu_manage"
             android:title="@string/menu_tools" />
     </group>
@@ -29,10 +29,9 @@
                 android:icon="@drawable/ic_menu_share"
                 android:title="@string/menu_share" />
             <item
-                android:id="@+id/nav_send"
+                android:id="@+id/nav_send_opinion"
                 android:icon="@drawable/ic_menu_send"
                 android:title="@string/menu_send" />
         </menu>
     </item>
-
 </menu>
