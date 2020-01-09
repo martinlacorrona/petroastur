@@ -16,15 +16,17 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
+import com.grupocumb.petroastur.MainActivity;
 import com.grupocumb.petroastur.R;
 import com.grupocumb.petroastur.model.EstacionServicio;
 import com.grupocumb.petroastur.ui.slideshow.SlideshowViewModel;
 
+import java.util.List;
 import java.util.Set;
 
 public class DetalladaFragment extends Fragment {
 
-    private DetalladaViewModel homeViewModel;
+    //private DetalladaViewModel homeViewModel;
     private EstacionServicio e;
     private TextView nombre;
     private TextView direccion;
@@ -43,8 +45,8 @@ public class DetalladaFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        homeViewModel =
-                ViewModelProviders.of(getActivity()).get(DetalladaViewModel.class);
+//        homeViewModel =
+//                ViewModelProviders.of(getActivity()).get(DetalladaViewModel.class);
         View root = inflater.inflate(R.layout.fragment_detallada, container, false);
 //        final TextView textView = root.findViewById(R.id.distancia);
         nombre=(TextView)root.findViewById(R.id.nombreEstacion);
@@ -53,53 +55,57 @@ public class DetalladaFragment extends Fragment {
         favorito=(Button)root.findViewById(R.id.añadirFavoritas);
         mostrarMapa=(Button)root.findViewById(R.id.mostrarMapaButton);
 
+        nombre.setText(e.getId());
+        direccion.setText(e.getDireccion());
+        String hola="";
+        hola+="-Biodiesel: "+e.getPrecioBiodiesel()+"€"+"\n";
+        hola+="-Bioetanol: "+e.getPrecioBioetanol()+"€"+"\n";
+        hola+="-Gas natural comprimido: "+e.getPrecioGasNaturalComprimido()+"€"+"\n";
+        hola+="-Gas natural licuado: "+e.getPrecioGasNaturalLicuado()+"€"+"\n";
+        hola+="-Gases licuados petroleo: "+e.getPrecioGasesLicuadosDelPetroleo()+"€"+"\n";
+        hola+="-Gasoleo A: "+e.getPrecioGasoleoA()+"€"+"\n";
+        hola+="-Gasoleo B: "+e.getPrecioGasoleoB()+"€"+"\n";
+        hola+="-Gasolina 95: "+e.getPrecioGasolina95Proteccion()+"€"+"\n";
+        hola+="-Gasolina 98: "+e.getPrecioGasolina98()+"€"+"\n";
+        hola+="-Nuevo Gasoleo A: "+e.getPrecioNuevoGasoleoA()+"€"+"\n";
+        carburantes.setText(hola);
 
-        homeViewModel.getText().observe(this, new Observer<EstacionServicio>() {
-            @Override
-            public void onChanged(@Nullable EstacionServicio s) {
-                nombre.setText(s.getId());
-                direccion.setText(s.getDireccion());
-                String hola="";
-                hola+="-Biodiesel: "+s.getPrecioBiodiesel()+"€"+"\n";
-                hola+="-Bioetanol: "+s.getPrecioBioetanol()+"€"+"\n";
-                hola+="-Gas natural comprimido: "+s.getPrecioGasNaturalComprimido()+"€"+"\n";
-                hola+="-Gas natural licuado: "+s.getPrecioGasNaturalLicuado()+"€"+"\n";
-                hola+="-Gases licuados petroleo: "+s.getPrecioGasesLicuadosDelPetroleo()+"€"+"\n";
-                hola+="-Gasoleo A: "+s.getPrecioGasoleoA()+"€"+"\n";
-                hola+="-Gasoleo B: "+s.getPrecioGasoleoB()+"€"+"\n";
-                hola+="-Gasolina 95: "+s.getPrecioGasolina95Proteccion()+"€"+"\n";
-                hola+="-Gasolina 98: "+s.getPrecioGasolina98()+"€"+"\n";
-                hola+="-Nuevo Gasoleo A: "+s.getPrecioNuevoGasoleoA()+"€"+"\n";
-                carburantes.setText(hola);
 
-            }
-        });
+//        homeViewModel.getText().observe(this, new Observer<EstacionServicio>() {
+//            @Override
+//            public void onChanged(@Nullable EstacionServicio s) {
+//
+//
+//            }
+//        });
+
         favorito.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                SharedPreferences preferences = getContext().getSharedPreferences("datos", Context.MODE_PRIVATE);
-                SharedPreferences.Editor editor = preferences.edit();
-                Set<String> set2=preferences.getStringSet("favoritos",null);
-                boolean se_encuentra=false;
-                if (set2!=null){
-                    for (String i: set2){
-                        if (e.getId()==i){
-                            se_encuentra=true;
-                        }
-                    }
-
-                    if (!se_encuentra){
-                        set2.add(e.getId());
-                        editor.remove("favoritos");
-                        editor.commit();
-                        editor.putStringSet("favoritos", set2);
-                        editor.commit();
-                        slideshowViewModel =
-                                ViewModelProviders.of(getActivity()).get(SlideshowViewModel.class);
-                        slideshowViewModel.setmText(set2);
+                /*
+                * MIIIIIIRAAAAAAAAAAAAAAAAAAAAAAAAAAAR
+                * */
+                List<EstacionServicio> favoritos=((MainActivity)getActivity()).getAppController().getFavouritesOrdered();
+                for (EstacionServicio e:favoritos){
+                    if (e.getId()==e.getId()){
+                        Toast.makeText(
+                                getActivity(),
+                                "Ya se encuentra en favoritos.",
+                                Toast.LENGTH_SHORT)
+                                .show();
+                        return;
                     }
                 }
+                ((MainActivity)getActivity()).getAppController().addFavourite(Integer.getInteger(e.getId()));
+
+                /*
+                * LISTA DE FAVORITOS
+                * */
+//
+//                        slideshowViewModel =
+//                                ViewModelProviders.of(getActivity()).get(SlideshowViewModel.class);
+//                        slideshowViewModel.setmText(set2);
+
 
                 Toast.makeText(
                         getActivity(),

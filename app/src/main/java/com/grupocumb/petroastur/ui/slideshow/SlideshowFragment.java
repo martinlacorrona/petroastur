@@ -23,6 +23,7 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.grupocumb.petroastur.MainActivity;
 import com.grupocumb.petroastur.R;
 import com.grupocumb.petroastur.controller.DataController;
 import com.grupocumb.petroastur.controller.impl.DataControllerImpl;
@@ -38,7 +39,7 @@ import java.util.Set;
 
 public class SlideshowFragment extends Fragment {
 
-    private SlideshowViewModel slideshowViewModel;
+    //private SlideshowViewModel slideshowViewModel;
     private List<EstacionServicio> es=new ArrayList<>();
     private RecyclerView recyclerView;
     private EstacionServicioAdapter mAdapter;
@@ -48,26 +49,12 @@ public class SlideshowFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
 
-        SharedPreferences preferences = getContext().getSharedPreferences("datos", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = preferences.edit();
-        Set<String> set2=preferences.getStringSet("favoritos",null);
-        if (set2!=null){
-            for (String i:set2){
-                DataController d=new DataControllerImpl(getActivity());
-                if (d.getById(Integer.getInteger(i))!=null){
-                    es.add(d.getById(Integer.getInteger(i)));
-                }
-            }
-
-        }
-
-
     }
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        slideshowViewModel =
-                ViewModelProviders.of(getActivity()).get(SlideshowViewModel.class);
+//        slideshowViewModel =
+//                ViewModelProviders.of(getActivity()).get(SlideshowViewModel.class);
         View root = inflater.inflate(R.layout.fragment_slideshow, container, false);
 
         recyclerView=(RecyclerView)root.findViewById(R.id.recyclerFav);
@@ -78,7 +65,7 @@ public class SlideshowFragment extends Fragment {
 
         recyclerView.addItemDecoration(new DividerItemDecoration(getContext(),LinearLayoutManager.VERTICAL));
 
-        mAdapter=new EstacionServicioAdapter(es);
+        mAdapter=new EstacionServicioAdapter(((MainActivity)getActivity()).getAppController().getFavouritesOrdered(),(MainActivity)getActivity());
         recyclerView.setAdapter(mAdapter);
 
         recyclerView.addOnItemTouchListener(new RecyclerTouchListener(getContext(), recyclerView, new RecyclerTouchListener.ClickListener() {
@@ -108,22 +95,8 @@ public class SlideshowFragment extends Fragment {
                         .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
                                 //ok
-                                SharedPreferences preferences = getContext().getSharedPreferences("datos", Context.MODE_PRIVATE);
-                                SharedPreferences.Editor editor = preferences.edit();
-                                Set<String> set2=preferences.getStringSet("favoritos",null);
-                                if (set2!=null){
-                                    for (String i:set2){
-                                        DataController d=new DataControllerImpl(getActivity());
-                                        if (i==es.get(id).getId()){
-                                            set2.remove(i);
-                                        }
-                                    }
-
-                                }
-                                editor.remove("favoritos");
-                                editor.commit();
-                                editor.putStringSet("favoritos",set2);
-                                editor.commit();
+                                ((MainActivity)getActivity()).getAppController().removeFavourite(es.get(id).getId());
+                                
                             }
                         })
                         .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -140,17 +113,17 @@ public class SlideshowFragment extends Fragment {
         }));
 
 
-        slideshowViewModel.getText().observe(this, new Observer<Set<String>>() {
-            @Override
-            public void onChanged(@Nullable Set<String> s) {
-                List<EstacionServicio> estaci=new ArrayList<>();
-                for(String i:s){
-                    estaci.add(new DataControllerImpl(getActivity()).getById(Integer.getInteger(i)));
-                }
-                mAdapter=new EstacionServicioAdapter(estaci);
-                recyclerView.setAdapter(mAdapter);
-            }
-        });
+//        slideshowViewModel.getText().observe(this, new Observer<Set<String>>() {
+//            @Override
+//            public void onChanged(@Nullable Set<String> s) {
+//                List<EstacionServicio> estaci=new ArrayList<>();
+//                for(String i:s){
+//                    estaci.add(new DataControllerImpl(getActivity()).getById(Integer.getInteger(i)));
+//                }
+//                mAdapter=new EstacionServicioAdapter(estaci,(MainActivity)getActivity());
+//                recyclerView.setAdapter(mAdapter);
+//            }
+//        });
         return root;
     }
 }

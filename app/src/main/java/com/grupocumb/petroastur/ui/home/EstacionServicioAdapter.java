@@ -9,6 +9,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.grupocumb.petroastur.MainActivity;
 import com.grupocumb.petroastur.R;
 import com.grupocumb.petroastur.model.EstacionServicio;
 
@@ -18,6 +19,7 @@ public class EstacionServicioAdapter extends RecyclerView.Adapter<EstacionServic
 
     public static final int VIEW_TYPE_EMPTY = 0;
     public static final int VIEW_TYPE_NORMAL = 1;
+    private final MainActivity m;
 
     List<EstacionServicio> EstacionList;
     //Componentes de la vista. Clase interna que los define
@@ -33,8 +35,9 @@ public class EstacionServicioAdapter extends RecyclerView.Adapter<EstacionServic
 
         }
     }
-    public EstacionServicioAdapter(List<EstacionServicio> e){
+    public EstacionServicioAdapter(List<EstacionServicio> e, MainActivity m){
         this.EstacionList=e;
+        this.m=m;
     }
     @NonNull
     @Override

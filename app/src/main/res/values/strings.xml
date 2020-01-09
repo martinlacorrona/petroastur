@@ -30,9 +30,10 @@
     <string name="distancia">Distancia</string>
     <string name="precio">Precio</string>
 
-    <string name="distancia_maxima">Distancia máxima:</string>
-    <string name="distancia_max_1">20 km</string>
-    <string name="distancia_max_2">50 km</string>
+    <string name="distancia_maxima">Distancia máxima en km:</string>
+    <string name="distancia_max_1">20</string>
+    <string name="distancia_max_2">50</string>
+    <string name="sin_maxima">Sin distancia máxima.</string>
 
     <!-->SETTINGS NAME<!-->
     <string name="SETTINGS_NAME_FILE">settingFile</string>
