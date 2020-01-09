@@ -20,7 +20,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.grupocumb.petroastur.MainActivity;
 import com.grupocumb.petroastur.R;
 import com.grupocumb.petroastur.model.EstacionServicio;
-import com.grupocumb.petroastur.ui.ASyncBBDDLoader;
 import com.grupocumb.petroastur.ui.detallada.DetalladaFragment;
 
 import java.util.ArrayList;
