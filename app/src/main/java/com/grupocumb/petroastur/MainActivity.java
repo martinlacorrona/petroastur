@@ -61,22 +61,6 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
-
-        //loadWhenLoad();
-        //new ASyncBBDDLoader(this, appController).loadInBackground();
-    }
-
-    private void loadWhenLoad() {
-        Toast.makeText(this, "Actualizando gasolineras...", Toast.LENGTH_LONG).show();
-        while(appController.isUpdated() == TransactionStatus.WAITING) {
-            //LOADING...
-        }
-        if(appController.isUpdated() == TransactionStatus.DONE) {
-            Toast.makeText(this, "Gasolineras cargadas.", Toast.LENGTH_LONG).show();
-        } else if(appController.isUpdated() == TransactionStatus.FAILED) {
-            Toast.makeText(this, "Ocurrio un error a la hora de actualizar.", Toast.LENGTH_LONG).show();
-        }
-        //TODO: pintame las gasolineras de nuevo
     }
 
     @Override
