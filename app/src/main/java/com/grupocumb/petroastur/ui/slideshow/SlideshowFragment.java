@@ -103,7 +103,7 @@ public class SlideshowFragment extends Fragment {
 
                 builder.setTitle("Borrar favorito");
 
-                builder.setMessage("Esta es la lista de positivos, ¿desea borrar el seleccionado?")
+                builder.setMessage("Esta es la lista de favoritos, ¿desea borrar el seleccionado?")
                         .setCancelable(false)
                         .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {

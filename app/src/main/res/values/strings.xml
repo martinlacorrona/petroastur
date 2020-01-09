@@ -2,8 +2,8 @@
     <string name="app_name">Petroastur</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="nav_header_title">Android Studio</string>
-    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_title">Petroastur</string>
+    <string name="nav_header_subtitle">petroastur@gmail.com</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
 
@@ -11,8 +11,8 @@
     <string name="menu_gallery">Mapa</string>
     <string name="menu_slideshow">Estaciones favoritas</string>
     <string name="menu_tools">Ajustes</string>
-    <string name="menu_share">Share</string>
-    <string name="menu_send">Send</string>
+    <string name="menu_share">Comparte</string>
+    <string name="menu_send">Opinión</string>
 
     <string name="tipo_combustible">Tipo de combustible preferido:</string>
     <string name="diesel">Diesel</string>
@@ -48,4 +48,13 @@
     <string name="precios">Precios:</string>
     <string name="mostrar_mapa">Mostrar en el mapa:</string>
     <string name="añadir_favoritas">Añadir a favoritas</string>
+
+    <string name="opinion">DANOS TU OPINIÓN</string>
+    <string name="enviar_opinion">Enviar</string>
+    <string name="texto_spam">Texto de Spam: La mejor aplicación de gasolineras, petroastur!</string>
+    <string name="elige_aplicacion">Elige aplicación:</string>
+    <string name="twitter">Twitter</string>
+    <string name="facebook">Facebook</string>
+    <string name="whatsapp">WhatsApp</string>
+
 </resources>

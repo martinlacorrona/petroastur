@@ -91,7 +91,9 @@ public class DetalladaFragment extends Fragment {
 
                     if (!se_encuentra){
                         set2.add(e.getId());
-                        editor.putStringSet("datos", set2);
+                        editor.remove("favoritos");
+                        editor.commit();
+                        editor.putStringSet("favoritos", set2);
                         editor.commit();
                         slideshowViewModel =
                                 ViewModelProviders.of(getActivity()).get(SlideshowViewModel.class);
@@ -105,18 +107,17 @@ public class DetalladaFragment extends Fragment {
                         Toast.LENGTH_SHORT)
                         .show();
 
-
             }
         });
 
         mostrarMapa.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                DetalladaFragment fr=new DetalladaFragment(e);
-//                getActivity().getSupportFragmentManager().beginTransaction()
-//                        .replace(R.id.nav_host_fragment,fr)
-//                        .addToBackStack(null)
-//                        .commit();
+                DetalladaFragment fr=new DetalladaFragment(e);
+                getActivity().getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.nav_host_fragment,fr)
+                        .addToBackStack(null)
+                        .commit();
             }
         });
         return root;

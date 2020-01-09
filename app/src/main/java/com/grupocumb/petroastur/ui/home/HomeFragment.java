@@ -40,7 +40,11 @@ public class HomeFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
-
+//        EstacionServicio e=new EstacionServicio();
+//        e.setLatitud("43.3602905");
+//        e.setLongitudWGS84("-5.8447599");
+//        e.setId("Inés");
+//        esta.add(e);
 
     }
 
@@ -49,10 +53,7 @@ public class HomeFragment extends Fragment {
         homeViewModel =
                 ViewModelProviders.of(getActivity()).get(HomeViewModel.class);
         View root = inflater.inflate(R.layout.fragment_home, container, false);
-        EstacionServicio e=new EstacionServicio();
-        e.setLatitud("43.3602905");
-        e.setLongitudWGS84("-5.8447599");
-        esta.add(e);
+
         recyclerView=(RecyclerView)root.findViewById(R.id.recycler);
         RecyclerView.LayoutManager mLayoutManager=
                 new LinearLayoutManager(getContext());

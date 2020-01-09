@@ -81,24 +81,6 @@ public class GalleryFragment extends Fragment implements OnMapReadyCallback {
         });
         return root;
     }
-    private void Busqueda(String busqueda){
-        if(isConnected(context) && busqueda != null && busqueda.trim().length() != 0) {
-            gmap.clear();
-            Geocoder geocoder = new Geocoder(context);
-            List<Address> posiblesDirecciones = null;
-            MarkerOptions markerOptions = new MarkerOptions();
-            try {
-                posiblesDirecciones = geocoder.getFromLocationName(busqueda.toUpperCase(), 1);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            for (int i = 0; i < posiblesDirecciones.size(); i++) {
-                Address posiblesDireccione = posiblesDirecciones.get(i);
-                LatLng latLng = new LatLng(posiblesDireccione.getLatitude(), posiblesDireccione.getLongitude());
-                CargarMarker(latLng);
-            }
-        }
-    }
 
 
 
@@ -142,11 +124,14 @@ public class GalleryFragment extends Fragment implements OnMapReadyCallback {
                     }
                 });
                 List<EstacionServicio> estaciones=homeViewModel.getText().getValue();
-                for (EstacionServicio e:estaciones){
-                    //Necesitamos la altitud y longitud de las estaciones de servicio
-                    LatLng c=new LatLng(Integer.getInteger(e.getLatitud()),Integer.getInteger(e.getLongitudWGS84()));
-                    CargarMarker(c);
+                if (estaciones!=null){
+                    for (EstacionServicio e:estaciones){
+                        //Necesitamos la altitud y longitud de las estaciones de servicio
+                        LatLng c=new LatLng(Integer.getInteger(e.getLatitud()),Integer.getInteger(e.getLongitudWGS84()));
+                        CargarMarker(c,e);
+                    }
                 }
+
 //                if (!coordenada.equals("")) {
 //                    String[] aux = coordenada.split(",");
 //                    double latitud = Double.parseDouble(aux[0]);
@@ -185,32 +170,11 @@ public class GalleryFragment extends Fragment implements OnMapReadyCallback {
     }
 
 
-    private void CargarMarker(LatLng latLng){
+    private void CargarMarker(LatLng latLng, EstacionServicio e){
         coordenada = latLng.latitude + "," + latLng.longitude;
         Geocoder geocoder = new Geocoder(getContext(), Locale.getDefault());
-        List<Address> addresses = null;
-        try {
-            addresses = geocoder.getFromLocation(
-                    latLng.latitude,
-                    latLng.longitude,
-                    1);
-        } catch (IOException ioException) {
-            Log.e("ERROR", "IO", ioException);
-        } catch (IllegalArgumentException illegalArgumentException) {
-            Log.e("ERROR", "ILEGALARGUMENT", illegalArgumentException);
-        }
-        Address address = addresses.get(0);
-        ArrayList<String> addressFragments = new ArrayList<String>();
-        if (addresses == null || addresses.size()  == 0) {
-            Toast.makeText(getContext(),"No se han encontrado resultados.",Toast.LENGTH_LONG).show();
-        } else {
 
-            for(int i = 0; i <= address.getMaxAddressLineIndex(); i++) {
-                addressFragments.add(address.getAddressLine(i));
-            }
-        }
-        MarkerOptions marcadorOpciones = new MarkerOptions().position(latLng).title(addressFragments.get(0));
-        direccion = addressFragments.get(0);
+        MarkerOptions marcadorOpciones = new MarkerOptions().position(latLng).title(e.getDireccion());
         if(posUsuario != null){
             posUsuario.remove();
         }
