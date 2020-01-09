@@ -12,9 +12,9 @@ public interface SettingsController {
 
     void setLastUpdate(Date date);
 
-    List<EstacionServicio> getFavourites();
+    String[] getFavourites();
 
-    void setFavourites(List<EstacionServicio> favourites);
+    void setFavourites(String[] favourites);
 
     FuelType getFavouriteFuel();
 
