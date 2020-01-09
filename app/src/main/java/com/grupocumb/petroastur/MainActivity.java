@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -19,6 +20,8 @@ import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
 import com.grupocumb.petroastur.controller.AppController;
 import com.grupocumb.petroastur.controller.DataController;
+import com.grupocumb.petroastur.controller.impl.AppControllerImpl;
+import com.grupocumb.petroastur.model.TransactionStatus;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -33,11 +36,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-//        while (!appController.isUpdate()){
-//
-//        }
-//
-
+        appController = new AppControllerImpl(getApplicationContext());
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -61,6 +60,21 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
+
+        //loadWhenLoad();
+    }
+
+    private void loadWhenLoad() {
+        Toast.makeText(this, "Actualizando gasolineras...", Toast.LENGTH_LONG).show();
+        while(appController.isUpdated() == TransactionStatus.WAITING) {
+            //LOADING...
+        }
+        if(appController.isUpdated() == TransactionStatus.DONE) {
+            Toast.makeText(this, "Gasolineras cargadas.", Toast.LENGTH_LONG).show();
+        } else if(appController.isUpdated() == TransactionStatus.FAILED) {
+            Toast.makeText(this, "Ocurrio un error a la hora de actualizar.", Toast.LENGTH_LONG).show();
+        }
+        //TODO: pintame las gasolineras de nuevo
     }
 
     @Override

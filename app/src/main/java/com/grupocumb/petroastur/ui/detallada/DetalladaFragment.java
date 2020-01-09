@@ -96,7 +96,7 @@ public class DetalladaFragment extends Fragment {
                         return;
                     }
                 }
-                ((MainActivity)getActivity()).getAppController().addFavourite(Integer.getInteger(e.getId()));
+                ((MainActivity)getActivity()).getAppController().addFavourite((e.getId()));
 
                 /*
                 * LISTA DE FAVORITOS
@@ -127,5 +127,15 @@ public class DetalladaFragment extends Fragment {
             }
         });
         return root;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
     }
 }

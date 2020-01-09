@@ -47,8 +47,6 @@ public class SlideshowFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
-
-
     }
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -64,7 +62,7 @@ public class SlideshowFragment extends Fragment {
         recyclerView.setItemAnimator(new DefaultItemAnimator());
 
         recyclerView.addItemDecoration(new DividerItemDecoration(getContext(),LinearLayoutManager.VERTICAL));
-
+        es=((MainActivity)getActivity()).getAppController().getFavouritesOrdered();
         mAdapter=new EstacionServicioAdapter(((MainActivity)getActivity()).getAppController().getFavouritesOrdered(),(MainActivity)getActivity());
         recyclerView.setAdapter(mAdapter);
 

@@ -56,7 +56,7 @@ public class HomeFragment extends Fragment {
         recyclerView.setItemAnimator(new DefaultItemAnimator());
 
         recyclerView.addItemDecoration(new DividerItemDecoration(getContext(),LinearLayoutManager.VERTICAL));
-
+        esta=((MainActivity)getActivity()).getAppController().getAllEESSOrdered();
         mAdapter=new EstacionServicioAdapter(((MainActivity)getActivity()).getAppController().getAllEESSOrdered(),(MainActivity)getActivity());
         recyclerView.setAdapter(mAdapter);
 
@@ -82,5 +82,15 @@ public class HomeFragment extends Fragment {
         }));
 
         return root;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
     }
 }

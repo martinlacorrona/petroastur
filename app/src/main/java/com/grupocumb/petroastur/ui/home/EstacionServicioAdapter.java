@@ -67,7 +67,7 @@ public class EstacionServicioAdapter extends RecyclerView.Adapter<EstacionServic
     //Asociación de contenido a los componentes de la vista
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         EstacionServicio estacion = EstacionList.get(position);
-        holder.nombre.setText(estacion.getId());
+        holder.nombre.setText(estacion.getEmpresa());
         holder.direccion.setText(estacion.getDireccion());
 
         //holder.distancia.setText(estacion.);
