@@ -94,19 +94,31 @@ public class GalleryFragment extends Fragment implements OnMapReadyCallback {
         if (isConnected((Context) getContext())) {
             MapsInitializer.initialize(getContext());
             gmap = googleMap;
+
+            //CARGA LOS MARKERS
+            List<EstacionServicio> estaciones = ((MainActivity) getActivity()).getAppController().getAllEESSOrdered();
+            if (estaciones != null) {
+                for (EstacionServicio e : estaciones) {
+                    //Necesitamos la altitud y longitud de las estaciones de servicio
+                    LatLng latLng = new LatLng(
+                            Double.parseDouble(e.getLatitud().replace(",", ".")),
+                            Double.parseDouble(e.getLongitudWGS84().replace(",", ".")));
+                    MarkerOptions markerES = new MarkerOptions().position(latLng).title(e.getEmpresa());
+                    gmap.addMarker(markerES);
+                }
+            }
+
             if (validaPermisos()) {
                 if (checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                     AlertDialog.Builder dialog = new AlertDialog.Builder(getContext());
                     dialog.setTitle(R.string.nopermisos);
                     dialog.setMessage(R.string.nopermisos2);
                     dialog.create().show();
+
                     return;
                 }
                 gmap.setMyLocationEnabled(true);
                 gmap.getUiSettings().setMyLocationButtonEnabled(true);
-                //gmap.animateCamera(gmap.my);
-
-                //LatLng centro = new LatLng(40, -3);
 
                 locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
                 loc=locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
@@ -116,29 +128,12 @@ public class GalleryFragment extends Fragment implements OnMapReadyCallback {
                 LatLng gpsUserPos = new LatLng(loc.getLatitude(), loc.getLongitude());
                 gmap.animateCamera(CameraUpdateFactory.newLatLngZoom(gpsUserPos, 13f));
 
-                List<EstacionServicio> estaciones = ((MainActivity) getActivity()).getAppController().getAllEESSOrdered();
-                if (estaciones != null) {
-                    for (EstacionServicio e : estaciones) {
-                        //Necesitamos la altitud y longitud de las estaciones de servicio
-                        LatLng latLng = new LatLng(
-                                Double.parseDouble(e.getLatitud().replace(",", ".")),
-                                Double.parseDouble(e.getLongitudWGS84().replace(",", ".")));
-                        MarkerOptions markerES = new MarkerOptions().position(latLng).title(e.getEmpresa());
-                        gmap.addMarker(markerES);
-                    }
-                }
-
             }
         } else {
             final AlertDialog.Builder alertOpciones = new AlertDialog.Builder(context);
             alertOpciones.setTitle("No hay conexión a internet");
             alertOpciones.setMessage("Conéctate a una red para poder acceder al mapa");
-            alertOpciones.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
-
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                }
-            });
+            alertOpciones.setPositiveButton("Aceptar", (dialog, which) -> {});
             alertOpciones.create().show();
         }
 
@@ -203,6 +198,9 @@ public class GalleryFragment extends Fragment implements OnMapReadyCallback {
                 dialog.setTitle(R.string.nopermisos);
                 dialog.setMessage(R.string.nopermisos2);
                 dialog.create().show();
+
+                LatLng centro = new LatLng(43.3602900, -5.8447600);
+                gmap.animateCamera(CameraUpdateFactory.newLatLngZoom(centro, 10f));
             }
         }
     }
