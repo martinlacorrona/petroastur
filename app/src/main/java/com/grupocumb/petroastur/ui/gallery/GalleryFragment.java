@@ -94,7 +94,6 @@ public class GalleryFragment extends Fragment implements OnMapReadyCallback {
         if (isConnected((Context) getContext())) {
             MapsInitializer.initialize(getContext());
             gmap = googleMap;
-            gmap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
             if (validaPermisos()) {
                 if (checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                     AlertDialog.Builder dialog = new AlertDialog.Builder(getContext());
@@ -105,29 +104,27 @@ public class GalleryFragment extends Fragment implements OnMapReadyCallback {
                 }
                 gmap.setMyLocationEnabled(true);
                 gmap.getUiSettings().setMyLocationButtonEnabled(true);
+                //gmap.animateCamera(gmap.my);
 
-////                //LatLng centro = new LatLng(40, -3);
+                //LatLng centro = new LatLng(40, -3);
 
-                //locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
-                //loc=locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-                LatLng centro = new LatLng(43.3602900, -5.8447600);
-                gmap.moveCamera(CameraUpdateFactory.newLatLngZoom(centro, 9.5f));
+                locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+                loc=locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+                System.out.println("Loc: " + loc);
 
+                //LatLng centro = new LatLng(43.3602900, -5.8447600);
+                LatLng gpsUserPos = new LatLng(loc.getLatitude(), loc.getLongitude());
+                gmap.animateCamera(CameraUpdateFactory.newLatLngZoom(gpsUserPos, 13f));
 
-                gmap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
-                    @Override
-                    public void onMapClick(LatLng latLng) {
-                        //CargarMarker(latLng);
-                    }
-                });
                 List<EstacionServicio> estaciones = ((MainActivity) getActivity()).getAppController().getAllEESSOrdered();
                 if (estaciones != null) {
                     for (EstacionServicio e : estaciones) {
                         //Necesitamos la altitud y longitud de las estaciones de servicio
-                        LatLng c = new LatLng(
+                        LatLng latLng = new LatLng(
                                 Double.parseDouble(e.getLatitud().replace(",", ".")),
                                 Double.parseDouble(e.getLongitudWGS84().replace(",", ".")));
-                        CargarMarker(c, e);
+                        MarkerOptions markerES = new MarkerOptions().position(latLng).title(e.getEmpresa());
+                        gmap.addMarker(markerES);
                     }
                 }
 
