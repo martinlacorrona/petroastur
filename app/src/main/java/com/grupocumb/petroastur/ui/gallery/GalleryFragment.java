@@ -94,52 +94,46 @@ public class GalleryFragment extends Fragment implements OnMapReadyCallback {
         if (isConnected((Context) getContext())) {
             MapsInitializer.initialize(getContext());
             gmap = googleMap;
-            gmap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
+
+            //CARGA LOS MARKERS
+            List<EstacionServicio> estaciones = ((MainActivity) getActivity()).getAppController().getAllEESSOrdered();
+            if (estaciones != null) {
+                for (EstacionServicio e : estaciones) {
+                    //Necesitamos la altitud y longitud de las estaciones de servicio
+                    LatLng latLng = new LatLng(
+                            Double.parseDouble(e.getLatitud().replace(",", ".")),
+                            Double.parseDouble(e.getLongitudWGS84().replace(",", ".")));
+                    MarkerOptions markerES = new MarkerOptions().position(latLng).title(e.getEmpresa());
+                    gmap.addMarker(markerES);
+                }
+            }
+
             if (validaPermisos()) {
                 if (checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                     AlertDialog.Builder dialog = new AlertDialog.Builder(getContext());
                     dialog.setTitle(R.string.nopermisos);
                     dialog.setMessage(R.string.nopermisos2);
                     dialog.create().show();
+
                     return;
                 }
                 gmap.setMyLocationEnabled(true);
                 gmap.getUiSettings().setMyLocationButtonEnabled(true);
 
-////                //LatLng centro = new LatLng(40, -3);
+                locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+                loc=locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+                System.out.println("Loc: " + loc);
 
-                //locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
-                //loc=locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-                LatLng centro = new LatLng(43.3602900, -5.8447600);
-                gmap.moveCamera(CameraUpdateFactory.newLatLngZoom(centro, 9.5f));
-
-
-                gmap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
-                    @Override
-                    public void onMapClick(LatLng latLng) {
-                        //CargarMarker(latLng);
-                    }
-                });
-                List<EstacionServicio> estaciones = ((MainActivity) getActivity()).getAppController().getAllEESSOrdered();
-                if (estaciones != null) {
-                    for (EstacionServicio e : estaciones) {
-                        //Necesitamos la altitud y longitud de las estaciones de servicio
-                        LatLng c = new LatLng(Integer.getInteger(e.getLatitud()), Integer.getInteger(e.getLongitudWGS84()));
-                        CargarMarker(c, e);
-                    }
-                }
+                //LatLng centro = new LatLng(43.3602900, -5.8447600);
+                LatLng gpsUserPos = new LatLng(loc.getLatitude(), loc.getLongitude());
+                gmap.animateCamera(CameraUpdateFactory.newLatLngZoom(gpsUserPos, 13f));
 
             }
         } else {
             final AlertDialog.Builder alertOpciones = new AlertDialog.Builder(context);
             alertOpciones.setTitle("No hay conexión a internet");
             alertOpciones.setMessage("Conéctate a una red para poder acceder al mapa");
-            alertOpciones.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
-
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                }
-            });
+            alertOpciones.setPositiveButton("Aceptar", (dialog, which) -> {});
             alertOpciones.create().show();
         }
 
@@ -163,19 +157,18 @@ public class GalleryFragment extends Fragment implements OnMapReadyCallback {
 
     private void CargarMarker(LatLng latLng, EstacionServicio e) {
         coordenada = latLng.latitude + "," + latLng.longitude;
-        Geocoder geocoder = new Geocoder(getContext(), Locale.getDefault());
 
-        MarkerOptions marcadorOpciones = new MarkerOptions().position(latLng).title(e.getDireccion());
+        MarkerOptions marcadorOpciones = new MarkerOptions().position(latLng).title(e.getEmpresa());
         if (posUsuario != null) {
             posUsuario.remove();
         }
         posUsuario = gmap.addMarker(marcadorOpciones);
-        posUsuario.showInfoWindow();
-        CameraPosition cameraPosition = new CameraPosition.Builder()
-                .target(latLng).zoom(14)
-                .build();
-        CameraUpdate cu = CameraUpdateFactory.newCameraPosition(cameraPosition);
-        gmap.animateCamera(cu);
+//        posUsuario.showInfoWindow();
+//        CameraPosition cameraPosition = new CameraPosition.Builder()
+//                .target(latLng).zoom(14)
+//                .build();
+//        CameraUpdate cu = CameraUpdateFactory.newCameraPosition(cameraPosition);
+//        gmap.animateCamera(cu);
     }
 
     private boolean validaPermisos() {
@@ -205,6 +198,9 @@ public class GalleryFragment extends Fragment implements OnMapReadyCallback {
                 dialog.setTitle(R.string.nopermisos);
                 dialog.setMessage(R.string.nopermisos2);
                 dialog.create().show();
+
+                LatLng centro = new LatLng(43.3602900, -5.8447600);
+                gmap.animateCamera(CameraUpdateFactory.newLatLngZoom(centro, 10f));
             }
         }
     }
