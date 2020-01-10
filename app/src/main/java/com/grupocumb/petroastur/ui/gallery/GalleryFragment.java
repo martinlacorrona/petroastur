@@ -100,7 +100,7 @@ public class GalleryFragment extends Fragment implements OnMapReadyCallback {
             //CARGA LOS MARKERS
             List<EstacionServicio> estaciones = ((MainActivity) getActivity()).getAppController().getAllEESSOrdered();
             FuelType favorito = ((MainActivity) getActivity()).getAppController().getSettingFavouriteFuel();
-            Double precio;;
+            Double precio;
             if (estaciones != null) {
                 for (EstacionServicio e : estaciones) {
                     precio = e.getPrecioCombustible(favorito);
