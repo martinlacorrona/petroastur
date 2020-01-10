@@ -124,7 +124,9 @@ public class GalleryFragment extends Fragment implements OnMapReadyCallback {
                 if (estaciones != null) {
                     for (EstacionServicio e : estaciones) {
                         //Necesitamos la altitud y longitud de las estaciones de servicio
-                        LatLng c = new LatLng(Integer.getInteger(e.getLatitud()), Integer.getInteger(e.getLongitudWGS84()));
+                        LatLng c = new LatLng(
+                                Double.parseDouble(e.getLatitud().replace(",", ".")),
+                                Double.parseDouble(e.getLongitudWGS84().replace(",", ".")));
                         CargarMarker(c, e);
                     }
                 }
@@ -163,19 +165,18 @@ public class GalleryFragment extends Fragment implements OnMapReadyCallback {
 
     private void CargarMarker(LatLng latLng, EstacionServicio e) {
         coordenada = latLng.latitude + "," + latLng.longitude;
-        Geocoder geocoder = new Geocoder(getContext(), Locale.getDefault());
 
-        MarkerOptions marcadorOpciones = new MarkerOptions().position(latLng).title(e.getDireccion());
+        MarkerOptions marcadorOpciones = new MarkerOptions().position(latLng).title(e.getEmpresa());
         if (posUsuario != null) {
             posUsuario.remove();
         }
         posUsuario = gmap.addMarker(marcadorOpciones);
-        posUsuario.showInfoWindow();
-        CameraPosition cameraPosition = new CameraPosition.Builder()
-                .target(latLng).zoom(14)
-                .build();
-        CameraUpdate cu = CameraUpdateFactory.newCameraPosition(cameraPosition);
-        gmap.animateCamera(cu);
+//        posUsuario.showInfoWindow();
+//        CameraPosition cameraPosition = new CameraPosition.Builder()
+//                .target(latLng).zoom(14)
+//                .build();
+//        CameraUpdate cu = CameraUpdateFactory.newCameraPosition(cameraPosition);
+//        gmap.animateCamera(cu);
     }
 
     private boolean validaPermisos() {
