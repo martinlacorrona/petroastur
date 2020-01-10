@@ -32,6 +32,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.grupocumb.petroastur.MainActivity;
@@ -123,6 +124,9 @@ public class GalleryFragment extends Fragment implements OnMapReadyCallback {
                 }
             }
 
+            LatLng centro = new LatLng(43.3602900, -5.8447600);
+            gmap.moveCamera(CameraUpdateFactory.newLatLngZoom(centro, 5f));
+
             if (validaPermisos()) {
                 if (checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                     AlertDialog.Builder dialog = new AlertDialog.Builder(getContext());
@@ -139,8 +143,13 @@ public class GalleryFragment extends Fragment implements OnMapReadyCallback {
                 loc = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 
                 //LatLng centro = new LatLng(43.3602900, -5.8447600);
-                LatLng gpsUserPos = new LatLng(loc.getLatitude(), loc.getLongitude());
-                gmap.animateCamera(CameraUpdateFactory.newLatLngZoom(gpsUserPos, 13f));
+                if(loc == null) { //No tiene la loc activada, la mandamos a oviedo
+                    LatLng gpsUserPos = new LatLng(43.3602900, -5.8447600);
+                    gmap.animateCamera(CameraUpdateFactory.newLatLngZoom(centro, 10f));
+                } else {
+                    LatLng gpsUserPos = new LatLng(loc.getLatitude(), loc.getLongitude());
+                    gmap.animateCamera(CameraUpdateFactory.newLatLngZoom(gpsUserPos, 13f));
+                }
 
             }
         } else {
