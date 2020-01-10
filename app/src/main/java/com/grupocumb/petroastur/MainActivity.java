@@ -2,7 +2,6 @@ package com.grupocumb.petroastur;
 
 import android.os.Bundle;
 import android.view.Menu;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -15,8 +14,7 @@ import androidx.navigation.ui.NavigationUI;
 import com.google.android.material.navigation.NavigationView;
 import com.grupocumb.petroastur.controller.AppController;
 import com.grupocumb.petroastur.controller.impl.AppControllerImpl;
-import com.grupocumb.petroastur.model.TransactionStatus;
-import com.grupocumb.petroastur.ui.ASyncBBDDLoader;
+import com.grupocumb.petroastur.ui.task.ASyncBBDDLoader;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -52,7 +50,6 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
 
