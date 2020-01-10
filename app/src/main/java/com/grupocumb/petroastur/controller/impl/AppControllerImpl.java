@@ -41,7 +41,7 @@ public class AppControllerImpl implements AppController {
     public List<EstacionServicio> getAllEESSOrdered() {
         //TODO VALORES PARA TEST, CAMBIAR !!!!!!!!!!!!!!!!
         OrderType favouriteOrder = OrderType.PRECIO;//settingsController.getFavouriteOrder();
-        FuelType favouriteFuel = FuelType.GASOLEO_A;//settingsController.getFavouriteFuel();
+        FuelType favouriteFuel = settingsController.getFavouriteFuel();
 
         if (favouriteOrder == OrderType.PRECIO) {
             return dataController.getAll().stream()

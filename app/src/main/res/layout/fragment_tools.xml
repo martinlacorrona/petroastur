@@ -16,13 +16,6 @@
         android:layout_height="wrap_content">
 
         <RadioButton
-            android:id="@+id/dieselRadioButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:checked="true"
-            android:text="@string/diesel" />
-
-        <RadioButton
             android:id="@+id/gasolina95Button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -95,6 +88,7 @@
         android:text="@string/orden_listado" />
 
     <RadioGroup
+        android:id="@+id/grupoListado"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -102,7 +96,7 @@
             android:id="@+id/distanc"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:checked="true"
+            android:checked="false"
             android:text="@string/distancia" />
 
         <RadioButton
@@ -129,6 +123,7 @@
         android:text="@string/distancia_maxima" />
 
     <RadioGroup
+        android:id="@+id/grupoDistancia"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -142,7 +137,7 @@
             android:id="@+id/distaMax_2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:checked="true"
+            android:checked="false"
             android:text="@string/distancia_max_2" />
 
         <RadioButton

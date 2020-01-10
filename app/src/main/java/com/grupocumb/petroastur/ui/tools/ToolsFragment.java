@@ -16,14 +16,10 @@ import com.grupocumb.petroastur.R;
 import com.grupocumb.petroastur.controller.AppController;
 import com.grupocumb.petroastur.model.FuelType;
 import com.grupocumb.petroastur.model.OrderType;
-import com.grupocumb.petroastur.ui.home.HomeViewModel;
 
 public class ToolsFragment extends Fragment {
-
     private ToolsViewModel toolsViewModel;
-    private HomeViewModel homeViewModel;
     private RadioGroup radioButtonCombustPreferido;
-    private RadioButton bioDiesel;
     private RadioButton bioetanol;
     private RadioButton gas_natural_comprimido;
     private RadioButton gas_natural_licuado;
@@ -34,27 +30,31 @@ public class ToolsFragment extends Fragment {
     private RadioButton gasoleo1_98;
     private RadioButton nuevo_gasoleo_a;
 
+    private RadioGroup radioButtonListado;
     private RadioButton ordenDista;
     private RadioButton ordenPrecio;
 
+    private RadioGroup radioButtonDistancia;
     private RadioButton distancia1;
     private RadioButton distancia2;
 
+    private AppController ap;
 
     @Override
     public void onCreate(@NonNull Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
 
-
+    @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         toolsViewModel =
                 ViewModelProviders.of(this).get(ToolsViewModel.class);
         View root = inflater.inflate(R.layout.fragment_tools, container, false);
+
+        ap = ((MainActivity) getActivity()).getAppController();
+
         radioButtonCombustPreferido = (RadioGroup) root.findViewById(R.id.grupoCarburante);
-        bioDiesel = (RadioButton) root.findViewById(R.id.dieselRadioButton);
         bioetanol = (RadioButton) root.findViewById(R.id.bioEtanolButton);
         gas_natural_comprimido = (RadioButton) root.findViewById(R.id.gasNaturalComprimidoButton);
         gas_natural_licuado = (RadioButton) root.findViewById(R.id.gasNaturalLicuadoButton);
@@ -65,95 +65,103 @@ public class ToolsFragment extends Fragment {
         gasoleo1_98 = (RadioButton) root.findViewById(R.id.gasolina98Button);
         nuevo_gasoleo_a = (RadioButton) root.findViewById(R.id.nuevoGasoleoA);
 
+        radioButtonListado = (RadioGroup) root.findViewById(R.id.grupoListado);
         ordenDista = (RadioButton) root.findViewById(R.id.distanc);
         ordenPrecio = (RadioButton) root.findViewById(R.id.preci);
 
+        radioButtonDistancia = (RadioGroup) root.findViewById(R.id.grupoDistancia);
         distancia1 = (RadioButton) root.findViewById(R.id.disMax1);
         distancia2 = (RadioButton) root.findViewById(R.id.distaMax_2);
         RadioButton r = (RadioButton) root.findViewById(R.id.sin_maxima);
 
-        if (((MainActivity) getActivity()).getAppController().getSettingFavouriteFuel() == FuelType.BIODIESEL) {
-            bioDiesel.setSelected(true);
-        } else if (((MainActivity) getActivity()).getAppController().getSettingFavouriteFuel() == FuelType.BIOETANOL) {
-            bioetanol.setSelected(true);
+        if (((MainActivity) getActivity()).getAppController().getSettingFavouriteFuel() == FuelType.BIOETANOL) {
+            bioetanol.setChecked(true);
         } else if (((MainActivity) getActivity()).getAppController().getSettingFavouriteFuel() == FuelType.GAS_NATURAL_COMPRIMIDO) {
-            gas_natural_comprimido.setSelected(true);
-        } else if (((MainActivity) getActivity()).getAppController().getSettingFavouriteFuel() == FuelType.GAS_NATURAL_LICUADO
-        ) {
-            gas_natural_licuado.setSelected(true);
+            gas_natural_comprimido.setChecked(true);
+        } else if (((MainActivity) getActivity()).getAppController().getSettingFavouriteFuel() == FuelType.GAS_NATURAL_LICUADO) {
+            gas_natural_licuado.setChecked(true);
         } else if (((MainActivity) getActivity()).getAppController().getSettingFavouriteFuel() == FuelType.GASES_LICUADOS_PETROLEO) {
-            gases_licuados_petroleo.setSelected(true);
+            gases_licuados_petroleo.setChecked(true);
         } else if (((MainActivity) getActivity()).getAppController().getSettingFavouriteFuel() == FuelType.GASOLEO_A) {
-            gasoleo_a.setSelected(true);
+            gasoleo_a.setChecked(true);
         } else if (((MainActivity) getActivity()).getAppController().getSettingFavouriteFuel() == FuelType.GASOLEO_B) {
-            gasoleo_b.setSelected(true);
+            gasoleo_b.setChecked(true);
         } else if (((MainActivity) getActivity()).getAppController().getSettingFavouriteFuel() == FuelType.GASOLINA_95) {
-            gasoleo95.setSelected(true);
+            gasoleo95.setChecked(true);
         } else if (((MainActivity) getActivity()).getAppController().getSettingFavouriteFuel() == FuelType.GASOLINA_98) {
-            gasoleo1_98.setSelected(true);
+            gasoleo1_98.setChecked(true);
         } else if (((MainActivity) getActivity()).getAppController().getSettingFavouriteFuel() == FuelType.NUEVO_GASOLEO_A) {
-            nuevo_gasoleo_a.setSelected(true);
+            nuevo_gasoleo_a.setChecked(true);
         }
 
         if (((MainActivity) getActivity()).getAppController().getSettingOrder() == OrderType.DISTANCIA) {
-            ordenDista.setSelected(true);
+            ordenDista.setChecked(true);
         } else {
-            ordenPrecio.setSelected(true);
+            ordenPrecio.setChecked(true);
         }
 
         if (((MainActivity) getActivity()).getAppController().getSettingMaxDistance() == 20) {
-            distancia1.setSelected(true);
+            distancia1.setChecked(true);
         } else if (((MainActivity) getActivity()).getAppController().getSettingMaxDistance() == 50) {
-            distancia2.setSelected(true);
+            distancia2.setChecked(true);
         } else {
-
-            r.setSelected(true);
+            r.setChecked(true);
         }
 
+        radioButtonCombustPreferido.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
+        {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                if (checkedId == R.id.bioEtanolButton) {
+                    ap.setSettingFavouriteFuel(FuelType.BIOETANOL);
+                } else if (checkedId == R.id.gasNaturalComprimidoButton) {
+                    ap.setSettingFavouriteFuel(FuelType.GAS_NATURAL_COMPRIMIDO);
+                } else if (checkedId == R.id.gasNaturalLicuadoButton) {
+                    ap.setSettingFavouriteFuel(FuelType.GAS_NATURAL_LICUADO);
+                } else if (checkedId == R.id.gasesLicuadosDelPetroleoButton) {
+                    ap.setSettingFavouriteFuel(FuelType.GASES_LICUADOS_PETROLEO);
+                } else if (checkedId == R.id.gasoleoAButton) {
+                    ap.setSettingFavouriteFuel(FuelType.GASOLEO_A);
+                } else if (checkedId == R.id.gasoleoBButton) {
+                    ap.setSettingFavouriteFuel(FuelType.GASOLEO_B);
+                } else if (checkedId == R.id.gasolina95Button) {
+                    ap.setSettingFavouriteFuel(FuelType.GASOLINA_95);
+                } else if (checkedId == R.id.gasolina98Button) {
+                    ap.setSettingFavouriteFuel(FuelType.GASOLINA_98);
+                } else {
+                    ap.setSettingFavouriteFuel(FuelType.NUEVO_GASOLEO_A);
+                }
+                return;
+            }
+        });
+
+        radioButtonListado.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
+        {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                if (checkedId == R.id.preci) {
+                    ap.setSettingOrder(OrderType.PRECIO);
+                } else {
+                    ap.setSettingOrder(OrderType.DISTANCIA);
+                }
+                return;
+            }
+        });
+
+        radioButtonDistancia.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
+        {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                if (checkedId == R.id.disMax1) {
+                    ap.setSettingMaxDistance(20);
+                } else if (checkedId == R.id.distaMax_2) {
+                    ap.setSettingMaxDistance(50);
+                } else {
+                    ap.setSettingMaxDistance(Double.MAX_VALUE);
+                }
+                return;
+            }
+        });
         return root;
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-
-        AppController ap = ((MainActivity) getActivity()).getAppController();
-        //Mirar cual está seleccionado
-        if (bioDiesel.isSelected()) {
-            ap.setSettingFavouriteFuel(FuelType.BIODIESEL);
-        } else if (bioetanol.isSelected()) {
-            ap.setSettingFavouriteFuel(FuelType.BIOETANOL);
-        } else if (gas_natural_comprimido.isSelected()) {
-            ap.setSettingFavouriteFuel(FuelType.GAS_NATURAL_COMPRIMIDO);
-        } else if (gas_natural_licuado.isSelected()) {
-            ap.setSettingFavouriteFuel(FuelType.GAS_NATURAL_LICUADO);
-        } else if (gases_licuados_petroleo.isSelected()) {
-            ap.setSettingFavouriteFuel(FuelType.GASES_LICUADOS_PETROLEO);
-        } else if (gasoleo_a.isSelected()) {
-            ap.setSettingFavouriteFuel(FuelType.GASOLEO_A);
-        } else if (gasoleo_b.isSelected()) {
-            ap.setSettingFavouriteFuel(FuelType.GASOLEO_B);
-        } else if (gasoleo95.isSelected()) {
-            ap.setSettingFavouriteFuel(FuelType.GASOLINA_95);
-        } else if (gasoleo1_98.isSelected()) {
-            ap.setSettingFavouriteFuel(FuelType.GASOLINA_98);
-        } else if (nuevo_gasoleo_a.isSelected()) {
-            ap.setSettingFavouriteFuel(FuelType.NUEVO_GASOLEO_A);
-        }
-
-        if (ordenPrecio.isSelected()) {
-            ap.setSettingOrder(OrderType.PRECIO);
-        } else {
-            ap.setSettingOrder(OrderType.DISTANCIA);
-        }
-
-        if (distancia1.isSelected()) {
-            ap.setSettingMaxDistance(20);
-        } else if (distancia2.isSelected()) {
-            ap.setSettingMaxDistance(50);
-        } else {
-            ap.setSettingMaxDistance(Double.MAX_VALUE);
-        }
-
     }
 }

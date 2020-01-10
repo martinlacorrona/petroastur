@@ -15,7 +15,7 @@
     <string name="menu_send">Opinión</string>
 
     <string name="tipo_combustible">Tipo de combustible preferido:</string>
-    <string name="diesel">Diesel</string>
+    <string name="diesel">Biodiesel</string>
     <string name="gasolina_95">Gasolina 95</string>
     <string name="gasolina_98">Gasolina 98</string>
     <string name="bioetanol">Bioetanol</string>
