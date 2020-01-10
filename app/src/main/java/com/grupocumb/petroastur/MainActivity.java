@@ -19,6 +19,8 @@ import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
 import com.grupocumb.petroastur.controller.AppController;
 import com.grupocumb.petroastur.controller.DataController;
+import com.grupocumb.petroastur.controller.impl.AppControllerImpl;
+import com.grupocumb.petroastur.model.TransactionStatus;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -31,12 +33,11 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        appController=new AppControllerImpl(getApplicationContext());
+        while (appController.isUpdated()== TransactionStatus.WAITING){
 
-//        while (!appController.isUpdate()){
-//
-//        }
-//
+        }
+        setContentView(R.layout.activity_main);
 
 
         Toolbar toolbar = findViewById(R.id.toolbar);
