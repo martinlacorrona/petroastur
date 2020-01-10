@@ -1,7 +1,14 @@
 package com.grupocumb.petroastur.controller.impl;
 
+import android.Manifest;
+import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationManager;
 
+import com.grupocumb.petroastur.R;
 import com.grupocumb.petroastur.controller.AppController;
 import com.grupocumb.petroastur.controller.DataController;
 import com.grupocumb.petroastur.controller.SettingsController;
@@ -20,10 +27,12 @@ public class AppControllerImpl implements AppController {
 
     private DataController dataController;
     private SettingsController settingsController;
+    private Activity mainActivity; //referencia main activyte
 
-    public AppControllerImpl(Context context) {
+    public AppControllerImpl(Context context, Activity mainActivity) {
         dataController = new DataControllerImpl(context);
         settingsController = new SettingsControllerImpl(context);
+        this.mainActivity = mainActivity;
         this.updateAll();
     }
 
@@ -39,8 +48,7 @@ public class AppControllerImpl implements AppController {
 
     @Override
     public List<EstacionServicio> getAllEESSOrdered() {
-        //TODO VALORES PARA TEST, CAMBIAR !!!!!!!!!!!!!!!!
-        OrderType favouriteOrder = OrderType.PRECIO;//settingsController.getFavouriteOrder();
+        OrderType favouriteOrder = settingsController.getFavouriteOrder();
         FuelType favouriteFuel = settingsController.getFavouriteFuel();
 
         if (favouriteOrder == OrderType.PRECIO) {
@@ -50,9 +58,19 @@ public class AppControllerImpl implements AppController {
                     .sorted(Comparator.comparingDouble(estacionServicio -> estacionServicio
                             .getPrecioCombustible(favouriteFuel)))
                     .collect(Collectors.toList());
-        } else {
-            // TODO ORDEN POR DISTANCIA
-            return null;
+        } else { //por distancia
+            Location locationGPS = getLocation();
+            return dataController.getAll().stream()
+                    .filter(estacionServicio -> estacionServicio
+                            .getPrecioCombustible(favouriteFuel) > 0.0)
+                    .sorted(Comparator.comparingDouble(estacionServicio -> {
+                        Location locationES = new Location("LocationES");
+                        locationES.setLatitude(Double.parseDouble(estacionServicio.getLatitud().replace(",", ".")));
+                        locationES.setLongitude(Double.parseDouble(estacionServicio.getLongitudWGS84().replace(",", ".")));
+
+                        return locationES.distanceTo(locationGPS);
+                    }))
+                    .collect(Collectors.toList());
         }
     }
 
@@ -64,9 +82,31 @@ public class AppControllerImpl implements AppController {
             if(! idsFavoritas[i].equals("null") && ! idsFavoritas[i].equals(""))
                 favoritas.add(dataController.getById(Integer.parseInt(idsFavoritas[i])));
         }
-        System.out.println(favoritas);
-        // TODO ORDENACIÓN
-        return favoritas;
+
+        OrderType favouriteOrder = settingsController.getFavouriteOrder();
+        FuelType favouriteFuel = settingsController.getFavouriteFuel();
+
+        if (favouriteOrder == OrderType.PRECIO) {
+            return dataController.getAll().stream()
+                    .filter(estacionServicio -> estacionServicio
+                            .getPrecioCombustible(favouriteFuel) > 0.0)
+                    .sorted(Comparator.comparingDouble(estacionServicio -> estacionServicio
+                            .getPrecioCombustible(favouriteFuel)))
+                    .collect(Collectors.toList());
+        } else { //por distancia
+            Location locationGPS = getLocation();
+            return dataController.getAll().stream()
+                    .filter(estacionServicio -> estacionServicio
+                            .getPrecioCombustible(favouriteFuel) > 0.0)
+                    .sorted(Comparator.comparingDouble(estacionServicio -> {
+                        Location locationES = new Location("LocationES");
+                        locationES.setLatitude(Double.parseDouble(estacionServicio.getLatitud().replace(",", ".")));
+                        locationES.setLongitude(Double.parseDouble(estacionServicio.getLongitudWGS84().replace(",", ".")));
+
+                        return locationES.distanceTo(locationGPS);
+                    }))
+                    .collect(Collectors.toList());
+        }
     }
 
     @Override
@@ -141,5 +181,27 @@ public class AppControllerImpl implements AppController {
     @Override
     public TransactionStatus isUpdated() {
         return dataController.isUpdated();
+    }
+
+    /**
+     * Metodo para sacar la localizacion, si esta desactivada, muestra Oviedo como el cnetro.
+     * @return
+     */
+    private Location getLocation() {
+        LocationManager locationManager = (LocationManager) mainActivity.getSystemService(Context.LOCATION_SERVICE);
+        Location location;
+        if (mainActivity.checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+                mainActivity.checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            //coge la localizacion del centro de oviedo.
+            location = new Location("LocationGPS");
+            location.setLatitude(43.3602900);
+            location.setLongitude(-5.8447600);
+        } else {
+            //Tengo permisos, lo obtengo
+            location = new Location("LocationGPS");
+            location.setLatitude(locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER).getLatitude());
+            location.setLongitude(locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER).getLongitude());
+        }
+        return location;
     }
 }

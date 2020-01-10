@@ -1,5 +1,8 @@
 package com.grupocumb.petroastur;
 
+import android.Manifest;
+import android.app.AlertDialog;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.Menu;
 
@@ -14,6 +17,7 @@ import androidx.navigation.ui.NavigationUI;
 import com.google.android.material.navigation.NavigationView;
 import com.grupocumb.petroastur.controller.AppController;
 import com.grupocumb.petroastur.controller.impl.AppControllerImpl;
+import com.grupocumb.petroastur.model.OrderType;
 import com.grupocumb.petroastur.ui.task.ASyncBBDDLoader;
 
 public class MainActivity extends AppCompatActivity {
@@ -26,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        appController = new AppControllerImpl(getApplicationContext());
+        appController = new AppControllerImpl(getApplicationContext(), this);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
