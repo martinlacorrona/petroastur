@@ -93,7 +93,6 @@ public class MapaDetalladoFragment extends Fragment implements OnMapReadyCallbac
         if (isConnected((Context) getContext())) {
             MapsInitializer.initialize(getContext());
             gmap = googleMap;
-            gmap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
             if (validaPermisos()) {
                 if (checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                     AlertDialog.Builder dialog = new AlertDialog.Builder(getContext());
@@ -108,18 +107,25 @@ public class MapaDetalladoFragment extends Fragment implements OnMapReadyCallbac
                 LatLng latLng = new LatLng(
                         Double.parseDouble(e.getLatitud().replace(",", ".")),
                         Double.parseDouble(e.getLongitudWGS84().replace(",", ".")));
+
                 gmap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15.5f));
                 MarkerOptions markerES = new MarkerOptions()
                         .position(latLng)
                         .title(e.getEmpresa())
                         .snippet(e.getDireccion());
-                gmap.addMarker(markerES);
-                gmap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+
+                gmap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
                     @Override
-                    public void onMapClick(LatLng latLng) {
-                        CargarMarker(latLng);
+                    public void onInfoWindowClick(Marker marker) {
+                        DetalladaFragment fr = new DetalladaFragment(e);
+                        getFragmentManager()
+                                .beginTransaction()
+                                .replace(R.id.container_o, fr)
+                                .addToBackStack(null)
+                                .commit();
                     }
                 });
+                gmap.addMarker(markerES);
 
             }
         } else {

@@ -1,10 +1,6 @@
 package com.grupocumb.petroastur.ui.home;
 
-import android.Manifest;
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.pm.PackageManager;
-import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.VibrationEffect;
@@ -24,7 +20,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.grupocumb.petroastur.MainActivity;
 import com.grupocumb.petroastur.R;
 import com.grupocumb.petroastur.model.EstacionServicio;
-import com.grupocumb.petroastur.model.OrderType;
 import com.grupocumb.petroastur.ui.detallada.DetalladaFragment;
 
 import java.util.ArrayList;
@@ -33,7 +28,7 @@ import java.util.List;
 public class HomeFragment extends Fragment {
     private RecyclerView recyclerView;
     private EstacionServicioAdapter mAdapter;
-    private List<EstacionServicio> esta = new ArrayList<EstacionServicio>();
+    private List<EstacionServicio> listaAllEESSOrdered = new ArrayList<EstacionServicio>();
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -53,7 +48,7 @@ public class HomeFragment extends Fragment {
         recyclerView.setItemAnimator(new DefaultItemAnimator());
 
         recyclerView.addItemDecoration(new DividerItemDecoration(getContext(), LinearLayoutManager.VERTICAL));
-        esta = ((MainActivity) getActivity()).getAppController().getAllEESSOrdered();
+        listaAllEESSOrdered = ((MainActivity) getActivity()).getAppController().getAllEESSOrdered();
         mAdapter = new EstacionServicioAdapter(((MainActivity) getActivity()).getAppController().getAllEESSOrdered(),
                 ((MainActivity) getActivity()).getAppController().getSettingFavouriteFuel(),
                 (MainActivity) getActivity());
@@ -62,7 +57,7 @@ public class HomeFragment extends Fragment {
         recyclerView.addOnItemTouchListener(new RecyclerTouchListener(getContext(), recyclerView, new RecyclerTouchListener.ClickListener() {
             @Override
             public void onClick(View view, int position) {
-                DetalladaFragment fr = new DetalladaFragment(esta.get(position));
+                DetalladaFragment fr = new DetalladaFragment(listaAllEESSOrdered.get(position));
                 getFragmentManager()
                         .beginTransaction()
                         .replace(R.id.container_o, fr)
