@@ -29,6 +29,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
@@ -99,16 +100,25 @@ public class GalleryFragment extends Fragment implements OnMapReadyCallback {
             //CARGA LOS MARKERS
             List<EstacionServicio> estaciones = ((MainActivity) getActivity()).getAppController().getAllEESSOrdered();
             FuelType favorito = ((MainActivity) getActivity()).getAppController().getSettingFavouriteFuel();
+            Double precio;;
             if (estaciones != null) {
                 for (EstacionServicio e : estaciones) {
+                    precio = e.getPrecioCombustible(favorito);
                     //Necesitamos la altitud y longitud de las estaciones de servicio
                     LatLng latLng = new LatLng(
                             Double.parseDouble(e.getLatitud().replace(",", ".")),
                             Double.parseDouble(e.getLongitudWGS84().replace(",", ".")));
-                    StringBuilder sb = new StringBuilder();
-                    sb.append(e.getEmpresa() + ". ");
-                    sb.append("Precio " + favorito + " " + e.getPrecioCombustible(favorito) + "€");
-                    MarkerOptions markerES = new MarkerOptions().position(latLng).title(sb.toString());
+                    String snippet = "Precio " + favorito + " " + precio + "€";
+                    MarkerOptions markerES = new MarkerOptions()
+                            .position(latLng)
+                            .title(e.getEmpresa())
+                            .snippet(snippet);
+                    if(precio < 1.30)
+                        markerES.icon(BitmapDescriptorFactory.fromResource(R.drawable.preciobajo));
+                    else if(precio >= 1.30 && precio < 1.40)
+                        markerES.icon(BitmapDescriptorFactory.fromResource(R.drawable.preciomedio));
+                    else
+                        markerES.icon(BitmapDescriptorFactory.fromResource(R.drawable.precioalto));
                     gmap.addMarker(markerES);
                 }
             }
