@@ -1,8 +1,13 @@
 package com.grupocumb.petroastur;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -63,13 +68,35 @@ public class MainActivity extends AppCompatActivity {
                         if (id == R.id.nav_home) {
                             fragmentManager.beginTransaction().replace(R.id.container_o,new HomeFragment()).commit();
                         } else if (id == R.id.nav_mapa) {
-                            fragmentManager.beginTransaction().replace(R.id.container_o,new GalleryFragment()).commit();
+                            if (estaConectadoInternet()){
+                                if (hayInternet()){
+                                    fragmentManager.beginTransaction().replace(R.id.container_o,new GalleryFragment()).commit();
+                                }else{
+                                    Toast.makeText(getApplicationContext(), "No hay conexión a internet.",
+                                            Toast.LENGTH_LONG).show();
+                                }
+                            }else{
+                                Toast.makeText(getApplicationContext(), "No está conectado a internet.",
+                                        Toast.LENGTH_LONG).show();
+                            }
+
                         } else if (id == R.id.nav_favoritas) {
                             fragmentManager.beginTransaction().replace(R.id.container_o,new SlideshowFragment()).commit();
                         } else if (id == R.id.nav_ajustes) {
                             fragmentManager.beginTransaction().replace(R.id.container_o,new ToolsFragment()).commit();
                         } else if (id == R.id.nav_share) {
-                            fragmentManager.beginTransaction().replace(R.id.container_o,new ShareFragment()).commit();
+                            if (estaConectadoInternet()){
+                                if (hayInternet()){
+                                    fragmentManager.beginTransaction().replace(R.id.container_o,new ShareFragment()).commit();
+                                }else{
+                                    Toast.makeText(getApplicationContext(), "No hay conexión a internet.",
+                                            Toast.LENGTH_LONG).show();
+                                }
+                            }else{
+                                Toast.makeText(getApplicationContext(), "No está conectado a internet.",
+                                        Toast.LENGTH_LONG).show();
+                            }
+
                         } else if (id == R.id.nav_send_opinion) {
                             fragmentManager.beginTransaction().replace(R.id.container_o,new SendFragment()).commit();
                         }
@@ -85,6 +112,30 @@ public class MainActivity extends AppCompatActivity {
 //        //TODO, de primeras mostrar la pantalla de carga, y si es satisfactoria la transaccion
 //        //TODO, lanzar la correspondiente
         new ASyncBBDDLoader(this).execute();
+    }
+
+    private boolean hayInternet() {
+        try {
+            Process p = java.lang.Runtime.getRuntime().exec("ping -c 1 www.google.es");
+
+            int val           = p.waitFor();
+            boolean reachable = (val == 0);
+            return reachable;
+
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    private boolean estaConectadoInternet() {
+        ConnectivityManager connectivityManager = (ConnectivityManager)
+                getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        NetworkInfo actNetInfo = connectivityManager.getActiveNetworkInfo();
+
+        return (actNetInfo != null && actNetInfo.isConnected());
     }
 
     @Override
@@ -104,4 +155,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    public void desactivarBarra() {
+    }
 }

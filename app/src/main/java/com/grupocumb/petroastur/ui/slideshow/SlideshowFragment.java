@@ -65,7 +65,7 @@ public class SlideshowFragment extends Fragment {
             public void onClick(View view, int position) {
                 DetalladaFragment fr = new DetalladaFragment(es.get(position));
                 getActivity().getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.nav_host_fragment, fr)
+                        .replace(R.id.container_o, fr)
                         .addToBackStack(null)
                         .commit();
             }

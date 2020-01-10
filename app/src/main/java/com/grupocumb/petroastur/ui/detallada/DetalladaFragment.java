@@ -1,5 +1,8 @@
 package com.grupocumb.petroastur.ui.detallada;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,6 +19,7 @@ import androidx.fragment.app.Fragment;
 import com.grupocumb.petroastur.MainActivity;
 import com.grupocumb.petroastur.R;
 import com.grupocumb.petroastur.model.EstacionServicio;
+import com.grupocumb.petroastur.ui.share.ShareFragment;
 
 import java.util.List;
 
@@ -83,14 +87,48 @@ public class DetalladaFragment extends Fragment {
         mostrarMapa.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MapaDetalladoFragment fr = new MapaDetalladoFragment(seleccionada);
-                getActivity().getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.container_o, fr)
-                        .addToBackStack(null)
-                        .commit();
+                if (estaConectadoInternet()){
+                    if (hayInternet()){
+                        MapaDetalladoFragment fr = new MapaDetalladoFragment(seleccionada);
+                        getActivity().getSupportFragmentManager().beginTransaction()
+                                .replace(R.id.container_o, fr)
+                                .addToBackStack(null)
+                                .commit();
+                    }else{
+                        Toast.makeText(getActivity().getApplicationContext(), "No hay conexión a internet.",
+                                Toast.LENGTH_LONG).show();
+                    }
+                }else{
+                    Toast.makeText(getActivity().getApplicationContext(), "No está conectado a internet.",
+                            Toast.LENGTH_LONG).show();
+                }
+
             }
         });
         return root;
+    }
+    private boolean hayInternet() {
+        try {
+            Process p = java.lang.Runtime.getRuntime().exec("ping -c 1 www.google.es");
+
+            int val           = p.waitFor();
+            boolean reachable = (val == 0);
+            return reachable;
+
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    private boolean estaConectadoInternet() {
+        ConnectivityManager connectivityManager = (ConnectivityManager)
+                getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        NetworkInfo actNetInfo = connectivityManager.getActiveNetworkInfo();
+
+        return (actNetInfo != null && actNetInfo.isConnected());
     }
 
     private String detailsToShow() {
