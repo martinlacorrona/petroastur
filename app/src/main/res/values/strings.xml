@@ -13,6 +13,7 @@
     <string name="menu_tools">Ajustes</string>
     <string name="menu_share">Comparte</string>
     <string name="menu_send">Opinión</string>
+    <string name="horario">Horario de apertura</string>
 
     <string name="tipo_combustible">Tipo de combustible preferido:</string>
     <string name="diesel">Biodiesel</string>
@@ -53,7 +54,7 @@
 
     <string name="opinion">DANOS TU OPINIÓN</string>
     <string name="enviar_opinion">Enviar</string>
-    <string name="texto_spam">Texto de Spam: La mejor aplicación de gasolineras, petroastur!</string>
+    <string name="texto_spam">Comparte con tus amigos.\nLa mejor aplicación de gasolineras, ¡Petroastur!</string>
     <string name="elige_aplicacion">Elige aplicación:</string>
     <string name="twitter">Twitter</string>
     <string name="facebook">Facebook</string>
