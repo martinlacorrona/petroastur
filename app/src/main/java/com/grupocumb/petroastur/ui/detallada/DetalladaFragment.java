@@ -16,7 +16,6 @@ import com.grupocumb.petroastur.MainActivity;
 import com.grupocumb.petroastur.R;
 import com.grupocumb.petroastur.model.EstacionServicio;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class DetalladaFragment extends Fragment {
@@ -57,29 +56,25 @@ public class DetalladaFragment extends Fragment {
         favorito.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                List<EstacionServicio> favoritos = ((MainActivity) getActivity())
-                        .getAppController()
-                        .getFavouritesOrdered();
-                for (EstacionServicio es : favoritos) {
-                    if (seleccionada.getId().equals(es.getId())) {
-                        Toast.makeText(
-                                getActivity(),
-                                "Ya se encuentra en favoritos.",
-                                Toast.LENGTH_SHORT)
-                                .show();
-                        return;
-                    }
-                }
-
                 ((MainActivity) getActivity()).getAppController().addFavourite((seleccionada.getId()));
-
                 Toast.makeText(
                         getActivity(),
                         "Se ha añadido a favoritos.",
                         Toast.LENGTH_SHORT)
                         .show();
+                changeListenerRemove();
             }
         });
+
+        List<EstacionServicio> favoritos = ((MainActivity) getActivity())
+                .getAppController()
+                .getFavouritesOrdered();
+        for (EstacionServicio es : favoritos) {
+            if (seleccionada.getId().equals(es.getId())) {
+                this.changeListenerRemove();
+                break;
+            }
+        }
 
         mostrarMapa.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -120,4 +115,35 @@ public class DetalladaFragment extends Fragment {
         return datos.toString();
     }
 
+    private void changeListenerRemove() {
+        favorito.setText(R.string.eliminar_favoritas);
+        favorito.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((MainActivity) getActivity()).getAppController().removeFavourite((seleccionada.getId()));
+                Toast.makeText(
+                        getActivity(),
+                        "Se ha eliminado de favoritos.",
+                        Toast.LENGTH_SHORT)
+                        .show();
+                changeListenerAdd();
+            }
+        });
+    }
+
+    private void changeListenerAdd() {
+        favorito.setText(R.string.añadir_favoritas);
+        favorito.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((MainActivity) getActivity()).getAppController().addFavourite((seleccionada.getId()));
+                Toast.makeText(
+                        getActivity(),
+                        "Se ha añadido a favoritos.",
+                        Toast.LENGTH_SHORT)
+                        .show();
+                changeListenerRemove();
+            }
+        });
+    }
 }

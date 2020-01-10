@@ -49,6 +49,7 @@
     <string name="precios">Precios:</string>
     <string name="mostrar_mapa">Mostrar en el mapa</string>
     <string name="añadir_favoritas">Añadir a favoritas</string>
+    <string name="eliminar_favoritas">Eliminar de favoritas</string>
 
     <string name="opinion">DANOS TU OPINIÓN</string>
     <string name="enviar_opinion">Enviar</string>

@@ -61,9 +61,10 @@ public class AppControllerImpl implements AppController {
         String[] idsFavoritas = settingsController.getFavourites();
         List<EstacionServicio> favoritas = new ArrayList<EstacionServicio>();
         for(int i=0; i<idsFavoritas.length; i++) {
-            if(! idsFavoritas[i].equals("null"))
+            if(! idsFavoritas[i].equals("null") && ! idsFavoritas[i].equals(""))
                 favoritas.add(dataController.getById(Integer.parseInt(idsFavoritas[i])));
         }
+        System.out.println(favoritas);
         // TODO ORDENACIÓN
         return favoritas;
     }
@@ -88,7 +89,18 @@ public class AppControllerImpl implements AppController {
 
     @Override
     public void removeFavourite(String id) {
-
+        String[] listaActual = settingsController.getFavourites();
+        String[] listaNueva = new String[listaActual.length-1];
+        if(listaNueva.length != 0) {
+            int j = 0;
+            for (int i = 0; i < listaActual.length; i++) {
+                if (! listaActual[i].equals(id)) {
+                    listaNueva[j] = listaActual[i];
+                    j++;
+                }
+            }
+        }
+        settingsController.setFavourites(listaNueva);
     }
 
     @Override
