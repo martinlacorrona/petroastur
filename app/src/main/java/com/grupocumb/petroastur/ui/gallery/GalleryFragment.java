@@ -36,6 +36,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.grupocumb.petroastur.MainActivity;
 import com.grupocumb.petroastur.R;
 import com.grupocumb.petroastur.model.EstacionServicio;
+import com.grupocumb.petroastur.model.FuelType;
 import com.grupocumb.petroastur.ui.home.HomeViewModel;
 
 import java.util.List;
@@ -97,13 +98,17 @@ public class GalleryFragment extends Fragment implements OnMapReadyCallback {
 
             //CARGA LOS MARKERS
             List<EstacionServicio> estaciones = ((MainActivity) getActivity()).getAppController().getAllEESSOrdered();
+            FuelType favorito = ((MainActivity) getActivity()).getAppController().getSettingFavouriteFuel();
             if (estaciones != null) {
                 for (EstacionServicio e : estaciones) {
                     //Necesitamos la altitud y longitud de las estaciones de servicio
                     LatLng latLng = new LatLng(
                             Double.parseDouble(e.getLatitud().replace(",", ".")),
                             Double.parseDouble(e.getLongitudWGS84().replace(",", ".")));
-                    MarkerOptions markerES = new MarkerOptions().position(latLng).title(e.getEmpresa());
+                    StringBuilder sb = new StringBuilder();
+                    sb.append(e.getEmpresa() + ". ");
+                    sb.append("Precio " + favorito + " " + e.getPrecioCombustible(favorito) + "€");
+                    MarkerOptions markerES = new MarkerOptions().position(latLng).title(sb.toString());
                     gmap.addMarker(markerES);
                 }
             }
@@ -121,8 +126,7 @@ public class GalleryFragment extends Fragment implements OnMapReadyCallback {
                 gmap.getUiSettings().setMyLocationButtonEnabled(true);
 
                 locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
-                loc=locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-                System.out.println("Loc: " + loc);
+                loc = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 
                 //LatLng centro = new LatLng(43.3602900, -5.8447600);
                 LatLng gpsUserPos = new LatLng(loc.getLatitude(), loc.getLongitude());
@@ -152,23 +156,6 @@ public class GalleryFragment extends Fragment implements OnMapReadyCallback {
             else return false;
         } else
             return false;
-    }
-
-
-    private void CargarMarker(LatLng latLng, EstacionServicio e) {
-        coordenada = latLng.latitude + "," + latLng.longitude;
-
-        MarkerOptions marcadorOpciones = new MarkerOptions().position(latLng).title(e.getEmpresa());
-        if (posUsuario != null) {
-            posUsuario.remove();
-        }
-        posUsuario = gmap.addMarker(marcadorOpciones);
-//        posUsuario.showInfoWindow();
-//        CameraPosition cameraPosition = new CameraPosition.Builder()
-//                .target(latLng).zoom(14)
-//                .build();
-//        CameraUpdate cu = CameraUpdateFactory.newCameraPosition(cameraPosition);
-//        gmap.animateCamera(cu);
     }
 
     private boolean validaPermisos() {
