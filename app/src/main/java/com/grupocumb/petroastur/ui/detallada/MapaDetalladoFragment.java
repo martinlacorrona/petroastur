@@ -33,6 +33,7 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.grupocumb.petroastur.MainActivity;
 import com.grupocumb.petroastur.R;
 import com.grupocumb.petroastur.model.EstacionServicio;
 import com.grupocumb.petroastur.ui.gallery.GalleryViewModel;
@@ -63,6 +64,7 @@ public class MapaDetalladoFragment extends Fragment implements OnMapReadyCallbac
     public MapaDetalladoFragment(EstacionServicio e) {
         this.e = e;
     }
+
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -103,8 +105,15 @@ public class MapaDetalladoFragment extends Fragment implements OnMapReadyCallbac
                 gmap.setMyLocationEnabled(true);
                 gmap.getUiSettings().setMyLocationButtonEnabled(true);
                 //LatLng centro = new LatLng(40, -3);
-                LatLng centro = new LatLng(Integer.getInteger(e.getLatitud()), Integer.getInteger(e.getLongitudWGS84()));
-                gmap.moveCamera(CameraUpdateFactory.newLatLngZoom(centro, 15.5f));
+                LatLng latLng = new LatLng(
+                        Double.parseDouble(e.getLatitud().replace(",", ".")),
+                        Double.parseDouble(e.getLongitudWGS84().replace(",", ".")));
+                gmap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15.5f));
+                MarkerOptions markerES = new MarkerOptions()
+                        .position(latLng)
+                        .title(e.getEmpresa())
+                        .snippet(e.getDireccion());
+                gmap.addMarker(markerES);
                 gmap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
                     @Override
                     public void onMapClick(LatLng latLng) {
