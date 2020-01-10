@@ -45,7 +45,7 @@
 
 
     <string name="nopermisos">Aviso: Permisos Desactivados</string>
-    <string name="nopermisos2">Debe aceptar los permisos para el correcto funcionamiento de la App</string>
+    <string name="nopermisos2">Debe aceptar los permisos de localizacion para el correcto funcionamiento de la app.</string>
     <string name="precios">Precios:</string>
     <string name="mostrar_mapa">Mostrar en el mapa</string>
     <string name="añadir_favoritas">Añadir a favoritas</string>

@@ -52,7 +52,7 @@ public class AppControllerImpl implements AppController {
         FuelType favouriteFuel = settingsController.getFavouriteFuel();
 
         if (favouriteOrder == OrderType.PRECIO) {
-            return dataController.getAll().stream()
+            return dataController.getAll().stream().parallel()
                     .filter(estacionServicio -> estacionServicio
                             .getPrecioCombustible(favouriteFuel) > 0.0)
                     .sorted(Comparator.comparingDouble(estacionServicio -> estacionServicio
@@ -60,7 +60,7 @@ public class AppControllerImpl implements AppController {
                     .collect(Collectors.toList());
         } else { //por distancia
             Location locationGPS = getLocation();
-            return dataController.getAll().stream()
+            return dataController.getAll().stream().parallel()
                     .filter(estacionServicio -> estacionServicio
                             .getPrecioCombustible(favouriteFuel) > 0.0)
                     .sorted(Comparator.comparingDouble(estacionServicio -> {
@@ -87,7 +87,7 @@ public class AppControllerImpl implements AppController {
         FuelType favouriteFuel = settingsController.getFavouriteFuel();
 
         if (favouriteOrder == OrderType.PRECIO) {
-            return dataController.getAll().stream()
+            return favoritas.stream().parallel()
                     .filter(estacionServicio -> estacionServicio
                             .getPrecioCombustible(favouriteFuel) > 0.0)
                     .sorted(Comparator.comparingDouble(estacionServicio -> estacionServicio
@@ -95,7 +95,7 @@ public class AppControllerImpl implements AppController {
                     .collect(Collectors.toList());
         } else { //por distancia
             Location locationGPS = getLocation();
-            return dataController.getAll().stream()
+            return favoritas.stream().parallel()
                     .filter(estacionServicio -> estacionServicio
                             .getPrecioCombustible(favouriteFuel) > 0.0)
                     .sorted(Comparator.comparingDouble(estacionServicio -> {
@@ -199,8 +199,15 @@ public class AppControllerImpl implements AppController {
         } else {
             //Tengo permisos, lo obtengo
             location = new Location("LocationGPS");
-            location.setLatitude(locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER).getLatitude());
-            location.setLongitude(locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER).getLongitude());
+            //Chequear si tenemos ultima localizacion, puede ser que no...
+            if(locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER) == null) {
+                //Ponemos voiedo de nuevo si no va...
+                location.setLatitude(43.3602900);
+                location.setLongitude(-5.8447600);
+            } else { //Los tiene
+                location.setLatitude(locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER).getLatitude());
+                location.setLongitude(locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER).getLongitude());
+            }
         }
         return location;
     }
