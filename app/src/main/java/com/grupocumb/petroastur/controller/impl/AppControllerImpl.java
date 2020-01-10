@@ -2,8 +2,6 @@ package com.grupocumb.petroastur.controller.impl;
 
 import android.content.Context;
 
-import androidx.room.FtsOptions;
-
 import com.grupocumb.petroastur.controller.AppController;
 import com.grupocumb.petroastur.controller.DataController;
 import com.grupocumb.petroastur.controller.SettingsController;
@@ -12,6 +10,7 @@ import com.grupocumb.petroastur.model.FuelType;
 import com.grupocumb.petroastur.model.OrderType;
 import com.grupocumb.petroastur.model.TransactionStatus;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
@@ -42,17 +41,16 @@ public class AppControllerImpl implements AppController {
     public List<EstacionServicio> getAllEESSOrdered() {
         //TODO VALORES PARA TEST, CAMBIAR !!!!!!!!!!!!!!!!
         OrderType favouriteOrder = OrderType.PRECIO;//settingsController.getFavouriteOrder();
-        FuelType favouriteFuel = FuelType.GASOLEO_A;//settingsController.getFavouriteFuel();
+        FuelType favouriteFuel = settingsController.getFavouriteFuel();
 
-        if(favouriteOrder == OrderType.PRECIO) {
+        if (favouriteOrder == OrderType.PRECIO) {
             return dataController.getAll().stream()
                     .filter(estacionServicio -> estacionServicio
                             .getPrecioCombustible(favouriteFuel) > 0.0)
                     .sorted(Comparator.comparingDouble(estacionServicio -> estacionServicio
                             .getPrecioCombustible(favouriteFuel)))
                     .collect(Collectors.toList());
-        }
-        else {
+        } else {
             // TODO ORDEN POR DISTANCIA
             return null;
         }
@@ -60,23 +58,49 @@ public class AppControllerImpl implements AppController {
 
     @Override
     public List<EstacionServicio> getFavouritesOrdered() {
-        return null;
+        String[] idsFavoritas = settingsController.getFavourites();
+        List<EstacionServicio> favoritas = new ArrayList<EstacionServicio>();
+        for(int i=0; i<idsFavoritas.length; i++) {
+            if(! idsFavoritas[i].equals("null") && ! idsFavoritas[i].equals(""))
+                favoritas.add(dataController.getById(Integer.parseInt(idsFavoritas[i])));
+        }
+        System.out.println(favoritas);
+        // TODO ORDENACIÓN
+        return favoritas;
     }
 
     @Override
     public void addFavourite(String id) {
         String[] listaActual = settingsController.getFavourites();
-        String[] listaNueva = new String[listaActual.length + 1];
-        for(int i = 0; i < listaActual.length; i++) {
-            listaNueva[i] = listaActual[i];
+        String[] listaNueva;
+        if(listaActual.length == 0) {
+            listaNueva = new String[1];
+            listaNueva[0] = id;
         }
-        listaActual[listaNueva.length - 1] = id;
+        else {
+            listaNueva = new String[listaActual.length + 1];
+            for (int i = 0; i < listaActual.length; i++) {
+                listaNueva[i] = listaActual[i];
+            }
+            listaNueva[listaNueva.length - 1] = id;
+        }
         settingsController.setFavourites(listaNueva);
     }
 
     @Override
     public void removeFavourite(String id) {
-
+        String[] listaActual = settingsController.getFavourites();
+        String[] listaNueva = new String[listaActual.length-1];
+        if(listaNueva.length != 0) {
+            int j = 0;
+            for (int i = 0; i < listaActual.length; i++) {
+                if (! listaActual[i].equals(id)) {
+                    listaNueva[j] = listaActual[i];
+                    j++;
+                }
+            }
+        }
+        settingsController.setFavourites(listaNueva);
     }
 
     @Override

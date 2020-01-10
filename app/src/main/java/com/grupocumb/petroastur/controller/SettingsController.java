@@ -1,11 +1,9 @@
 package com.grupocumb.petroastur.controller;
 
-import com.grupocumb.petroastur.model.EstacionServicio;
 import com.grupocumb.petroastur.model.FuelType;
 import com.grupocumb.petroastur.model.OrderType;
 
 import java.util.Date;
-import java.util.List;
 
 public interface SettingsController {
     Date getLastUpddate();

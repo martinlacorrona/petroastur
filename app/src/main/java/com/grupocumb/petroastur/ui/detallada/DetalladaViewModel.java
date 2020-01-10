@@ -17,7 +17,8 @@ public class DetalladaViewModel extends ViewModel {
     public LiveData<EstacionServicio> getText() {
         return mText;
     }
-    public void setmText(EstacionServicio e){
+
+    public void setmText(EstacionServicio e) {
         this.mText.setValue(e);
     }
 }

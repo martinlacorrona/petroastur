@@ -1,10 +1,7 @@
 package com.grupocumb.petroastur;
 
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
-import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -14,16 +11,15 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
-import com.google.android.material.snackbar.Snackbar;
 import com.grupocumb.petroastur.controller.AppController;
-import com.grupocumb.petroastur.controller.DataController;
 import com.grupocumb.petroastur.controller.impl.AppControllerImpl;
 import com.grupocumb.petroastur.model.TransactionStatus;
 
 import java.util.HashSet;
 import java.util.Set;
+import com.grupocumb.petroastur.controller.impl.AppControllerImpl;
+import com.grupocumb.petroastur.ui.task.ASyncBBDDLoader;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -34,40 +30,35 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         appController=new AppControllerImpl(getApplicationContext());
-        while (appController.isUpdated()== TransactionStatus.WAITING){
-
-        }
+//        while (appController.isUpdated()== TransactionStatus.WAITING){
+//
+//        }
         setContentView(R.layout.activity_main);
+
 
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-//        FloatingActionButton fab = findViewById(R.id.fab);
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-//            }
-//        });
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow,
-                R.id.nav_tools,R.id.nav_share,R.id.nav_send)
+                R.id.nav_home, R.id.nav_mapa, R.id.nav_favoritas,
+                R.id.nav_ajustes, R.id.nav_share, R.id.nav_send_opinion)
                 .setDrawerLayout(drawer)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
+
+        //Tarea de background
+        //TODO: dentro de esta funcion es donde se debe de mandar una vista o otra
+        //TODO, de primeras mostrar la pantalla de carga, y si es satisfactoria la transaccion
+        //TODO, lanzar la correspondiente
+        new ASyncBBDDLoader(this).execute();
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
 
@@ -78,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
                 || super.onSupportNavigateUp();
     }
 
-    public AppController getAppController(){
+    public AppController getAppController() {
         return appController;
     }
 }

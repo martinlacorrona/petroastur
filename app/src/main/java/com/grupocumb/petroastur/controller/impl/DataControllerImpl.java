@@ -22,6 +22,7 @@ public class DataControllerImpl implements DataController {
 
     /**
      * Contructor, le pasamos el contexto.
+     *
      * @param context Le pasamos el contexto de la aplicacion, a poder ser el de MainActivity.
      */
     public DataControllerImpl(Context context) {

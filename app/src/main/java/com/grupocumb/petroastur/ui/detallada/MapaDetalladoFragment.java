@@ -21,10 +21,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
 
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -39,7 +36,6 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.grupocumb.petroastur.R;
 import com.grupocumb.petroastur.model.EstacionServicio;
 import com.grupocumb.petroastur.ui.gallery.GalleryViewModel;
-import com.grupocumb.petroastur.ui.home.HomeViewModel;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -64,8 +60,8 @@ public class MapaDetalladoFragment extends Fragment implements OnMapReadyCallbac
     private Location loc;
     private EstacionServicio e;
 
-    public MapaDetalladoFragment(EstacionServicio e){
-        this.e=e;
+    public MapaDetalladoFragment(EstacionServicio e) {
+        this.e = e;
     }
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -76,8 +72,6 @@ public class MapaDetalladoFragment extends Fragment implements OnMapReadyCallbac
 
         return root;
     }
-
-
 
 
     @Override
@@ -94,7 +88,7 @@ public class MapaDetalladoFragment extends Fragment implements OnMapReadyCallbac
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        if(isConnected((Context)getContext())) {
+        if (isConnected((Context) getContext())) {
             MapsInitializer.initialize(getContext());
             gmap = googleMap;
             gmap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
@@ -109,7 +103,7 @@ public class MapaDetalladoFragment extends Fragment implements OnMapReadyCallbac
                 gmap.setMyLocationEnabled(true);
                 gmap.getUiSettings().setMyLocationButtonEnabled(true);
                 //LatLng centro = new LatLng(40, -3);
-                LatLng centro = new LatLng(Integer.getInteger(e.getLatitud()),Integer.getInteger(e.getLongitudWGS84()));
+                LatLng centro = new LatLng(Integer.getInteger(e.getLatitud()), Integer.getInteger(e.getLongitudWGS84()));
                 gmap.moveCamera(CameraUpdateFactory.newLatLngZoom(centro, 15.5f));
                 gmap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
                     @Override
@@ -127,7 +121,7 @@ public class MapaDetalladoFragment extends Fragment implements OnMapReadyCallbac
 //                }
             }
         } else {
-            final AlertDialog.Builder alertOpciones=new AlertDialog.Builder(context);
+            final AlertDialog.Builder alertOpciones = new AlertDialog.Builder(context);
             alertOpciones.setTitle("No hay conexión a internet");
             alertOpciones.setMessage("Conéctate a una red para poder acceder al mapa");
             alertOpciones.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
@@ -149,14 +143,15 @@ public class MapaDetalladoFragment extends Fragment implements OnMapReadyCallbac
             NetworkInfo wifi = cm.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
             NetworkInfo mobile = cm.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
 
-            if((mobile != null && mobile.isConnectedOrConnecting()) || (wifi != null && wifi.isConnectedOrConnecting())) return true;
+            if ((mobile != null && mobile.isConnectedOrConnecting()) || (wifi != null && wifi.isConnectedOrConnecting()))
+                return true;
             else return false;
         } else
             return false;
     }
 
 
-    private void CargarMarker(LatLng latLng){
+    private void CargarMarker(LatLng latLng) {
         coordenada = latLng.latitude + "," + latLng.longitude;
         Geocoder geocoder = new Geocoder(getContext(), Locale.getDefault());
         List<Address> addresses = null;
@@ -172,17 +167,17 @@ public class MapaDetalladoFragment extends Fragment implements OnMapReadyCallbac
         }
         Address address = addresses.get(0);
         ArrayList<String> addressFragments = new ArrayList<String>();
-        if (addresses == null || addresses.size()  == 0) {
-            Toast.makeText(getContext(),"No se han encontrado resultados.",Toast.LENGTH_LONG).show();
+        if (addresses == null || addresses.size() == 0) {
+            Toast.makeText(getContext(), "No se han encontrado resultados.", Toast.LENGTH_LONG).show();
         } else {
 
-            for(int i = 0; i <= address.getMaxAddressLineIndex(); i++) {
+            for (int i = 0; i <= address.getMaxAddressLineIndex(); i++) {
                 addressFragments.add(address.getAddressLine(i));
             }
         }
         MarkerOptions marcadorOpciones = new MarkerOptions().position(latLng).title(addressFragments.get(0));
         direccion = addressFragments.get(0);
-        if(posUsuario != null){
+        if (posUsuario != null) {
             posUsuario.remove();
         }
         posUsuario = gmap.addMarker(marcadorOpciones);
@@ -196,26 +191,26 @@ public class MapaDetalladoFragment extends Fragment implements OnMapReadyCallbac
 
     private boolean validaPermisos() {
 
-        if(Build.VERSION.SDK_INT< Build.VERSION_CODES.M){
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
             return true;
         }
 
-        if((checkSelfPermission(getContext(),Manifest.permission.ACCESS_FINE_LOCATION)==PackageManager.PERMISSION_GRANTED)&&
-                (checkSelfPermission(getContext(),Manifest.permission.ACCESS_COARSE_LOCATION)==PackageManager.PERMISSION_GRANTED)){
+        if ((checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) &&
+                (checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED)) {
             return true;
         }
-        requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.ACCESS_COARSE_LOCATION},100);
+        requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, 100);
         return false;
     }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if(requestCode==100){
-            if(grantResults.length==2 && grantResults[0]== PackageManager.PERMISSION_GRANTED
-                    && grantResults[1]==PackageManager.PERMISSION_GRANTED){
+        if (requestCode == 100) {
+            if (grantResults.length == 2 && grantResults[0] == PackageManager.PERMISSION_GRANTED
+                    && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
                 permisos = true;
-            }else{
+            } else {
                 permisos = false;
                 AlertDialog.Builder dialog = new AlertDialog.Builder(getContext());
                 dialog.setTitle(R.string.nopermisos);

@@ -7,7 +7,7 @@
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
 
-    <string name="menu_home">Gasolineras cercanas</string>
+    <string name="menu_home">Listado de gasolineras</string>
     <string name="menu_gallery">Mapa</string>
     <string name="menu_slideshow">Estaciones favoritas</string>
     <string name="menu_tools">Ajustes</string>
@@ -15,7 +15,7 @@
     <string name="menu_send">Opinión</string>
 
     <string name="tipo_combustible">Tipo de combustible preferido:</string>
-    <string name="diesel">Diesel</string>
+    <string name="diesel">Biodiesel</string>
     <string name="gasolina_95">Gasolina 95</string>
     <string name="gasolina_98">Gasolina 98</string>
     <string name="bioetanol">Bioetanol</string>
@@ -28,7 +28,7 @@
 
     <string name="orden_listado">Ordenar listado por:</string>
     <string name="distancia">Distancia</string>
-    <string name="precio">Precio</string>
+    <string name="precio">Precios de carburantes ofrecidos</string>
 
     <string name="distancia_maxima">Distancia máxima en km:</string>
     <string name="distancia_max_1">20</string>
@@ -47,8 +47,9 @@
     <string name="nopermisos">Aviso: Permisos Desactivados</string>
     <string name="nopermisos2">Debe aceptar los permisos para el correcto funcionamiento de la App</string>
     <string name="precios">Precios:</string>
-    <string name="mostrar_mapa">Mostrar en el mapa:</string>
+    <string name="mostrar_mapa">Mostrar en el mapa</string>
     <string name="añadir_favoritas">Añadir a favoritas</string>
+    <string name="eliminar_favoritas">Eliminar de favoritas</string>
 
     <string name="opinion">DANOS TU OPINIÓN</string>
     <string name="enviar_opinion">Enviar</string>

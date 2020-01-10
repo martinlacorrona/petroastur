@@ -4,8 +4,6 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.grupocumb.petroastur.model.EstacionServicio;
-
 import java.util.Set;
 
 public class SlideshowViewModel extends ViewModel {
@@ -19,7 +17,8 @@ public class SlideshowViewModel extends ViewModel {
     public LiveData<Set<String>> getText() {
         return mText;
     }
-    public void setmText(Set<String> e){
+
+    public void setmText(Set<String> e) {
         this.mText.setValue(e);
     }
 }

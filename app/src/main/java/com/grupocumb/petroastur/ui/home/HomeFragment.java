@@ -6,17 +6,12 @@ import android.os.Bundle;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -24,7 +19,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.grupocumb.petroastur.MainActivity;
 import com.grupocumb.petroastur.R;
-import com.grupocumb.petroastur.controller.impl.DataControllerImpl;
 import com.grupocumb.petroastur.model.EstacionServicio;
 import com.grupocumb.petroastur.ui.detallada.DetalladaFragment;
 
@@ -32,40 +26,41 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class HomeFragment extends Fragment {
-
-   // private HomeViewModel homeViewModel;
     private RecyclerView recyclerView;
     private EstacionServicioAdapter mAdapter;
-    private List<EstacionServicio> esta=new ArrayList<EstacionServicio>();
+    private List<EstacionServicio> esta = new ArrayList<EstacionServicio>();
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState){
+    public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
 
+    @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-//        homeViewModel =
-//                ViewModelProviders.of(getActivity()).get(HomeViewModel.class);
         View root = inflater.inflate(R.layout.fragment_home, container, false);
 
         recyclerView=(RecyclerView)root.findViewById(R.id.recycler);
         RecyclerView.LayoutManager mLayoutManager=
                 new LinearLayoutManager(getContext());
+
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
 
-        recyclerView.addItemDecoration(new DividerItemDecoration(getContext(),LinearLayoutManager.VERTICAL));
-
-        mAdapter=new EstacionServicioAdapter(((MainActivity)getActivity()).getAppController().getAllEESSOrdered(),(MainActivity)getActivity());
+        recyclerView.addItemDecoration(new DividerItemDecoration(getContext(), LinearLayoutManager.VERTICAL));
+        esta = ((MainActivity) getActivity()).getAppController().getAllEESSOrdered();
+        mAdapter = new EstacionServicioAdapter(((MainActivity) getActivity()).getAppController().getAllEESSOrdered(),
+                ((MainActivity) getActivity()).getAppController().getSettingFavouriteFuel(),
+                (MainActivity) getActivity());
         recyclerView.setAdapter(mAdapter);
 
         recyclerView.addOnItemTouchListener(new RecyclerTouchListener(getContext(), recyclerView, new RecyclerTouchListener.ClickListener() {
             @Override
             public void onClick(View view, int position) {
-                DetalladaFragment fr=new DetalladaFragment(esta.get(position));
-                getActivity().getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.nav_host_fragment,fr)
+                DetalladaFragment fr = new DetalladaFragment(esta.get(position));
+                getFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.fragment_container, fr)
                         .addToBackStack(null)
                         .commit();
             }
@@ -80,7 +75,6 @@ public class HomeFragment extends Fragment {
                 }
             }
         }));
-
         return root;
     }
 }

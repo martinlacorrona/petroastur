@@ -1,5 +1,5 @@
 package com.grupocumb.petroastur.ui.home;
-// Esta clase se la pasas a los alumnos
+
 import android.content.Context;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
@@ -8,7 +8,6 @@ import android.view.View;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class RecyclerTouchListener implements RecyclerView.OnItemTouchListener {
-
     private GestureDetector gestureDetector;
     private ClickListener clickListener;
 
@@ -19,8 +18,6 @@ public class RecyclerTouchListener implements RecyclerView.OnItemTouchListener {
             public boolean onSingleTapUp(MotionEvent e) {
                 return true;
             }
-
-
 
             @Override
             public void onLongPress(MotionEvent e) {
@@ -34,7 +31,6 @@ public class RecyclerTouchListener implements RecyclerView.OnItemTouchListener {
 
     @Override
     public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
-
         View child = rv.findChildViewUnder(e.getX(), e.getY());
         if (child != null && clickListener != null && gestureDetector.onTouchEvent(e)) {
             clickListener.onClick(child, rv.getChildLayoutPosition(child));
@@ -55,6 +51,4 @@ public class RecyclerTouchListener implements RecyclerView.OnItemTouchListener {
 
         void onLongClick(View view, int position);
     }
-
-
 }
