@@ -25,6 +25,7 @@ public class DetalladaFragment extends Fragment {
     private TextView nombre;
     private TextView direccion;
     private TextView carburantes;
+    private TextView horario;
     private Button favorito;
     private Button mostrarMapa;
 
@@ -44,6 +45,7 @@ public class DetalladaFragment extends Fragment {
         nombre = (TextView) root.findViewById(R.id.nombreEstacion);
         direccion = (TextView) root.findViewById(R.id.direccion);
         carburantes = (TextView) root.findViewById(R.id.carburantes);
+        horario = (TextView) root.findViewById(R.id.tituloHorario);
         favorito = (Button) root.findViewById(R.id.añadirFavoritas);
         mostrarMapa = (Button) root.findViewById(R.id.mostrarMapaButton);
 
@@ -53,6 +55,7 @@ public class DetalladaFragment extends Fragment {
                 seleccionada.getLocalidad());
 
         carburantes.setText(this.detailsToShow());
+        horario.setText(seleccionada.getHorario());
 
         favorito.setOnClickListener(new View.OnClickListener() {
             @Override

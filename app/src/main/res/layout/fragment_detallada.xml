@@ -29,6 +29,21 @@
             android:textSize="18sp" />
 
         <TextView
+            android:id="@+id/tituloHorario"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/horario"
+            android:textAlignment="center"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/apertura"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:textSize="18sp" />
+
+        <TextView
             android:id="@+id/textView4"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

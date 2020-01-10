@@ -9,13 +9,14 @@
         android:id="@+id/divider"
         android:layout_width="match_parent"
         android:layout_height="17dp"
-        android:background="?android:attr/listDivider" />
+        android:background="@color/common_google_signin_btn_text_dark_default" />
 
     <TextView
         android:id="@+id/textView5"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/texto_spam"
+        android:textAlignment="center"
         android:textSize="24sp"
         android:textStyle="normal|bold" />
 
@@ -23,7 +24,7 @@
         android:id="@+id/divider2"
         android:layout_width="match_parent"
         android:layout_height="14dp"
-        android:background="?android:attr/listDivider" />
+        android:background="@color/common_google_signin_btn_text_dark_default" />
 
     <TextView
         android:id="@+id/textView6"
