@@ -108,17 +108,10 @@ public class MapaDetalladoFragment extends Fragment implements OnMapReadyCallbac
                 gmap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
                     @Override
                     public void onMapClick(LatLng latLng) {
-                        //CargarMarker(latLng);
+                        CargarMarker(latLng);
                     }
                 });
 
-//                if (!coordenada.equals("")) {
-//                    String[] aux = coordenada.split(",");
-//                    double latitud = Double.parseDouble(aux[0]);
-//                    double longitud = Double.parseDouble(aux[1]);
-//                    LatLng latLng = new LatLng(latitud, longitud);
-//                    CargarMarker(latLng);
-//                }
             }
         } else {
             final AlertDialog.Builder alertOpciones = new AlertDialog.Builder(context);
