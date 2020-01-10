@@ -82,7 +82,7 @@ public class DetalladaFragment extends Fragment {
             public void onClick(View v) {
                 MapaDetalladoFragment fr = new MapaDetalladoFragment(seleccionada);
                 getActivity().getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.nav_host_fragment, fr)
+                        .replace(R.id.container_o, fr)
                         .addToBackStack(null)
                         .commit();
             }

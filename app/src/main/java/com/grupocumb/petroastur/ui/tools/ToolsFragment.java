@@ -116,6 +116,7 @@ public class ToolsFragment extends Fragment {
 
         radioButtonCombustPreferido.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
         {
+
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 if (checkedId == R.id.bioEtanolButton) {

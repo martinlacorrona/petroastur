@@ -65,7 +65,7 @@ public class HomeFragment extends Fragment {
                 DetalladaFragment fr = new DetalladaFragment(esta.get(position));
                 getFragmentManager()
                         .beginTransaction()
-                        .replace(R.id.nav_host_fragment, fr)
+                        .replace(R.id.container_o, fr)
                         .addToBackStack(null)
                         .commit();
             }

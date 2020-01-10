@@ -17,13 +17,14 @@ import com.grupocumb.petroastur.model.FuelType;
 import com.grupocumb.petroastur.model.OrderType;
 import com.grupocumb.petroastur.model.TransactionStatus;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class AppControllerImpl implements AppController {
+public class AppControllerImpl implements AppController, Serializable {
 
     private DataController dataController;
     private SettingsController settingsController;
