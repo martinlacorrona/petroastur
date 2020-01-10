@@ -79,7 +79,7 @@ public class DetalladaFragment extends Fragment {
         mostrarMapa.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DetalladaFragment fr = new DetalladaFragment(seleccionada);
+                MapaDetalladoFragment fr = new MapaDetalladoFragment(seleccionada);
                 getActivity().getSupportFragmentManager().beginTransaction()
                         .replace(R.id.nav_host_fragment, fr)
                         .addToBackStack(null)

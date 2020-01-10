@@ -1,5 +1,8 @@
 package com.grupocumb.petroastur.ui.tools;
 
+import android.Manifest;
+import android.app.AlertDialog;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,6 +11,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 
@@ -108,6 +112,8 @@ public class ToolsFragment extends Fragment {
             r.setChecked(true);
         }
 
+        requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, 100);
+
         radioButtonCombustPreferido.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
         {
             @Override
@@ -142,6 +148,14 @@ public class ToolsFragment extends Fragment {
                 if (checkedId == R.id.preci) {
                     ap.setSettingOrder(OrderType.PRECIO);
                 } else {
+                    if (getActivity().checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+                            getActivity().checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                        AlertDialog.Builder dialog = new AlertDialog.Builder(getContext());
+                        dialog.setTitle(R.string.nopermisos);
+                        dialog.setMessage(R.string.nopermisos2);
+                        dialog.create().show();
+                        requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, 100);
+                    }
                     ap.setSettingOrder(OrderType.DISTANCIA);
                 }
                 return;

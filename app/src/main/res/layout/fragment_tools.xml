@@ -8,12 +8,14 @@
         android:id="@+id/combustPref"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="10sp"
         android:text="@string/tipo_combustible" />
 
     <RadioGroup
         android:id="@+id/grupoCarburante"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_margin="10sp">
 
         <RadioButton
             android:id="@+id/gasolina95Button"
@@ -72,25 +74,17 @@
     </RadioGroup>
 
     <TextView
-        android:id="@+id/text_tools2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:textAlignment="center"
-        android:textSize="20sp" />
-
-    <TextView
         android:id="@+id/listaOrden"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="10sp"
         android:text="@string/orden_listado" />
 
     <RadioGroup
         android:id="@+id/grupoListado"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_margin="10sp">
 
         <RadioButton
             android:id="@+id/distanc"
@@ -107,25 +101,17 @@
     </RadioGroup>
 
     <TextView
-        android:id="@+id/text_tools3"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:textAlignment="center"
-        android:textSize="20sp" />
-
-    <TextView
         android:id="@+id/distaMax"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="10sp"
         android:text="@string/distancia_maxima" />
 
     <RadioGroup
         android:id="@+id/grupoDistancia"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_margin="10sp">
 
         <RadioButton
             android:id="@+id/disMax1"

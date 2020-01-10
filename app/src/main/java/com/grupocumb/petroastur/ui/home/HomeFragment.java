@@ -1,6 +1,10 @@
 package com.grupocumb.petroastur.ui.home;
 
+import android.Manifest;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.pm.PackageManager;
+import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.VibrationEffect;
@@ -20,6 +24,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.grupocumb.petroastur.MainActivity;
 import com.grupocumb.petroastur.R;
 import com.grupocumb.petroastur.model.EstacionServicio;
+import com.grupocumb.petroastur.model.OrderType;
 import com.grupocumb.petroastur.ui.detallada.DetalladaFragment;
 
 import java.util.ArrayList;

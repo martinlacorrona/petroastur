@@ -1,8 +1,10 @@
 package com.grupocumb.petroastur.ui.home;
 
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -29,14 +31,14 @@ public class EstacionServicioAdapter extends RecyclerView.Adapter<EstacionServic
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        public TextView nombre, direccion, distancia, precio;
-
+        public TextView nombre, direccion, precio;
+        public ImageView logoPrecio;
         public MyViewHolder(View view) {
             super(view);
             nombre = view.findViewById(R.id.nombre);
             direccion = view.findViewById(R.id.direccion);
-            //distancia = view.findViewById(R.id.distancia);
             precio = view.findViewById(R.id.precio);
+            logoPrecio = view.findViewById(R.id.imageprecio);
         }
     }
 
@@ -61,6 +63,7 @@ public class EstacionServicioAdapter extends RecyclerView.Adapter<EstacionServic
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         EstacionServicio estacion = EstacionList.get(position);
+        Double precioFavorito = estacion.getPrecioCombustible(ft);
         holder.nombre.setText(estacion.getEmpresa());
         holder.direccion.setText(estacion.getDireccion() +
                 "  " +
@@ -71,6 +74,18 @@ public class EstacionServicioAdapter extends RecyclerView.Adapter<EstacionServic
                         " = " +
                         estacion.getPrecioCombustible(ft).toString() +
                         " €");
+        if(precioFavorito < 1.30) {
+            holder.logoPrecio.setImageResource(R.drawable.preciobajo);
+            holder.precio.setTextColor(Color.parseColor("#28B463"));
+        }
+        else if(precioFavorito >= 1.30 && precioFavorito < 1.40) {
+            holder.logoPrecio.setImageResource(R.drawable.preciomedio);
+            holder.precio.setTextColor(Color.parseColor("#F1C40F"));
+        }
+        else {
+            holder.logoPrecio.setImageResource(R.drawable.precioalto);
+            holder.precio.setTextColor(Color.parseColor("#CB4335"));
+        }
     }
 
     @Override

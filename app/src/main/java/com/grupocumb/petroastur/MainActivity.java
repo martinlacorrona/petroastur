@@ -14,11 +14,7 @@ import androidx.navigation.ui.NavigationUI;
 import com.google.android.material.navigation.NavigationView;
 import com.grupocumb.petroastur.controller.AppController;
 import com.grupocumb.petroastur.controller.impl.AppControllerImpl;
-import com.grupocumb.petroastur.model.TransactionStatus;
 
-import java.util.HashSet;
-import java.util.Set;
-import com.grupocumb.petroastur.controller.impl.AppControllerImpl;
 import com.grupocumb.petroastur.ui.task.ASyncBBDDLoader;
 
 public class MainActivity extends AppCompatActivity {
@@ -29,13 +25,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        appController=new AppControllerImpl(getApplicationContext());
-//        while (appController.isUpdated()== TransactionStatus.WAITING){
-//
-//        }
         setContentView(R.layout.activity_main);
 
-
+        appController = new AppControllerImpl(getApplicationContext(), this);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);

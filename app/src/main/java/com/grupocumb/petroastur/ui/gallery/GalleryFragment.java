@@ -29,13 +29,16 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.grupocumb.petroastur.MainActivity;
 import com.grupocumb.petroastur.R;
 import com.grupocumb.petroastur.model.EstacionServicio;
+import com.grupocumb.petroastur.model.FuelType;
 import com.grupocumb.petroastur.ui.home.HomeViewModel;
 
 import java.util.List;
@@ -97,16 +100,32 @@ public class GalleryFragment extends Fragment implements OnMapReadyCallback {
 
             //CARGA LOS MARKERS
             List<EstacionServicio> estaciones = ((MainActivity) getActivity()).getAppController().getAllEESSOrdered();
+            FuelType favorito = ((MainActivity) getActivity()).getAppController().getSettingFavouriteFuel();
+            Double precio;
             if (estaciones != null) {
                 for (EstacionServicio e : estaciones) {
+                    precio = e.getPrecioCombustible(favorito);
                     //Necesitamos la altitud y longitud de las estaciones de servicio
                     LatLng latLng = new LatLng(
                             Double.parseDouble(e.getLatitud().replace(",", ".")),
                             Double.parseDouble(e.getLongitudWGS84().replace(",", ".")));
-                    MarkerOptions markerES = new MarkerOptions().position(latLng).title(e.getEmpresa());
+                    String snippet = "Precio " + favorito + " " + precio + "€";
+                    MarkerOptions markerES = new MarkerOptions()
+                            .position(latLng)
+                            .title(e.getEmpresa())
+                            .snippet(snippet);
+                    if(precio < 1.30)
+                        markerES.icon(BitmapDescriptorFactory.fromResource(R.drawable.preciobajo));
+                    else if(precio >= 1.30 && precio < 1.40)
+                        markerES.icon(BitmapDescriptorFactory.fromResource(R.drawable.preciomedio));
+                    else
+                        markerES.icon(BitmapDescriptorFactory.fromResource(R.drawable.precioalto));
                     gmap.addMarker(markerES);
                 }
             }
+
+            LatLng centro = new LatLng(43.3602900, -5.8447600);
+            gmap.moveCamera(CameraUpdateFactory.newLatLngZoom(centro, 5f));
 
             if (validaPermisos()) {
                 if (checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -121,19 +140,24 @@ public class GalleryFragment extends Fragment implements OnMapReadyCallback {
                 gmap.getUiSettings().setMyLocationButtonEnabled(true);
 
                 locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
-                loc=locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-                System.out.println("Loc: " + loc);
+                loc = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 
                 //LatLng centro = new LatLng(43.3602900, -5.8447600);
-                LatLng gpsUserPos = new LatLng(loc.getLatitude(), loc.getLongitude());
-                gmap.animateCamera(CameraUpdateFactory.newLatLngZoom(gpsUserPos, 13f));
+                if(loc == null) { //No tiene la loc activada, la mandamos a oviedo
+                    LatLng gpsUserPos = new LatLng(43.3602900, -5.8447600);
+                    gmap.animateCamera(CameraUpdateFactory.newLatLngZoom(centro, 10f));
+                } else {
+                    LatLng gpsUserPos = new LatLng(loc.getLatitude(), loc.getLongitude());
+                    gmap.animateCamera(CameraUpdateFactory.newLatLngZoom(gpsUserPos, 13f));
+                }
 
             }
         } else {
             final AlertDialog.Builder alertOpciones = new AlertDialog.Builder(context);
             alertOpciones.setTitle("No hay conexión a internet");
             alertOpciones.setMessage("Conéctate a una red para poder acceder al mapa");
-            alertOpciones.setPositiveButton("Aceptar", (dialog, which) -> {});
+            alertOpciones.setPositiveButton("Aceptar", (dialog, which) -> {
+            });
             alertOpciones.create().show();
         }
 
@@ -152,23 +176,6 @@ public class GalleryFragment extends Fragment implements OnMapReadyCallback {
             else return false;
         } else
             return false;
-    }
-
-
-    private void CargarMarker(LatLng latLng, EstacionServicio e) {
-        coordenada = latLng.latitude + "," + latLng.longitude;
-
-        MarkerOptions marcadorOpciones = new MarkerOptions().position(latLng).title(e.getEmpresa());
-        if (posUsuario != null) {
-            posUsuario.remove();
-        }
-        posUsuario = gmap.addMarker(marcadorOpciones);
-//        posUsuario.showInfoWindow();
-//        CameraPosition cameraPosition = new CameraPosition.Builder()
-//                .target(latLng).zoom(14)
-//                .build();
-//        CameraUpdate cu = CameraUpdateFactory.newCameraPosition(cameraPosition);
-//        gmap.animateCamera(cu);
     }
 
     private boolean validaPermisos() {
@@ -192,6 +199,21 @@ public class GalleryFragment extends Fragment implements OnMapReadyCallback {
             if (grantResults.length == 2 && grantResults[0] == PackageManager.PERMISSION_GRANTED
                     && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
                 permisos = true;
+
+
+                if (getActivity().checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+                        getActivity().checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                    return;
+                }
+                gmap.setMyLocationEnabled(true);
+                gmap.getUiSettings().setMyLocationButtonEnabled(true);
+
+                locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+                loc = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+
+                LatLng gpsUserPos = new LatLng(loc.getLatitude(), loc.getLongitude());
+                gmap.animateCamera(CameraUpdateFactory.newLatLngZoom(gpsUserPos, 13f));
+
             } else {
                 permisos = false;
                 AlertDialog.Builder dialog = new AlertDialog.Builder(getContext());
