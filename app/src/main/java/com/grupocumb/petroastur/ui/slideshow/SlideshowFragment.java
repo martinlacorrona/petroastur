@@ -87,7 +87,12 @@ public class SlideshowFragment extends Fragment {
                         .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
                                 //ok
-                                ((MainActivity) getActivity()).getAppController().removeFavourite(es.get(id).getId());
+                                ((MainActivity) getActivity()).getAppController().removeFavourite(es.get(position).getId());
+                                es = ((MainActivity) getActivity()).getAppController().getFavouritesOrdered();
+                                mAdapter = new EstacionServicioAdapter(((MainActivity) getActivity()).getAppController().getFavouritesOrdered(),
+                                        ((MainActivity) getActivity()).getAppController().getSettingFavouriteFuel(),
+                                        (MainActivity) getActivity());
+                                recyclerView.setAdapter(mAdapter);
 
                             }
                         })
