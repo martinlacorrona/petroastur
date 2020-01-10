@@ -57,7 +57,6 @@ public class SettingsControllerImpl implements SettingsController {
         String value = settingsService.getSetting(settingName);
         if (value == null) //Si devuelve null es que nunca se creo nada.
             return new String[0];
-
         String[] favourites = value.split("-");
         return favourites;
     }

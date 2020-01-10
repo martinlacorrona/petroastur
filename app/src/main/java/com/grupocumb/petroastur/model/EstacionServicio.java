@@ -97,6 +97,10 @@ public class EstacionServicio {
     @Expose
     private String idCCAA;
 
+    public String toString() {
+        return id;
+    }
+
     public void setCodigoPostal(String codigoPostal) {
         this.codigoPostal = codigoPostal;
     }

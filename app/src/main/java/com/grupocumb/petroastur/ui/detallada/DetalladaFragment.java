@@ -16,6 +16,7 @@ import com.grupocumb.petroastur.MainActivity;
 import com.grupocumb.petroastur.R;
 import com.grupocumb.petroastur.model.EstacionServicio;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class DetalladaFragment extends Fragment {
@@ -56,10 +57,11 @@ public class DetalladaFragment extends Fragment {
         favorito.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                List<EstacionServicio> favoritos = ((MainActivity) getActivity()).getAppController().getFavouritesOrdered();
-                System.out.println(favoritos);
+                List<EstacionServicio> favoritos = ((MainActivity) getActivity())
+                        .getAppController()
+                        .getFavouritesOrdered();
                 for (EstacionServicio es : favoritos) {
-                    if (seleccionada.getId() == es.getId()) {
+                    if (seleccionada.getId().equals(es.getId())) {
                         Toast.makeText(
                                 getActivity(),
                                 "Ya se encuentra en favoritos.",

@@ -71,11 +71,18 @@ public class AppControllerImpl implements AppController {
     @Override
     public void addFavourite(String id) {
         String[] listaActual = settingsController.getFavourites();
-        String[] listaNueva = new String[listaActual.length + 1];
-        for (int i = 0; i < listaActual.length; i++) {
-            listaNueva[i] = listaActual[i];
+        String[] listaNueva;
+        if(listaActual.length == 0) {
+            listaNueva = new String[1];
+            listaNueva[0] = id;
         }
-        //listaActual[listaNueva.length - 1] = id;
+        else {
+            listaNueva = new String[listaActual.length + 1];
+            for (int i = 0; i < listaActual.length; i++) {
+                listaNueva[i] = listaActual[i];
+            }
+            listaNueva[listaNueva.length - 1] = id;
+        }
         settingsController.setFavourites(listaNueva);
     }
 
