@@ -147,7 +147,8 @@ public class GalleryFragment extends Fragment implements OnMapReadyCallback {
             final AlertDialog.Builder alertOpciones = new AlertDialog.Builder(context);
             alertOpciones.setTitle("No hay conexión a internet");
             alertOpciones.setMessage("Conéctate a una red para poder acceder al mapa");
-            alertOpciones.setPositiveButton("Aceptar", (dialog, which) -> {});
+            alertOpciones.setPositiveButton("Aceptar", (dialog, which) -> {
+            });
             alertOpciones.create().show();
         }
 
@@ -189,6 +190,21 @@ public class GalleryFragment extends Fragment implements OnMapReadyCallback {
             if (grantResults.length == 2 && grantResults[0] == PackageManager.PERMISSION_GRANTED
                     && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
                 permisos = true;
+
+
+                if (getActivity().checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+                        getActivity().checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                    return;
+                }
+                gmap.setMyLocationEnabled(true);
+                gmap.getUiSettings().setMyLocationButtonEnabled(true);
+
+                locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+                loc = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+
+                LatLng gpsUserPos = new LatLng(loc.getLatitude(), loc.getLongitude());
+                gmap.animateCamera(CameraUpdateFactory.newLatLngZoom(gpsUserPos, 13f));
+
             } else {
                 permisos = false;
                 AlertDialog.Builder dialog = new AlertDialog.Builder(getContext());
