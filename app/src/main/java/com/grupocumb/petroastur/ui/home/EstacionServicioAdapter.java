@@ -36,7 +36,7 @@ public class EstacionServicioAdapter extends RecyclerView.Adapter<EstacionServic
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        public TextView nombre, direccion, precio;
+        public TextView nombre, direccion, precio, combustible;
         public ImageView logoPrecio;
 
         public MyViewHolder(View view) {
@@ -45,6 +45,7 @@ public class EstacionServicioAdapter extends RecyclerView.Adapter<EstacionServic
             direccion = view.findViewById(R.id.direccion);
             precio = view.findViewById(R.id.precio);
             logoPrecio = view.findViewById(R.id.imageprecio);
+            combustible = view.findViewById(R.id.combustible);
         }
     }
 
@@ -71,15 +72,9 @@ public class EstacionServicioAdapter extends RecyclerView.Adapter<EstacionServic
         EstacionServicio estacion = EstacionList.get(position);
         Double precioFavorito = estacion.getPrecioCombustible(ft);
         holder.nombre.setText(estacion.getEmpresa());
-        holder.direccion.setText(estacion.getDireccion() +
-                "  " +
-                estacion.getLocalidad());
-        holder.precio.setText(
-                "Precio " +
-                        ft.getFormattedName() +
-                        " = " +
-                        estacion.getPrecioCombustible(ft).toString() +
-                        " €");
+        holder.direccion.setText(estacion.getLocalidad());
+        holder.precio.setText(estacion.getPrecioCombustible(ft).toString() + " €");
+        holder.combustible.setText(ft.getFormattedName());
 
 
         if (precioFavorito < precioHastaVerde) {
