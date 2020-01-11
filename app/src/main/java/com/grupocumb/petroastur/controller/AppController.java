@@ -7,6 +7,7 @@ import com.grupocumb.petroastur.model.TransactionStatus;
 
 import java.util.List;
 
+@SuppressWarnings("ALL")
 public interface AppController {
     /**
      * Devuelve todas las estaciones de servicio

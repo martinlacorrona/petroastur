@@ -32,10 +32,6 @@ import static androidx.core.content.ContextCompat.checkSelfPermission;
 
 public class MapaDetalladoFragment extends Fragment implements OnMapReadyCallback {
 
-    private GoogleMap gmap;
-    private MapView mapView;
-
-    private boolean permisos;
     private Marker posUsuario;
     private String coordenada = "";
     private Context context;
@@ -52,17 +48,15 @@ public class MapaDetalladoFragment extends Fragment implements OnMapReadyCallbac
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
-        View root = inflater.inflate(R.layout.fragment_gallery, container, false);
 
-
-        return root;
+        return inflater.inflate(R.layout.fragment_gallery, container, false);
     }
 
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        mapView = (MapView) view.findViewById(R.id.mapView);
+        MapView mapView = view.findViewById(R.id.mapView);
         if (mapView != null) {
             mapView.onCreate(null);
             mapView.onResume();
@@ -73,9 +67,8 @@ public class MapaDetalladoFragment extends Fragment implements OnMapReadyCallbac
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        if (isConnected((Context) getContext())) {
+        if (isConnected(getContext())) {
             MapsInitializer.initialize(getContext());
-            gmap = googleMap;
             if (validaPermisos()) {
                 if (checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                     AlertDialog.Builder dialog = new AlertDialog.Builder(getContext());
@@ -84,20 +77,20 @@ public class MapaDetalladoFragment extends Fragment implements OnMapReadyCallbac
                     dialog.create().show();
                     return;
                 }
-                gmap.setMyLocationEnabled(true);
-                gmap.getUiSettings().setMyLocationButtonEnabled(true);
+                googleMap.setMyLocationEnabled(true);
+                googleMap.getUiSettings().setMyLocationButtonEnabled(true);
                 //LatLng centro = new LatLng(40, -3);
                 LatLng latLng = new LatLng(
                         Double.parseDouble(e.getLatitud().replace(",", ".")),
                         Double.parseDouble(e.getLongitudWGS84().replace(",", ".")));
 
-                gmap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15.5f));
+                googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15.5f));
                 MarkerOptions markerES = new MarkerOptions()
                         .position(latLng)
                         .title(e.getEmpresa())
                         .snippet(e.getDireccion());
 
-                gmap.setOnInfoWindowClickListener(marker -> {
+                googleMap.setOnInfoWindowClickListener(marker -> {
                     DetalladaFragment fr = new DetalladaFragment(e);
                     getFragmentManager()
                             .beginTransaction()
@@ -105,7 +98,7 @@ public class MapaDetalladoFragment extends Fragment implements OnMapReadyCallbac
                             .addToBackStack(null)
                             .commit();
                 });
-                gmap.addMarker(markerES);
+                googleMap.addMarker(markerES);
 
             }
         } else {
@@ -127,9 +120,7 @@ public class MapaDetalladoFragment extends Fragment implements OnMapReadyCallbac
             NetworkInfo wifi = cm.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
             NetworkInfo mobile = cm.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
 
-            if ((mobile != null && mobile.isConnectedOrConnecting()) || (wifi != null && wifi.isConnectedOrConnecting()))
-                return true;
-            else return false;
+            return (mobile != null && mobile.isConnectedOrConnecting()) || (wifi != null && wifi.isConnectedOrConnecting());
         } else
             return false;
     }
@@ -152,6 +143,7 @@ public class MapaDetalladoFragment extends Fragment implements OnMapReadyCallbac
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == 100) {
+            boolean permisos;
             if (grantResults.length == 2 && grantResults[0] == PackageManager.PERMISSION_GRANTED
                     && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
                 permisos = true;

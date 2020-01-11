@@ -28,9 +28,7 @@ import java.util.Comparator;
 import java.util.List;
 
 public class HomeFragment extends Fragment {
-    private RecyclerView recyclerView;
-    private EstacionServicioAdapter mAdapter;
-    private List<EstacionServicio> listaAllEESSOrdered = new ArrayList<EstacionServicio>();
+    private List<EstacionServicio> listaAllEESSOrdered = new ArrayList<>();
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -42,7 +40,7 @@ public class HomeFragment extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_home, container, false);
 
-        recyclerView = (RecyclerView) root.findViewById(R.id.recycler);
+        RecyclerView recyclerView = root.findViewById(R.id.recycler);
         RecyclerView.LayoutManager mLayoutManager =
                 new LinearLayoutManager(getContext());
 
@@ -68,7 +66,7 @@ public class HomeFragment extends Fragment {
         Double precioLimiteHastaVerde = precioMinimo + diferenciaEnTresPartes * 1;
         Double precioLimiteHastaAmarillo = precioMinimo + diferenciaEnTresPartes * 2;
 
-        mAdapter = new EstacionServicioAdapter(((MainActivity) getActivity()).getAppController().getAllEESSOrdered(),
+        EstacionServicioAdapter mAdapter = new EstacionServicioAdapter(((MainActivity) getActivity()).getAppController().getAllEESSOrdered(),
                 ((MainActivity) getActivity()).getAppController().getSettingFavouriteFuel(),
                 (MainActivity) getActivity(), precioLimiteHastaVerde, precioLimiteHastaAmarillo);
         recyclerView.setAdapter(mAdapter);

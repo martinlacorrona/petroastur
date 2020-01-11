@@ -44,33 +44,24 @@ import static androidx.core.content.ContextCompat.checkSelfPermission;
 
 public class GalleryFragment extends Fragment implements OnMapReadyCallback {
 
-    private GalleryViewModel galleryViewModel;
     private GoogleMap gmap;
-    private MapView mapView;
     private LocationManager locationManager;
 
-    private boolean permisos;
     private Marker posUsuario;
     private String coordenada = "";
     private Context context;
     private EditText editText;
     private String direccion = "";
     private Location loc;
-    private HomeViewModel homeViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        galleryViewModel =
-                ViewModelProviders.of(this).get(GalleryViewModel.class);
+        GalleryViewModel galleryViewModel = ViewModelProviders.of(this).get(GalleryViewModel.class);
 
-        homeViewModel =
-                ViewModelProviders.of(getActivity()).get(HomeViewModel.class);
+        HomeViewModel homeViewModel = ViewModelProviders.of(getActivity()).get(HomeViewModel.class);
         View root = inflater.inflate(R.layout.fragment_gallery, container, false);
 
-        galleryViewModel.getText().observe(this, new Observer<Location>() {
-            @Override
-            public void onChanged(@Nullable Location s) {
-            }
+        galleryViewModel.getText().observe(this, s -> {
         });
         return root;
     }
@@ -79,7 +70,7 @@ public class GalleryFragment extends Fragment implements OnMapReadyCallback {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        mapView = (MapView) view.findViewById(R.id.mapView);
+        MapView mapView = view.findViewById(R.id.mapView);
         if (mapView != null) {
             mapView.onCreate(null);
             mapView.onResume();
@@ -90,7 +81,7 @@ public class GalleryFragment extends Fragment implements OnMapReadyCallback {
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        if (isConnected((Context) getContext())) {
+        if (isConnected(getContext())) {
             MapsInitializer.initialize(getContext());
             gmap = googleMap;
 
@@ -191,9 +182,7 @@ public class GalleryFragment extends Fragment implements OnMapReadyCallback {
             android.net.NetworkInfo wifi = cm.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
             android.net.NetworkInfo mobile = cm.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
 
-            if ((mobile != null && mobile.isConnectedOrConnecting()) || (wifi != null && wifi.isConnectedOrConnecting()))
-                return true;
-            else return false;
+            return (mobile != null && mobile.isConnectedOrConnecting()) || (wifi != null && wifi.isConnectedOrConnecting());
         } else
             return false;
     }
@@ -216,6 +205,7 @@ public class GalleryFragment extends Fragment implements OnMapReadyCallback {
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == 100) {
+            boolean permisos;
             if (grantResults.length == 2 && grantResults[0] == PackageManager.PERMISSION_GRANTED
                     && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
                 permisos = true;

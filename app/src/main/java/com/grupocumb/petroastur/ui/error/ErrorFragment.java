@@ -25,9 +25,8 @@ public class ErrorFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.fragment_error, container, false);
 
-        return root;
+        return inflater.inflate(R.layout.fragment_error, container, false);
     }
 
 

@@ -20,7 +20,6 @@ import java.util.List;
 public class EstacionServicioAdapter extends RecyclerView.Adapter<EstacionServicioAdapter.MyViewHolder> {
     public static final int VIEW_TYPE_EMPTY = 0;
     public static final int VIEW_TYPE_NORMAL = 1;
-    private final MainActivity m;
 
     private final double precioHastaVerde;
     private final double precioHastaAmarillo;
@@ -31,7 +30,6 @@ public class EstacionServicioAdapter extends RecyclerView.Adapter<EstacionServic
     public EstacionServicioAdapter(List<EstacionServicio> e, FuelType ft, MainActivity m,
                                    double precioHastaVerde, double precioHastaAmarillo) {
         this.EstacionList = e;
-        this.m = m;
         this.ft = ft;
         this.precioHastaVerde = precioHastaVerde;
         this.precioHastaAmarillo = precioHastaAmarillo;

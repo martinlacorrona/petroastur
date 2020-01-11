@@ -13,11 +13,10 @@ import java.util.List;
 
 public class SQLServiceImpl implements SQLService {
 
-    private AppDatabase db;
     private EstacionServicioDao estacionServicioDao;
 
     public SQLServiceImpl(Context context) {
-        db = Room.databaseBuilder(context, AppDatabase.class,
+        AppDatabase db = Room.databaseBuilder(context, AppDatabase.class,
                 "estacionesservicio-db")
                 .allowMainThreadQueries()
                 .build();

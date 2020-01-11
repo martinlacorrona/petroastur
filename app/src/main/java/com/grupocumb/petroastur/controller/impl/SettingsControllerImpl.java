@@ -57,22 +57,21 @@ public class SettingsControllerImpl implements SettingsController {
         String value = settingsService.getSetting(settingName);
         if (value == null) //Si devuelve null es que nunca se creo nada.
             return new String[0];
-        String[] favourites = value.split("-");
-        return favourites;
+        return value.split("-");
     }
 
     @Override
     public void setFavourites(String[] favourites) {
         String settingName = context.getString(R.string.SETTINGS_ID_FAVOURITE_ES);
-        String formattedFavourites = "";
+        StringBuilder formattedFavourites = new StringBuilder();
 
         for (int i = 0; i < favourites.length; i++) {
-            formattedFavourites += favourites[i];
+            formattedFavourites.append(favourites[i]);
             if (i != favourites.length - 1) //si es la ultima no agrega guion
-                formattedFavourites += "-";
+                formattedFavourites.append("-");
         }
 
-        settingsService.setSetting(settingName, formattedFavourites);
+        settingsService.setSetting(settingName, formattedFavourites.toString());
     }
 
     @Override
@@ -81,8 +80,7 @@ public class SettingsControllerImpl implements SettingsController {
         String value = settingsService.getSetting(settingName);
         if (value == null)
             return FuelType.GASOLEO_A;
-        FuelType favouriteFuel = FuelType.valueOf(value);
-        return favouriteFuel;
+        return FuelType.valueOf(value);
     }
 
     @Override
@@ -98,8 +96,7 @@ public class SettingsControllerImpl implements SettingsController {
         String value = settingsService.getSetting(settingName);
         if (value == null)
             return OrderType.PRECIO;
-        OrderType favouriteOrder = OrderType.valueOf(value);
-        return favouriteOrder;
+        return OrderType.valueOf(value);
     }
 
     @Override
@@ -115,8 +112,7 @@ public class SettingsControllerImpl implements SettingsController {
         String value = settingsService.getSetting(settingName);
         if (value == null)
             return Double.MAX_VALUE;
-        double maxDistance = Double.parseDouble(value);
-        return maxDistance;
+        return Double.parseDouble(value);
     }
 
     @Override

@@ -11,7 +11,7 @@ public class GalleryViewModel extends ViewModel {
     private MutableLiveData<Location> mText;
 
     public GalleryViewModel() {
-        mText = new MutableLiveData<Location>();
+        mText = new MutableLiveData<>();
     }
 
     public LiveData<Location> getText() {

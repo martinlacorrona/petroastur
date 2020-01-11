@@ -33,18 +33,15 @@ public class APIRequestServiceImpl implements APIRequestService {
         call.enqueue(new Callback<ResponseAPI>() {
             @Override
             public void onResponse(Call<ResponseAPI> call, Response<ResponseAPI> response) {
-                switch (response.code()) {
-                    case 200:
-                        ResponseAPI data = response.body();
-                        List<EstacionServicio> estaciones = data.getListaEESSPrecio();
-                        sqlService.deleteAll();
-                        sqlService.insertAll(estaciones);
-                        status = TransactionStatus.DONE;
-                        break;
-                    default:
-                        call.cancel();
-                        status = TransactionStatus.FAILED;
-                        break;
+                if (response.code() == 200) {
+                    ResponseAPI data = response.body();
+                    List<EstacionServicio> estaciones = data.getListaEESSPrecio();
+                    sqlService.deleteAll();
+                    sqlService.insertAll(estaciones);
+                    status = TransactionStatus.DONE;
+                } else {
+                    call.cancel();
+                    status = TransactionStatus.FAILED;
                 }
             }
 

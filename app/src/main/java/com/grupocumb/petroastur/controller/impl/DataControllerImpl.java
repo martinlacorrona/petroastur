@@ -18,7 +18,6 @@ public class DataControllerImpl implements DataController {
 
     private SQLService sqlService;
     private UpdateService updateService;
-    private APIRequestService apiRequestService;
 
     /**
      * Contructor, le pasamos el contexto.
@@ -27,7 +26,7 @@ public class DataControllerImpl implements DataController {
      */
     public DataControllerImpl(Context context) {
         this.sqlService = new SQLServiceImpl(context);
-        this.apiRequestService = new APIRequestServiceImpl();
+        APIRequestService apiRequestService = new APIRequestServiceImpl();
         this.updateService = new UpdateServiceImpl(sqlService, apiRequestService);
     }
 

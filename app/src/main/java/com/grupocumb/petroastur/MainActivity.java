@@ -54,55 +54,52 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
         navigationView.setNavigationItemSelectedListener(
-                new NavigationView.OnNavigationItemSelectedListener() {
-                    @Override
-                    public boolean onNavigationItemSelected(MenuItem menuItem) {
+                menuItem -> {
 
-                        int id = menuItem.getItemId();
+                    int id = menuItem.getItemId();
 
-                        FragmentManager fragmentManager = getSupportFragmentManager();
-                        fragmentManager.popBackStack();
+                    FragmentManager fragmentManager = getSupportFragmentManager();
+                    fragmentManager.popBackStack();
 
-                        if (id == R.id.nav_home) {
-                            fragmentManager.beginTransaction().replace(R.id.container_o, new HomeFragment()).commit();
-                        } else if (id == R.id.nav_mapa) {
-                            if (estaConectadoInternet()) {
-                                if (hayInternet()) {
-                                    fragmentManager.beginTransaction().replace(R.id.container_o, new GalleryFragment()).commit();
-                                } else {
-                                    Toast.makeText(getApplicationContext(), "No hay conexión a internet.",
-                                            Toast.LENGTH_LONG).show();
-                                }
+                    if (id == R.id.nav_home) {
+                        fragmentManager.beginTransaction().replace(R.id.container_o, new HomeFragment()).commit();
+                    } else if (id == R.id.nav_mapa) {
+                        if (estaConectadoInternet()) {
+                            if (hayInternet()) {
+                                fragmentManager.beginTransaction().replace(R.id.container_o, new GalleryFragment()).commit();
                             } else {
-                                Toast.makeText(getApplicationContext(), "No está conectado a internet.",
+                                Toast.makeText(getApplicationContext(), "No hay conexión a internet.",
                                         Toast.LENGTH_LONG).show();
                             }
-
-                        } else if (id == R.id.nav_favoritas) {
-                            fragmentManager.beginTransaction().replace(R.id.container_o, new SlideshowFragment()).commit();
-                        } else if (id == R.id.nav_ajustes) {
-                            fragmentManager.beginTransaction().replace(R.id.container_o, new ToolsFragment()).commit();
-                        } else if (id == R.id.nav_share) {
-                            if (estaConectadoInternet()) {
-                                if (hayInternet()) {
-                                    fragmentManager.beginTransaction().replace(R.id.container_o, new ShareFragment()).commit();
-                                } else {
-                                    Toast.makeText(getApplicationContext(), "No hay conexión a internet.",
-                                            Toast.LENGTH_LONG).show();
-                                }
-                            } else {
-                                Toast.makeText(getApplicationContext(), "No está conectado a internet.",
-                                        Toast.LENGTH_LONG).show();
-                            }
-
-                        } else if (id == R.id.nav_send_opinion) {
-                            fragmentManager.beginTransaction().replace(R.id.container_o, new SendFragment()).commit();
+                        } else {
+                            Toast.makeText(getApplicationContext(), "No está conectado a internet.",
+                                    Toast.LENGTH_LONG).show();
                         }
 
-                        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-                        drawer.closeDrawer(GravityCompat.START);
-                        return true;
+                    } else if (id == R.id.nav_favoritas) {
+                        fragmentManager.beginTransaction().replace(R.id.container_o, new SlideshowFragment()).commit();
+                    } else if (id == R.id.nav_ajustes) {
+                        fragmentManager.beginTransaction().replace(R.id.container_o, new ToolsFragment()).commit();
+                    } else if (id == R.id.nav_share) {
+                        if (estaConectadoInternet()) {
+                            if (hayInternet()) {
+                                fragmentManager.beginTransaction().replace(R.id.container_o, new ShareFragment()).commit();
+                            } else {
+                                Toast.makeText(getApplicationContext(), "No hay conexión a internet.",
+                                        Toast.LENGTH_LONG).show();
+                            }
+                        } else {
+                            Toast.makeText(getApplicationContext(), "No está conectado a internet.",
+                                    Toast.LENGTH_LONG).show();
+                        }
+
+                    } else if (id == R.id.nav_send_opinion) {
+                        fragmentManager.beginTransaction().replace(R.id.container_o, new SendFragment()).commit();
                     }
+
+                    DrawerLayout drawer1 = (DrawerLayout) findViewById(R.id.drawer_layout);
+                    drawer1.closeDrawer(GravityCompat.START);
+                    return true;
                 });
 
         //Tarea de background
@@ -114,8 +111,7 @@ public class MainActivity extends AppCompatActivity {
             Process p = java.lang.Runtime.getRuntime().exec("ping -c 1 www.google.es");
 
             int val = p.waitFor();
-            boolean reachable = (val == 0);
-            return reachable;
+            return (val == 0);
 
         } catch (Exception e) {
             // TODO Auto-generated catch block

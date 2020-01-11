@@ -21,25 +21,6 @@ import com.grupocumb.petroastur.model.FuelType;
 import com.grupocumb.petroastur.model.OrderType;
 
 public class ToolsFragment extends Fragment {
-    private ToolsViewModel toolsViewModel;
-    private RadioGroup radioButtonCombustPreferido;
-    private RadioButton bioetanol;
-    private RadioButton gas_natural_comprimido;
-    private RadioButton gas_natural_licuado;
-    private RadioButton gases_licuados_petroleo;
-    private RadioButton gasoleo_a;
-    private RadioButton gasoleo_b;
-    private RadioButton gasoleo95;
-    private RadioButton gasoleo1_98;
-    private RadioButton nuevo_gasoleo_a;
-
-    private RadioGroup radioButtonListado;
-    private RadioButton ordenDista;
-    private RadioButton ordenPrecio;
-
-    private RadioGroup radioButtonDistancia;
-    private RadioButton distancia1;
-    private RadioButton distancia2;
 
     private AppController ap;
 
@@ -51,31 +32,30 @@ public class ToolsFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        toolsViewModel =
-                ViewModelProviders.of(this).get(ToolsViewModel.class);
+        ToolsViewModel toolsViewModel = ViewModelProviders.of(this).get(ToolsViewModel.class);
         View root = inflater.inflate(R.layout.fragment_tools, container, false);
 
         ap = ((MainActivity) getActivity()).getAppController();
 
-        radioButtonCombustPreferido = (RadioGroup) root.findViewById(R.id.grupoCarburante);
-        bioetanol = (RadioButton) root.findViewById(R.id.bioEtanolButton);
-        gas_natural_comprimido = (RadioButton) root.findViewById(R.id.gasNaturalComprimidoButton);
-        gas_natural_licuado = (RadioButton) root.findViewById(R.id.gasNaturalLicuadoButton);
-        gases_licuados_petroleo = (RadioButton) root.findViewById(R.id.gasesLicuadosDelPetroleoButton);
-        gasoleo_a = (RadioButton) root.findViewById(R.id.gasoleoAButton);
-        gasoleo_b = (RadioButton) root.findViewById(R.id.gasoleoBButton);
-        gasoleo95 = (RadioButton) root.findViewById(R.id.gasolina95Button);
-        gasoleo1_98 = (RadioButton) root.findViewById(R.id.gasolina98Button);
-        nuevo_gasoleo_a = (RadioButton) root.findViewById(R.id.nuevoGasoleoA);
+        RadioGroup radioButtonCombustPreferido = root.findViewById(R.id.grupoCarburante);
+        RadioButton bioetanol = root.findViewById(R.id.bioEtanolButton);
+        RadioButton gas_natural_comprimido = root.findViewById(R.id.gasNaturalComprimidoButton);
+        RadioButton gas_natural_licuado = root.findViewById(R.id.gasNaturalLicuadoButton);
+        RadioButton gases_licuados_petroleo = root.findViewById(R.id.gasesLicuadosDelPetroleoButton);
+        RadioButton gasoleo_a = root.findViewById(R.id.gasoleoAButton);
+        RadioButton gasoleo_b = root.findViewById(R.id.gasoleoBButton);
+        RadioButton gasoleo95 = root.findViewById(R.id.gasolina95Button);
+        RadioButton gasoleo1_98 = root.findViewById(R.id.gasolina98Button);
+        RadioButton nuevo_gasoleo_a = root.findViewById(R.id.nuevoGasoleoA);
 
-        radioButtonListado = (RadioGroup) root.findViewById(R.id.grupoListado);
-        ordenDista = (RadioButton) root.findViewById(R.id.distanc);
-        ordenPrecio = (RadioButton) root.findViewById(R.id.preci);
+        RadioGroup radioButtonListado = root.findViewById(R.id.grupoListado);
+        RadioButton ordenDista = root.findViewById(R.id.distanc);
+        RadioButton ordenPrecio = root.findViewById(R.id.preci);
 
-        radioButtonDistancia = (RadioGroup) root.findViewById(R.id.grupoDistancia);
-        distancia1 = (RadioButton) root.findViewById(R.id.disMax1);
-        distancia2 = (RadioButton) root.findViewById(R.id.distaMax_2);
-        RadioButton r = (RadioButton) root.findViewById(R.id.sin_maxima);
+        RadioGroup radioButtonDistancia = root.findViewById(R.id.grupoDistancia);
+        RadioButton distancia1 = root.findViewById(R.id.disMax1);
+        RadioButton distancia2 = root.findViewById(R.id.distaMax_2);
+        RadioButton r = root.findViewById(R.id.sin_maxima);
 
         if (((MainActivity) getActivity()).getAppController().getSettingFavouriteFuel() == FuelType.BIOETANOL) {
             bioetanol.setChecked(true);
@@ -113,65 +93,55 @@ public class ToolsFragment extends Fragment {
 
         requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, 100);
 
-        radioButtonCombustPreferido.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                if (checkedId == R.id.bioEtanolButton) {
-                    ap.setSettingFavouriteFuel(FuelType.BIOETANOL);
-                } else if (checkedId == R.id.gasNaturalComprimidoButton) {
-                    ap.setSettingFavouriteFuel(FuelType.GAS_NATURAL_COMPRIMIDO);
-                } else if (checkedId == R.id.gasNaturalLicuadoButton) {
-                    ap.setSettingFavouriteFuel(FuelType.GAS_NATURAL_LICUADO);
-                } else if (checkedId == R.id.gasesLicuadosDelPetroleoButton) {
-                    ap.setSettingFavouriteFuel(FuelType.GASES_LICUADOS_PETROLEO);
-                } else if (checkedId == R.id.gasoleoAButton) {
-                    ap.setSettingFavouriteFuel(FuelType.GASOLEO_A);
-                } else if (checkedId == R.id.gasoleoBButton) {
-                    ap.setSettingFavouriteFuel(FuelType.GASOLEO_B);
-                } else if (checkedId == R.id.gasolina95Button) {
-                    ap.setSettingFavouriteFuel(FuelType.GASOLINA_95);
-                } else if (checkedId == R.id.gasolina98Button) {
-                    ap.setSettingFavouriteFuel(FuelType.GASOLINA_98);
-                } else {
-                    ap.setSettingFavouriteFuel(FuelType.NUEVO_GASOLEO_A);
-                }
-                return;
+        radioButtonCombustPreferido.setOnCheckedChangeListener((group, checkedId) -> {
+            if (checkedId == R.id.bioEtanolButton) {
+                ap.setSettingFavouriteFuel(FuelType.BIOETANOL);
+            } else if (checkedId == R.id.gasNaturalComprimidoButton) {
+                ap.setSettingFavouriteFuel(FuelType.GAS_NATURAL_COMPRIMIDO);
+            } else if (checkedId == R.id.gasNaturalLicuadoButton) {
+                ap.setSettingFavouriteFuel(FuelType.GAS_NATURAL_LICUADO);
+            } else if (checkedId == R.id.gasesLicuadosDelPetroleoButton) {
+                ap.setSettingFavouriteFuel(FuelType.GASES_LICUADOS_PETROLEO);
+            } else if (checkedId == R.id.gasoleoAButton) {
+                ap.setSettingFavouriteFuel(FuelType.GASOLEO_A);
+            } else if (checkedId == R.id.gasoleoBButton) {
+                ap.setSettingFavouriteFuel(FuelType.GASOLEO_B);
+            } else if (checkedId == R.id.gasolina95Button) {
+                ap.setSettingFavouriteFuel(FuelType.GASOLINA_95);
+            } else if (checkedId == R.id.gasolina98Button) {
+                ap.setSettingFavouriteFuel(FuelType.GASOLINA_98);
+            } else {
+                ap.setSettingFavouriteFuel(FuelType.NUEVO_GASOLEO_A);
             }
+            return;
         });
 
-        radioButtonListado.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                if (checkedId == R.id.preci) {
-                    ap.setSettingOrder(OrderType.PRECIO);
-                } else {
-                    if (getActivity().checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
-                            getActivity().checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                        AlertDialog.Builder dialog = new AlertDialog.Builder(getContext());
-                        dialog.setTitle(R.string.nopermisos);
-                        dialog.setMessage(R.string.nopermisos2);
-                        dialog.create().show();
-                        requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, 100);
-                    }
-                    ap.setSettingOrder(OrderType.DISTANCIA);
+        radioButtonListado.setOnCheckedChangeListener((group, checkedId) -> {
+            if (checkedId == R.id.preci) {
+                ap.setSettingOrder(OrderType.PRECIO);
+            } else {
+                if (getActivity().checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+                        getActivity().checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                    AlertDialog.Builder dialog = new AlertDialog.Builder(getContext());
+                    dialog.setTitle(R.string.nopermisos);
+                    dialog.setMessage(R.string.nopermisos2);
+                    dialog.create().show();
+                    requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, 100);
                 }
-                return;
+                ap.setSettingOrder(OrderType.DISTANCIA);
             }
+            return;
         });
 
-        radioButtonDistancia.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                if (checkedId == R.id.disMax1) {
-                    ap.setSettingMaxDistance(20);
-                } else if (checkedId == R.id.distaMax_2) {
-                    ap.setSettingMaxDistance(50);
-                } else {
-                    ap.setSettingMaxDistance(Double.MAX_VALUE);
-                }
-                return;
+        radioButtonDistancia.setOnCheckedChangeListener((group, checkedId) -> {
+            if (checkedId == R.id.disMax1) {
+                ap.setSettingMaxDistance(20);
+            } else if (checkedId == R.id.distaMax_2) {
+                ap.setSettingMaxDistance(50);
+            } else {
+                ap.setSettingMaxDistance(Double.MAX_VALUE);
             }
+            return;
         });
         return root;
     }

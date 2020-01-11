@@ -76,10 +76,10 @@ public class AppControllerImpl implements AppController, Serializable {
     @Override
     public List<EstacionServicio> getFavouritesOrdered() {
         String[] idsFavoritas = settingsController.getFavourites();
-        List<EstacionServicio> favoritas = new ArrayList<EstacionServicio>();
-        for (int i = 0; i < idsFavoritas.length; i++) {
-            if (!idsFavoritas[i].equals("null") && !idsFavoritas[i].equals(""))
-                favoritas.add(dataController.getById(Integer.parseInt(idsFavoritas[i])));
+        List<EstacionServicio> favoritas = new ArrayList<>();
+        for (String idsFavorita : idsFavoritas) {
+            if (!idsFavorita.equals("null") && !idsFavorita.equals(""))
+                favoritas.add(dataController.getById(Integer.parseInt(idsFavorita)));
         }
 
         OrderType favouriteOrder = settingsController.getFavouriteOrder();
@@ -117,9 +117,7 @@ public class AppControllerImpl implements AppController, Serializable {
             listaNueva[0] = id;
         } else {
             listaNueva = new String[listaActual.length + 1];
-            for (int i = 0; i < listaActual.length; i++) {
-                listaNueva[i] = listaActual[i];
-            }
+            System.arraycopy(listaActual, 0, listaNueva, 0, listaActual.length);
             listaNueva[listaNueva.length - 1] = id;
         }
         settingsController.setFavourites(listaNueva);
@@ -131,9 +129,9 @@ public class AppControllerImpl implements AppController, Serializable {
         String[] listaNueva = new String[listaActual.length - 1];
         if (listaNueva.length != 0) {
             int j = 0;
-            for (int i = 0; i < listaActual.length; i++) {
-                if (!listaActual[i].equals(id)) {
-                    listaNueva[j] = listaActual[i];
+            for (String s : listaActual) {
+                if (!s.equals(id)) {
+                    listaNueva[j] = s;
                     j++;
                 }
             }

@@ -52,7 +52,7 @@ public class SlideshowFragment extends Fragment {
 //                ViewModelProviders.of(getActivity()).get(SlideshowViewModel.class);
         View root = inflater.inflate(R.layout.fragment_slideshow, container, false);
 
-        recyclerView = (RecyclerView) root.findViewById(R.id.recyclerFav);
+        recyclerView = root.findViewById(R.id.recyclerFav);
         RecyclerView.LayoutManager mLayoutManager =
                 new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(mLayoutManager);
@@ -105,24 +105,17 @@ public class SlideshowFragment extends Fragment {
 
                 builder.setMessage("Esta es la lista de favoritos, ¿desea borrar el seleccionado?")
                         .setCancelable(false)
-                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                //ok
-                                ((MainActivity) getActivity()).getAppController().removeFavourite(es.get(position).getId());
-                                es = ((MainActivity) getActivity()).getAppController().getFavouritesOrdered();
-                                mAdapter = new EstacionServicioAdapter(((MainActivity) getActivity()).getAppController().getFavouritesOrdered(),
-                                        ((MainActivity) getActivity()).getAppController().getSettingFavouriteFuel(),
-                                        (MainActivity) getActivity(), precioLimiteHastaVerde, precioLimiteHastaAmarillo);
-                                recyclerView.setAdapter(mAdapter);
+                        .setPositiveButton("OK", (dialog, id) -> {
+                            //ok
+                            ((MainActivity) getActivity()).getAppController().removeFavourite(es.get(position).getId());
+                            es = ((MainActivity) getActivity()).getAppController().getFavouritesOrdered();
+                            mAdapter = new EstacionServicioAdapter(((MainActivity) getActivity()).getAppController().getFavouritesOrdered(),
+                                    ((MainActivity) getActivity()).getAppController().getSettingFavouriteFuel(),
+                                    (MainActivity) getActivity(), precioLimiteHastaVerde, precioLimiteHastaAmarillo);
+                            recyclerView.setAdapter(mAdapter);
 
-                            }
                         })
-                        .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                dialog.cancel();
-
-                            }
-                        });
+                        .setNegativeButton("Cancel", (dialog, id) -> dialog.cancel());
 
                 AlertDialog alertDialog = builder.create();
                 alertDialog.show();

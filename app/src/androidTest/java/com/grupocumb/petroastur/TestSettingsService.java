@@ -13,6 +13,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import static junit.framework.TestCase.assertEquals;
+import static junit.framework.TestCase.assertNull;
 
 /**
  * Instrumented test, which will execute on an Android device.
@@ -38,36 +39,36 @@ public class TestSettingsService {
     @Test
     public void testUpdateService() throws InterruptedException {
         //probamos a meter y quitar todas las settings
-        assertEquals(settingsService.getSetting(
-                mockContext.getString(R.string.SETTINGS_ID_FAVOURITE_ES)), null);
+        assertNull(settingsService.getSetting(
+                mockContext.getString(R.string.SETTINGS_ID_FAVOURITE_ES)));
         settingsService.setSetting(
                 mockContext.getString(R.string.SETTINGS_ID_FAVOURITE_ES), "1");
         assertEquals(settingsService.getSetting(
                 mockContext.getString(R.string.SETTINGS_ID_FAVOURITE_ES)), "1");
 
-        assertEquals(settingsService.getSetting(
-                mockContext.getString(R.string.SETTINGS_LAST_UPDATE)), null);
+        assertNull(settingsService.getSetting(
+                mockContext.getString(R.string.SETTINGS_LAST_UPDATE)));
         settingsService.setSetting(
                 mockContext.getString(R.string.SETTINGS_LAST_UPDATE), "1");
         assertEquals(settingsService.getSetting(
                 mockContext.getString(R.string.SETTINGS_LAST_UPDATE)), "1");
 
-        assertEquals(settingsService.getSetting(
-                mockContext.getString(R.string.SETTINGS_NAME_FAVOURITE_FUEL)), null);
+        assertNull(settingsService.getSetting(
+                mockContext.getString(R.string.SETTINGS_NAME_FAVOURITE_FUEL)));
         settingsService.setSetting(
                 mockContext.getString(R.string.SETTINGS_NAME_FAVOURITE_FUEL), "1");
         assertEquals(settingsService.getSetting(
                 mockContext.getString(R.string.SETTINGS_NAME_FAVOURITE_FUEL)), "1");
 
-        assertEquals(settingsService.getSetting(
-                mockContext.getString(R.string.SETTINGS_ORDER_LIST)), null);
+        assertNull(settingsService.getSetting(
+                mockContext.getString(R.string.SETTINGS_ORDER_LIST)));
         settingsService.setSetting(
                 mockContext.getString(R.string.SETTINGS_ORDER_LIST), "1");
         assertEquals(settingsService.getSetting(
                 mockContext.getString(R.string.SETTINGS_ORDER_LIST)), "1");
 
-        assertEquals(settingsService.getSetting(
-                mockContext.getString(R.string.SETTINGS_DISTANCE_MAX)), null);
+        assertNull(settingsService.getSetting(
+                mockContext.getString(R.string.SETTINGS_DISTANCE_MAX)));
         settingsService.setSetting(
                 mockContext.getString(R.string.SETTINGS_DISTANCE_MAX), "1");
         assertEquals(settingsService.getSetting(

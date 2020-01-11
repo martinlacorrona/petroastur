@@ -21,6 +21,7 @@ import org.junit.runner.RunWith;
 
 import java.util.List;
 
+import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertTrue;
 
 /**
@@ -39,7 +40,6 @@ public class TestUpdateService {
     @Before
     public void load() {
         mockContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
-        ;
         sqlService = new SQLServiceImpl(mockContext);
         apiRequestService = new APIRequestServiceImpl();
 
@@ -54,7 +54,7 @@ public class TestUpdateService {
     @Test
     public void testUpdateService() throws InterruptedException {
 
-        assertTrue(sqlService.getAll().size() == 0);
+        assertEquals(0, sqlService.getAll().size());
 
         //1. update the database
         updateService.update();
