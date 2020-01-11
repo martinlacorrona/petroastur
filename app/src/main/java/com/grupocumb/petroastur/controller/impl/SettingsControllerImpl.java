@@ -80,7 +80,11 @@ public class SettingsControllerImpl implements SettingsController {
         String value = settingsService.getSetting(settingName);
         if (value == null)
             return FuelType.GASOLEO_A;
-        return FuelType.valueOf(value);
+        try { //Si no encuentra el que deberia
+            return FuelType.valueOf(value);
+        } catch (IllegalArgumentException e) {
+            return FuelType.GASOLEO_A;
+        }
     }
 
     @Override
@@ -96,7 +100,11 @@ public class SettingsControllerImpl implements SettingsController {
         String value = settingsService.getSetting(settingName);
         if (value == null)
             return OrderType.PRECIO;
-        return OrderType.valueOf(value);
+        try { //Si no encuentra el que deberia
+            return OrderType.valueOf(value);
+        } catch (IllegalArgumentException e) {
+            return OrderType.PRECIO;
+        }
     }
 
     @Override

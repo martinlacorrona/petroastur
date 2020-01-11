@@ -1,5 +1,6 @@
 package com.grupocumb.petroastur;
 
+import android.app.Activity;
 import android.content.Context;
 
 import androidx.test.platform.app.InstrumentationRegistry;
@@ -44,6 +45,8 @@ public class TestUpdateService {
         apiRequestService = new APIRequestServiceImpl();
 
         updateService = new UpdateServiceImpl(sqlService, apiRequestService);
+
+        appController = new AppControllerImpl(mockContext, null);
 
         //Reset database
         mockContext.deleteDatabase("estacionesservicio-db");
