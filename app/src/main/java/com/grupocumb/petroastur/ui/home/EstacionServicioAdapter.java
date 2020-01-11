@@ -81,11 +81,13 @@ public class EstacionServicioAdapter extends RecyclerView.Adapter<EstacionServic
             holder.precio.setText(estacion.getPrecioCombustible(ft).toString() + " €");
         holder.combustible.setText(ft.getFormattedName());
 
-
-        if (precioFavorito < precioHastaVerde) {
+        if(precioFavorito == 0.0) { //si no tiene precio es que no esta disponible
+            holder.logoPrecio.setImageResource(R.drawable.precioalto);
+            holder.precio.setTextColor(Color.parseColor("#CB4335"));
+        } else if (precioFavorito < precioHastaVerde) {
             holder.logoPrecio.setImageResource(R.drawable.preciobajo);
             holder.precio.setTextColor(Color.parseColor("#28B463"));
-        } else if (precioFavorito >= precioHastaVerde && precioFavorito < precioHastaAmarillo) {
+        } else if (precioFavorito >= precioHastaVerde && precioFavorito <= precioHastaAmarillo) {
             holder.logoPrecio.setImageResource(R.drawable.preciomedio);
             holder.precio.setTextColor(Color.parseColor("#F1C40F"));
         } else {
