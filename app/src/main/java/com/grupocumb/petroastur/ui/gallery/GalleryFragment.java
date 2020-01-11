@@ -39,6 +39,7 @@ import com.grupocumb.petroastur.ui.home.HomeViewModel;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import static androidx.core.content.ContextCompat.checkSelfPermission;
 
@@ -90,19 +91,29 @@ public class GalleryFragment extends Fragment implements OnMapReadyCallback {
             FuelType favorito = ((MainActivity) getActivity()).getAppController().getSettingFavouriteFuel();
             Double precio;
 
-            Double precioMaximo = estaciones.stream().parallel()
-                    .filter(estacionServicio -> estacionServicio.getPrecioCombustible(favorito) > 0)
-                    .max(Comparator.comparingDouble(estacionServicio -> estacionServicio
-                            .getPrecioCombustible(favorito))).get().getPrecioCombustible(favorito);
-            Double precioMinimo = estaciones.stream().parallel()
-                    .filter(estacionServicio -> estacionServicio.getPrecioCombustible(favorito) > 0)
-                    .min(Comparator.comparingDouble(estacionServicio -> estacionServicio
-                            .getPrecioCombustible(favorito))).get().getPrecioCombustible(favorito);
+            Double precioMaximo;
+            try {
+                precioMaximo = estaciones.stream().parallel()
+                        .filter(estacionServicio -> estacionServicio.getPrecioCombustible(favorito) > 0)
+                        .max(Comparator.comparingDouble(estacionServicio -> estacionServicio
+                                .getPrecioCombustible(favorito))).get().getPrecioCombustible(favorito);
+            } catch (NoSuchElementException e) {
+                precioMaximo = 2.50;
+            }
+            Double precioMinimo;
+            try {
+                precioMinimo = estaciones.stream().parallel()
+                        .filter(estacionServicio -> estacionServicio.getPrecioCombustible(favorito) > 0)
+                        .min(Comparator.comparingDouble(estacionServicio -> estacionServicio
+                                .getPrecioCombustible(favorito))).get().getPrecioCombustible(favorito);
+            } catch (NoSuchElementException e) {
+                precioMinimo = 0.50;
+            }
+
             Double diferenciaMaximoMinimo = precioMaximo - precioMinimo;
             Double diferenciaEnTresPartes = diferenciaMaximoMinimo / 3;
             Double precioLimiteHastaVerde = precioMinimo + diferenciaEnTresPartes * 1;
             Double precioLimiteHastaAmarillo = precioMinimo + diferenciaEnTresPartes * 2;
-
 
             if (estaciones != null) {
                 for (EstacionServicio e : estaciones) {
@@ -111,7 +122,7 @@ public class GalleryFragment extends Fragment implements OnMapReadyCallback {
                     LatLng latLng = new LatLng(
                             Double.parseDouble(e.getLatitud().replace(",", ".")),
                             Double.parseDouble(e.getLongitudWGS84().replace(",", ".")));
-                    String snippet = "Precio " + favorito + " " + precio + "€";
+                    String snippet = "Precio " + favorito.getFormattedName() + ": " + precio.toString().replace(".", ",") + "€";
                     MarkerOptions markerES = new MarkerOptions()
                             .position(latLng)
                             .title(e.getEmpresa())
