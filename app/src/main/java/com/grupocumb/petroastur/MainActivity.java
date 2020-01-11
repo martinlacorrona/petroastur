@@ -105,10 +105,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
 
-//        //Tarea de background
-//        //TODO: dentro de esta funcion es donde se debe de mandar una vista o otra
-//        //TODO, de primeras mostrar la pantalla de carga, y si es satisfactoria la transaccion
-//        //TODO, lanzar la correspondiente
+        //Tarea de background
         new ASyncBBDDLoader(this).execute();
     }
 
