@@ -13,7 +13,7 @@ import com.grupocumb.petroastur.ui.cargando.CargandoFragment;
 import com.grupocumb.petroastur.ui.error.ErrorFragment;
 import com.grupocumb.petroastur.ui.home.HomeFragment;
 
-public class ASyncBBDDLoader extends AsyncTask {
+public class ASyncBBDDLoader extends AsyncTask<Void, Void, Void> {
 
     private AppController appController;
     private MainActivity activity;
@@ -24,8 +24,8 @@ public class ASyncBBDDLoader extends AsyncTask {
     }
 
     @Override
-    protected Object doInBackground(Object[] objects) {
-        DrawerLayout d = (DrawerLayout) this.activity.findViewById(R.id.drawer_layout);
+    protected Void doInBackground(Void... voids) {
+        DrawerLayout d = this.activity.findViewById(R.id.drawer_layout);
         CargandoFragment fr = new CargandoFragment();
         this.activity.getSupportFragmentManager().beginTransaction().replace(R.id.container_o, fr).addToBackStack("y").commit();
         this.activity.desactivarBarra();
