@@ -76,7 +76,7 @@ public class EstacionServicioAdapter extends RecyclerView.Adapter<EstacionServic
                 estacion.getLocalidad());
         holder.precio.setText(
                 "Precio " +
-                        ft.toString() +
+                        ft.getFormattedName() +
                         " = " +
                         estacion.getPrecioCombustible(ft).toString() +
                         " €");

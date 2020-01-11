@@ -26,6 +26,7 @@ import com.grupocumb.petroastur.ui.detallada.DetalladaFragment;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 public class HomeFragment extends Fragment {
     private List<EstacionServicio> listaAllEESSOrdered = new ArrayList<>();
@@ -52,14 +53,25 @@ public class HomeFragment extends Fragment {
 
         //Para que depende del color saque uno o otro.
         FuelType favorito = ((MainActivity) getActivity()).getAppController().getSettingFavouriteFuel();
-        Double precioMaximo = listaAllEESSOrdered.stream().parallel()
-                .filter(estacionServicio -> estacionServicio.getPrecioCombustible(favorito) > 0)
-                .max(Comparator.comparingDouble(estacionServicio -> estacionServicio
-                        .getPrecioCombustible(favorito))).get().getPrecioCombustible(favorito);
-        Double precioMinimo = listaAllEESSOrdered.stream().parallel()
-                .filter(estacionServicio -> estacionServicio.getPrecioCombustible(favorito) > 0)
-                .min(Comparator.comparingDouble(estacionServicio -> estacionServicio
-                        .getPrecioCombustible(favorito))).get().getPrecioCombustible(favorito);
+
+        Double precioMaximo;
+        try {
+            precioMaximo = listaAllEESSOrdered.stream().parallel()
+                    .filter(estacionServicio -> estacionServicio.getPrecioCombustible(favorito) > 0)
+                    .max(Comparator.comparingDouble(estacionServicio -> estacionServicio
+                            .getPrecioCombustible(favorito))).get().getPrecioCombustible(favorito);
+        } catch (NoSuchElementException e) {
+            precioMaximo = 2.50;
+        }
+        Double precioMinimo;
+        try {
+            precioMinimo = listaAllEESSOrdered.stream().parallel()
+                    .filter(estacionServicio -> estacionServicio.getPrecioCombustible(favorito) > 0)
+                    .min(Comparator.comparingDouble(estacionServicio -> estacionServicio
+                            .getPrecioCombustible(favorito))).get().getPrecioCombustible(favorito);
+        } catch (NoSuchElementException e) {
+            precioMinimo = 0.50;
+        }
 
         Double diferenciaMaximoMinimo = precioMaximo - precioMinimo;
         Double diferenciaEnTresPartes = diferenciaMaximoMinimo / 3;
