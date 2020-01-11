@@ -69,6 +69,27 @@ public class MapaDetalladoFragment extends Fragment implements OnMapReadyCallbac
     public void onMapReady(GoogleMap googleMap) {
         if (isConnected(getContext())) {
             MapsInitializer.initialize(getContext());
+
+            LatLng latLng = new LatLng(
+                    Double.parseDouble(e.getLatitud().replace(",", ".")),
+                    Double.parseDouble(e.getLongitudWGS84().replace(",", ".")));
+
+            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15.5f));
+            MarkerOptions markerES = new MarkerOptions()
+                    .position(latLng)
+                    .title(e.getEmpresa())
+                    .snippet(e.getDireccion());
+
+            googleMap.setOnInfoWindowClickListener(marker -> {
+                DetalladaFragment fr = new DetalladaFragment(e);
+                getFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.container_o, fr)
+                        .addToBackStack(null)
+                        .commit();
+            });
+            googleMap.addMarker(markerES);
+            
             if (validaPermisos()) {
                 if (checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                     AlertDialog.Builder dialog = new AlertDialog.Builder(getContext());
@@ -79,26 +100,6 @@ public class MapaDetalladoFragment extends Fragment implements OnMapReadyCallbac
                 }
                 googleMap.setMyLocationEnabled(true);
                 googleMap.getUiSettings().setMyLocationButtonEnabled(true);
-                //LatLng centro = new LatLng(40, -3);
-                LatLng latLng = new LatLng(
-                        Double.parseDouble(e.getLatitud().replace(",", ".")),
-                        Double.parseDouble(e.getLongitudWGS84().replace(",", ".")));
-
-                googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15.5f));
-                MarkerOptions markerES = new MarkerOptions()
-                        .position(latLng)
-                        .title(e.getEmpresa())
-                        .snippet(e.getDireccion());
-
-                googleMap.setOnInfoWindowClickListener(marker -> {
-                    DetalladaFragment fr = new DetalladaFragment(e);
-                    getFragmentManager()
-                            .beginTransaction()
-                            .replace(R.id.container_o, fr)
-                            .addToBackStack(null)
-                            .commit();
-                });
-                googleMap.addMarker(markerES);
 
             }
         } else {
