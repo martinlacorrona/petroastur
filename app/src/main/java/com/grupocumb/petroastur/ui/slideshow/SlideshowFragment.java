@@ -30,6 +30,7 @@ import com.grupocumb.petroastur.ui.home.RecyclerTouchListener;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 public class SlideshowFragment extends Fragment {
 
@@ -62,14 +63,23 @@ public class SlideshowFragment extends Fragment {
         es = ((MainActivity) getActivity()).getAppController().getFavouritesOrdered();
 
         FuelType favorito = ((MainActivity) getActivity()).getAppController().getSettingFavouriteFuel();
-        Double precioMaximo = es.stream().parallel()
-                .filter(estacionServicio -> estacionServicio.getPrecioCombustible(favorito) > 0)
-                .max(Comparator.comparingDouble(estacionServicio -> estacionServicio
-                        .getPrecioCombustible(favorito))).get().getPrecioCombustible(favorito);
-        Double precioMinimo = es.stream().parallel()
-                .filter(estacionServicio -> estacionServicio.getPrecioCombustible(favorito) > 0)
-                .min(Comparator.comparingDouble(estacionServicio -> estacionServicio
-                        .getPrecioCombustible(favorito))).get().getPrecioCombustible(favorito);
+        Double precioMaximo, precioMinimo;
+        try {
+            precioMaximo = es.stream().parallel()
+                    .filter(estacionServicio -> estacionServicio.getPrecioCombustible(favorito) > 0)
+                    .max(Comparator.comparingDouble(estacionServicio -> estacionServicio
+                            .getPrecioCombustible(favorito))).get().getPrecioCombustible(favorito);
+        } catch (NoSuchElementException e) {
+            precioMaximo = 2.50;
+        }
+        try {
+            precioMinimo = es.stream().parallel()
+                    .filter(estacionServicio -> estacionServicio.getPrecioCombustible(favorito) > 0)
+                    .min(Comparator.comparingDouble(estacionServicio -> estacionServicio
+                            .getPrecioCombustible(favorito))).get().getPrecioCombustible(favorito);
+        } catch (NoSuchElementException e) {
+            precioMinimo = 0.50;
+        }
 
         Double diferenciaMaximoMinimo = precioMaximo - precioMinimo;
         Double diferenciaEnTresPartes = diferenciaMaximoMinimo / 3;

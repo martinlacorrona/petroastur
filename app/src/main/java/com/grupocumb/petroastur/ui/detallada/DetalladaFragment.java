@@ -103,7 +103,6 @@ public class DetalladaFragment extends Fragment {
             return (val == 0);
 
         } catch (Exception e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         return false;
@@ -121,25 +120,25 @@ public class DetalladaFragment extends Fragment {
     private String detailsToShow() {
         StringBuilder datos = new StringBuilder();
         if (seleccionada.getPrecioBiodiesel() != null)
-            datos.append("-Biodiesel: ").append(seleccionada.getPrecioBiodiesel()).append("€").append("\n");
+            datos.append(" - Biodiesel: ").append(seleccionada.getPrecioBiodiesel()).append("€").append("\n");
         if (seleccionada.getPrecioBioetanol() != null)
-            datos.append("-Bioetanol: ").append(seleccionada.getPrecioBioetanol()).append("€").append("\n");
+            datos.append(" - Bioetanol: ").append(seleccionada.getPrecioBioetanol()).append("€").append("\n");
         if (seleccionada.getPrecioGasNaturalComprimido() != null)
-            datos.append("-Gas natural comprimido: ").append(seleccionada.getPrecioGasNaturalComprimido()).append("€").append("\n");
+            datos.append(" - Gas natural comprimido: ").append(seleccionada.getPrecioGasNaturalComprimido()).append("€").append("\n");
         if (seleccionada.getPrecioGasNaturalLicuado() != null)
-            datos.append("-Gas natural licuado: ").append(seleccionada.getPrecioGasNaturalLicuado()).append("€").append("\n");
+            datos.append(" - Gas natural licuado: ").append(seleccionada.getPrecioGasNaturalLicuado()).append("€").append("\n");
         if (seleccionada.getPrecioGasesLicuadosDelPetroleo() != null)
-            datos.append("-Gases licuados petroleo: ").append(seleccionada.getPrecioGasesLicuadosDelPetroleo()).append("€").append("\n");
+            datos.append(" - Gases licuados petroleo: ").append(seleccionada.getPrecioGasesLicuadosDelPetroleo()).append("€").append("\n");
         if (seleccionada.getPrecioGasoleoA() != null)
-            datos.append("-Gasoleo A: ").append(seleccionada.getPrecioGasoleoA()).append("€").append("\n");
+            datos.append(" - Gasoleo A: ").append(seleccionada.getPrecioGasoleoA()).append("€").append("\n");
         if (seleccionada.getPrecioGasoleoB() != null)
-            datos.append("-Gasoleo B: ").append(seleccionada.getPrecioGasoleoB()).append("€").append("\n");
+            datos.append(" - Gasoleo B: ").append(seleccionada.getPrecioGasoleoB()).append("€").append("\n");
         if (seleccionada.getPrecioGasolina95Proteccion() != null)
-            datos.append("-Gasolina 95: ").append(seleccionada.getPrecioGasolina95Proteccion()).append("€").append("\n");
+            datos.append(" - Gasolina 95: ").append(seleccionada.getPrecioGasolina95Proteccion()).append("€").append("\n");
         if (seleccionada.getPrecioGasolina98() != null)
-            datos.append("-Gasolina 98: ").append(seleccionada.getPrecioGasolina98()).append("€").append("\n");
+            datos.append(" - Gasolina 98: ").append(seleccionada.getPrecioGasolina98()).append("€").append("\n");
         if (seleccionada.getPrecioNuevoGasoleoA() != null)
-            datos.append("-Nuevo Gasoleo A: ").append(seleccionada.getPrecioNuevoGasoleoA()).append("€").append("\n");
+            datos.append(" - Nuevo Gasoleo A: ").append(seleccionada.getPrecioNuevoGasoleoA()).append("€").append("\n");
 
         return datos.toString();
     }

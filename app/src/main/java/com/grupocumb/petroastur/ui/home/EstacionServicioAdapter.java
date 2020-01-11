@@ -72,7 +72,9 @@ public class EstacionServicioAdapter extends RecyclerView.Adapter<EstacionServic
         EstacionServicio estacion = EstacionList.get(position);
         Double precioFavorito = estacion.getPrecioCombustible(ft);
         holder.nombre.setText(estacion.getEmpresa());
-        holder.direccion.setText(estacion.getLocalidad());
+        holder.direccion.setText(estacion.getDireccion() +
+                ", " +
+                estacion.getLocalidad());
         holder.precio.setText(estacion.getPrecioCombustible(ft).toString() + " €");
         holder.combustible.setText(ft.getFormattedName());
 

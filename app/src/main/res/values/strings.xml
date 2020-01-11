@@ -25,7 +25,7 @@
 
     <string name="orden_listado">Ordenar listado por:</string>
     <string name="distancia">Distancia</string>
-    <string name="precio">Precios de carburantes ofrecidos</string>
+    <string name="precio">Precios de carburantes ofrecidos:</string>
 
     <string name="distancia_maxima">Distancia máxima en km:</string>
     <string name="distancia_max_1">20</string>
