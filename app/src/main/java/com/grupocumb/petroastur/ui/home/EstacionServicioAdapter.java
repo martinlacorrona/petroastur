@@ -21,13 +21,20 @@ public class EstacionServicioAdapter extends RecyclerView.Adapter<EstacionServic
     public static final int VIEW_TYPE_EMPTY = 0;
     public static final int VIEW_TYPE_NORMAL = 1;
     private final MainActivity m;
+
+    private final double precioHastaVerde;
+    private final double precioHastaAmarillo;
+
     private List<EstacionServicio> EstacionList;
     private FuelType ft;
 
-    public EstacionServicioAdapter(List<EstacionServicio> e, FuelType ft, MainActivity m) {
+    public EstacionServicioAdapter(List<EstacionServicio> e, FuelType ft, MainActivity m,
+                                   double precioHastaVerde, double precioHastaAmarillo) {
         this.EstacionList = e;
         this.m = m;
         this.ft = ft;
+        this.precioHastaVerde = precioHastaVerde;
+        this.precioHastaAmarillo = precioHastaAmarillo;
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
@@ -74,11 +81,13 @@ public class EstacionServicioAdapter extends RecyclerView.Adapter<EstacionServic
                         " = " +
                         estacion.getPrecioCombustible(ft).toString() +
                         " €");
-        if(precioFavorito < 1.30) {
+
+
+        if(precioFavorito < precioHastaVerde) {
             holder.logoPrecio.setImageResource(R.drawable.preciobajo);
             holder.precio.setTextColor(Color.parseColor("#28B463"));
         }
-        else if(precioFavorito >= 1.30 && precioFavorito < 1.40) {
+        else if(precioFavorito >= precioHastaVerde && precioFavorito < precioHastaAmarillo) {
             holder.logoPrecio.setImageResource(R.drawable.preciomedio);
             holder.precio.setTextColor(Color.parseColor("#F1C40F"));
         }

@@ -42,8 +42,10 @@ import com.grupocumb.petroastur.model.FuelType;
 import com.grupocumb.petroastur.ui.detallada.DetalladaFragment;
 import com.grupocumb.petroastur.ui.home.HomeViewModel;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
+import java.util.stream.Collectors;
 
 import static androidx.core.content.ContextCompat.checkSelfPermission;
 
@@ -103,6 +105,21 @@ public class GalleryFragment extends Fragment implements OnMapReadyCallback {
             List<EstacionServicio> estaciones = ((MainActivity) getActivity()).getAppController().getAllEESSOrdered();
             FuelType favorito = ((MainActivity) getActivity()).getAppController().getSettingFavouriteFuel();
             Double precio;
+
+            Double precioMaximo = estaciones.stream().parallel()
+                    .filter(estacionServicio -> estacionServicio.getPrecioCombustible(favorito) > 0)
+                    .max(Comparator.comparingDouble(estacionServicio -> estacionServicio
+                            .getPrecioCombustible(favorito))).get().getPrecioCombustible(favorito);
+            Double precioMinimo = estaciones.stream().parallel()
+                    .filter(estacionServicio -> estacionServicio.getPrecioCombustible(favorito) > 0)
+                    .min(Comparator.comparingDouble(estacionServicio -> estacionServicio
+                            .getPrecioCombustible(favorito))).get().getPrecioCombustible(favorito);
+            Double diferenciaMaximoMinimo = precioMaximo - precioMinimo;
+            Double diferenciaEnTresPartes = diferenciaMaximoMinimo/3;
+            Double precioLimiteHastaVerde = precioMinimo + diferenciaEnTresPartes * 1;
+            Double precioLimiteHastaAmarillo = precioMinimo + diferenciaEnTresPartes * 2;
+
+
             if (estaciones != null) {
                 for (EstacionServicio e : estaciones) {
                     precio = e.getPrecioCombustible(favorito);
@@ -115,9 +132,9 @@ public class GalleryFragment extends Fragment implements OnMapReadyCallback {
                             .position(latLng)
                             .title(e.getEmpresa())
                             .snippet(snippet);
-                    if(precio < 1.30)
+                    if(precio < precioLimiteHastaVerde)
                         markerES.icon(BitmapDescriptorFactory.fromResource(R.drawable.preciobajo));
-                    else if(precio >= 1.30 && precio < 1.40)
+                    else if(precio >= precioLimiteHastaVerde && precio < precioLimiteHastaAmarillo)
                         markerES.icon(BitmapDescriptorFactory.fromResource(R.drawable.preciomedio));
                     else
                         markerES.icon(BitmapDescriptorFactory.fromResource(R.drawable.precioalto));

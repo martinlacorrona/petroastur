@@ -20,9 +20,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.grupocumb.petroastur.MainActivity;
 import com.grupocumb.petroastur.R;
 import com.grupocumb.petroastur.model.EstacionServicio;
+import com.grupocumb.petroastur.model.FuelType;
 import com.grupocumb.petroastur.ui.detallada.DetalladaFragment;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 public class HomeFragment extends Fragment {
@@ -49,9 +51,26 @@ public class HomeFragment extends Fragment {
 
         recyclerView.addItemDecoration(new DividerItemDecoration(getContext(), LinearLayoutManager.VERTICAL));
         listaAllEESSOrdered = ((MainActivity) getActivity()).getAppController().getAllEESSOrdered();
+
+        //Para que depende del color saque uno o otro.
+        FuelType favorito = ((MainActivity) getActivity()).getAppController().getSettingFavouriteFuel();
+        Double precioMaximo = listaAllEESSOrdered.stream().parallel()
+                .filter(estacionServicio -> estacionServicio.getPrecioCombustible(favorito) > 0)
+                .max(Comparator.comparingDouble(estacionServicio -> estacionServicio
+                        .getPrecioCombustible(favorito))).get().getPrecioCombustible(favorito);
+        Double precioMinimo = listaAllEESSOrdered.stream().parallel()
+                .filter(estacionServicio -> estacionServicio.getPrecioCombustible(favorito) > 0)
+                .min(Comparator.comparingDouble(estacionServicio -> estacionServicio
+                        .getPrecioCombustible(favorito))).get().getPrecioCombustible(favorito);
+
+        Double diferenciaMaximoMinimo = precioMaximo - precioMinimo;
+        Double diferenciaEnTresPartes = diferenciaMaximoMinimo/3;
+        Double precioLimiteHastaVerde = precioMinimo + diferenciaEnTresPartes * 1;
+        Double precioLimiteHastaAmarillo = precioMinimo + diferenciaEnTresPartes * 2;
+
         mAdapter = new EstacionServicioAdapter(((MainActivity) getActivity()).getAppController().getAllEESSOrdered(),
                 ((MainActivity) getActivity()).getAppController().getSettingFavouriteFuel(),
-                (MainActivity) getActivity());
+                (MainActivity) getActivity(), precioLimiteHastaVerde, precioLimiteHastaAmarillo);
         recyclerView.setAdapter(mAdapter);
 
         recyclerView.addOnItemTouchListener(new RecyclerTouchListener(getContext(), recyclerView, new RecyclerTouchListener.ClickListener() {

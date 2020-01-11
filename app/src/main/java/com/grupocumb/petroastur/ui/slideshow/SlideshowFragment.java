@@ -22,11 +22,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.grupocumb.petroastur.MainActivity;
 import com.grupocumb.petroastur.R;
 import com.grupocumb.petroastur.model.EstacionServicio;
+import com.grupocumb.petroastur.model.FuelType;
 import com.grupocumb.petroastur.ui.detallada.DetalladaFragment;
 import com.grupocumb.petroastur.ui.home.EstacionServicioAdapter;
 import com.grupocumb.petroastur.ui.home.RecyclerTouchListener;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 public class SlideshowFragment extends Fragment {
@@ -35,6 +37,9 @@ public class SlideshowFragment extends Fragment {
     private List<EstacionServicio> es = new ArrayList<>();
     private RecyclerView recyclerView;
     private EstacionServicioAdapter mAdapter;
+
+    private Double precioLimiteHastaVerde;
+    private Double precioLimiteHastaAmarillo;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -55,9 +60,25 @@ public class SlideshowFragment extends Fragment {
 
         recyclerView.addItemDecoration(new DividerItemDecoration(getContext(), LinearLayoutManager.VERTICAL));
         es = ((MainActivity) getActivity()).getAppController().getFavouritesOrdered();
+
+        FuelType favorito = ((MainActivity) getActivity()).getAppController().getSettingFavouriteFuel();
+        Double precioMaximo = es.stream().parallel()
+                .filter(estacionServicio -> estacionServicio.getPrecioCombustible(favorito) > 0)
+                .max(Comparator.comparingDouble(estacionServicio -> estacionServicio
+                        .getPrecioCombustible(favorito))).get().getPrecioCombustible(favorito);
+        Double precioMinimo = es.stream().parallel()
+                .filter(estacionServicio -> estacionServicio.getPrecioCombustible(favorito) > 0)
+                .min(Comparator.comparingDouble(estacionServicio -> estacionServicio
+                        .getPrecioCombustible(favorito))).get().getPrecioCombustible(favorito);
+
+        Double diferenciaMaximoMinimo = precioMaximo - precioMinimo;
+        Double diferenciaEnTresPartes = diferenciaMaximoMinimo/3;
+        precioLimiteHastaVerde = precioMinimo + diferenciaEnTresPartes * 1;
+        precioLimiteHastaAmarillo = precioMinimo + diferenciaEnTresPartes * 2;
+
         mAdapter = new EstacionServicioAdapter(((MainActivity) getActivity()).getAppController().getFavouritesOrdered(),
                 ((MainActivity) getActivity()).getAppController().getSettingFavouriteFuel(),
-                (MainActivity) getActivity());
+                (MainActivity) getActivity(), precioLimiteHastaVerde, precioLimiteHastaAmarillo);
         recyclerView.setAdapter(mAdapter);
 
         recyclerView.addOnItemTouchListener(new RecyclerTouchListener(getContext(), recyclerView, new RecyclerTouchListener.ClickListener() {
@@ -91,7 +112,7 @@ public class SlideshowFragment extends Fragment {
                                 es = ((MainActivity) getActivity()).getAppController().getFavouritesOrdered();
                                 mAdapter = new EstacionServicioAdapter(((MainActivity) getActivity()).getAppController().getFavouritesOrdered(),
                                         ((MainActivity) getActivity()).getAppController().getSettingFavouriteFuel(),
-                                        (MainActivity) getActivity());
+                                        (MainActivity) getActivity(), precioLimiteHastaVerde, precioLimiteHastaAmarillo);
                                 recyclerView.setAdapter(mAdapter);
 
                             }
@@ -108,19 +129,6 @@ public class SlideshowFragment extends Fragment {
 
             }
         }));
-
-
-//        slideshowViewModel.getText().observe(this, new Observer<Set<String>>() {
-//            @Override
-//            public void onChanged(@Nullable Set<String> s) {
-//                List<EstacionServicio> estaci=new ArrayList<>();
-//                for(String i:s){
-//                    estaci.add(new DataControllerImpl(getActivity()).getById(Integer.getInteger(i)));
-//                }
-//                mAdapter=new EstacionServicioAdapter(estaci,(MainActivity)getActivity());
-//                recyclerView.setAdapter(mAdapter);
-//            }
-//        });
         return root;
     }
 }

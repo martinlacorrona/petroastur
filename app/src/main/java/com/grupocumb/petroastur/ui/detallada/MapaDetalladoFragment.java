@@ -127,12 +127,7 @@ public class MapaDetalladoFragment extends Fragment implements OnMapReadyCallbac
             final AlertDialog.Builder alertOpciones = new AlertDialog.Builder(context);
             alertOpciones.setTitle("No hay conexión a internet");
             alertOpciones.setMessage("Conéctate a una red para poder acceder al mapa");
-            alertOpciones.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
-
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                }
-            });
+            alertOpciones.setPositiveButton("Aceptar", (dialog, which) -> {});
             alertOpciones.create().show();
         }
 
@@ -151,45 +146,6 @@ public class MapaDetalladoFragment extends Fragment implements OnMapReadyCallbac
             else return false;
         } else
             return false;
-    }
-
-
-    private void CargarMarker(LatLng latLng) {
-        coordenada = latLng.latitude + "," + latLng.longitude;
-        Geocoder geocoder = new Geocoder(getContext(), Locale.getDefault());
-        List<Address> addresses = null;
-        try {
-            addresses = geocoder.getFromLocation(
-                    latLng.latitude,
-                    latLng.longitude,
-                    1);
-        } catch (IOException ioException) {
-            Log.e("ERROR", "IO", ioException);
-        } catch (IllegalArgumentException illegalArgumentException) {
-            Log.e("ERROR", "ILEGALARGUMENT", illegalArgumentException);
-        }
-        Address address = addresses.get(0);
-        ArrayList<String> addressFragments = new ArrayList<String>();
-        if (addresses == null || addresses.size() == 0) {
-            Toast.makeText(getContext(), "No se han encontrado resultados.", Toast.LENGTH_LONG).show();
-        } else {
-
-            for (int i = 0; i <= address.getMaxAddressLineIndex(); i++) {
-                addressFragments.add(address.getAddressLine(i));
-            }
-        }
-        MarkerOptions marcadorOpciones = new MarkerOptions().position(latLng).title(addressFragments.get(0));
-        direccion = addressFragments.get(0);
-        if (posUsuario != null) {
-            posUsuario.remove();
-        }
-        posUsuario = gmap.addMarker(marcadorOpciones);
-        posUsuario.showInfoWindow();
-        CameraPosition cameraPosition = new CameraPosition.Builder()
-                .target(latLng).zoom(14)
-                .build();
-        CameraUpdate cu = CameraUpdateFactory.newCameraPosition(cameraPosition);
-        gmap.animateCamera(cu);
     }
 
     private boolean validaPermisos() {
