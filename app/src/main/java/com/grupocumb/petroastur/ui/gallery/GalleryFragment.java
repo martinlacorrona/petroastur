@@ -175,27 +175,33 @@ public class GalleryFragment extends Fragment implements OnMapReadyCallback {
 
             }
         } else {
-            final AlertDialog.Builder alertOpciones = new AlertDialog.Builder(context);
-            alertOpciones.setTitle("No hay conexión a internet");
-            alertOpciones.setMessage("Conéctate a una red para poder acceder al mapa");
-            alertOpciones.setPositiveButton("Aceptar", (dialog, which) -> {
-            });
-            alertOpciones.create().show();
+            if(getContext() != null) {
+                final AlertDialog.Builder alertOpciones = new AlertDialog.Builder(context);
+                alertOpciones.setTitle("No hay conexión a internet");
+                alertOpciones.setMessage("Conéctate a una red para poder acceder al mapa");
+                alertOpciones.setPositiveButton("Aceptar", (dialog, which) -> {
+                });
+                alertOpciones.create().show();
+            }
         }
-
     }
 
     public boolean isConnected(Context context) {
-        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo netinfo = cm.getActiveNetworkInfo();
+        System.out.println("AQUI");
+        System.out.println(context);
+        if(context != null) {
+            ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+            NetworkInfo netinfo = cm.getActiveNetworkInfo();
 
-        if (netinfo != null && netinfo.isConnectedOrConnecting()) {
-            android.net.NetworkInfo wifi = cm.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
-            android.net.NetworkInfo mobile = cm.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+            if (netinfo != null && netinfo.isConnectedOrConnecting()) {
+                android.net.NetworkInfo wifi = cm.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+                android.net.NetworkInfo mobile = cm.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
 
-            return (mobile != null && mobile.isConnectedOrConnecting()) || (wifi != null && wifi.isConnectedOrConnecting());
-        } else
-            return false;
+                return (mobile != null && mobile.isConnectedOrConnecting()) || (wifi != null && wifi.isConnectedOrConnecting());
+            } else
+                return false;
+        }
+        return false;
     }
 
     private boolean validaPermisos() {
