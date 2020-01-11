@@ -75,7 +75,10 @@ public class EstacionServicioAdapter extends RecyclerView.Adapter<EstacionServic
         holder.direccion.setText(estacion.getDireccion() +
                 ", " +
                 estacion.getLocalidad());
-        holder.precio.setText(estacion.getPrecioCombustible(ft).toString() + " €");
+        if(estacion.getPrecioCombustible(ft) == 0.0)
+            holder.precio.setText("No ofrece este tipo de combustible");
+        else
+            holder.precio.setText(estacion.getPrecioCombustible(ft).toString() + " €");
         holder.combustible.setText(ft.getFormattedName());
 
 
