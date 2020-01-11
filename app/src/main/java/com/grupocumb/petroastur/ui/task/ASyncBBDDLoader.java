@@ -25,7 +25,6 @@ public class ASyncBBDDLoader extends AsyncTask<Void, Void, Void> {
 
     @Override
     protected Void doInBackground(Void... voids) {
-        DrawerLayout d = this.activity.findViewById(R.id.drawer_layout);
         CargandoFragment fr = new CargandoFragment();
         this.activity.getSupportFragmentManager().beginTransaction().replace(R.id.container_o, fr).addToBackStack("y").commit();
         this.activity.desactivarBarra();
@@ -44,9 +43,10 @@ public class ASyncBBDDLoader extends AsyncTask<Void, Void, Void> {
             activity.runOnUiThread(() -> Toast.makeText(activity, "Ocurrio un error a la hora de actualizar.",
                     Toast.LENGTH_LONG).show());
             this.activity.getSupportFragmentManager().popBackStack();
-            this.activity.getSupportFragmentManager().beginTransaction().remove(fr);
-            ErrorFragment home = new ErrorFragment();
-            this.activity.getSupportFragmentManager().beginTransaction().replace(R.id.container_o, home).commit();
+            HomeFragment homeFragment = new HomeFragment();
+            ErrorFragment errorFragment = new ErrorFragment();
+            this.activity.getSupportFragmentManager().beginTransaction().replace(R.id.container_o, homeFragment).commit();
+            this.activity.getSupportFragmentManager().beginTransaction().replace(R.id.container_o, errorFragment).addToBackStack(null).commit();
         }
         return null;
     }
