@@ -42,8 +42,8 @@ public class HomeFragment extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_home, container, false);
 
-        recyclerView=(RecyclerView)root.findViewById(R.id.recycler);
-        RecyclerView.LayoutManager mLayoutManager=
+        recyclerView = (RecyclerView) root.findViewById(R.id.recycler);
+        RecyclerView.LayoutManager mLayoutManager =
                 new LinearLayoutManager(getContext());
 
         recyclerView.setLayoutManager(mLayoutManager);
@@ -64,7 +64,7 @@ public class HomeFragment extends Fragment {
                         .getPrecioCombustible(favorito))).get().getPrecioCombustible(favorito);
 
         Double diferenciaMaximoMinimo = precioMaximo - precioMinimo;
-        Double diferenciaEnTresPartes = diferenciaMaximoMinimo/3;
+        Double diferenciaEnTresPartes = diferenciaMaximoMinimo / 3;
         Double precioLimiteHastaVerde = precioMinimo + diferenciaEnTresPartes * 1;
         Double precioLimiteHastaAmarillo = precioMinimo + diferenciaEnTresPartes * 2;
 

@@ -6,7 +6,6 @@ import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -22,7 +21,6 @@ import androidx.navigation.ui.NavigationUI;
 import com.google.android.material.navigation.NavigationView;
 import com.grupocumb.petroastur.controller.AppController;
 import com.grupocumb.petroastur.controller.impl.AppControllerImpl;
-
 import com.grupocumb.petroastur.ui.gallery.GalleryFragment;
 import com.grupocumb.petroastur.ui.home.HomeFragment;
 import com.grupocumb.petroastur.ui.send.SendFragment;
@@ -66,39 +64,39 @@ public class MainActivity extends AppCompatActivity {
                         fragmentManager.popBackStack();
 
                         if (id == R.id.nav_home) {
-                            fragmentManager.beginTransaction().replace(R.id.container_o,new HomeFragment()).commit();
+                            fragmentManager.beginTransaction().replace(R.id.container_o, new HomeFragment()).commit();
                         } else if (id == R.id.nav_mapa) {
-                            if (estaConectadoInternet()){
-                                if (hayInternet()){
-                                    fragmentManager.beginTransaction().replace(R.id.container_o,new GalleryFragment()).commit();
-                                }else{
+                            if (estaConectadoInternet()) {
+                                if (hayInternet()) {
+                                    fragmentManager.beginTransaction().replace(R.id.container_o, new GalleryFragment()).commit();
+                                } else {
                                     Toast.makeText(getApplicationContext(), "No hay conexión a internet.",
                                             Toast.LENGTH_LONG).show();
                                 }
-                            }else{
+                            } else {
                                 Toast.makeText(getApplicationContext(), "No está conectado a internet.",
                                         Toast.LENGTH_LONG).show();
                             }
 
                         } else if (id == R.id.nav_favoritas) {
-                            fragmentManager.beginTransaction().replace(R.id.container_o,new SlideshowFragment()).commit();
+                            fragmentManager.beginTransaction().replace(R.id.container_o, new SlideshowFragment()).commit();
                         } else if (id == R.id.nav_ajustes) {
-                            fragmentManager.beginTransaction().replace(R.id.container_o,new ToolsFragment()).commit();
+                            fragmentManager.beginTransaction().replace(R.id.container_o, new ToolsFragment()).commit();
                         } else if (id == R.id.nav_share) {
-                            if (estaConectadoInternet()){
-                                if (hayInternet()){
-                                    fragmentManager.beginTransaction().replace(R.id.container_o,new ShareFragment()).commit();
-                                }else{
+                            if (estaConectadoInternet()) {
+                                if (hayInternet()) {
+                                    fragmentManager.beginTransaction().replace(R.id.container_o, new ShareFragment()).commit();
+                                } else {
                                     Toast.makeText(getApplicationContext(), "No hay conexión a internet.",
                                             Toast.LENGTH_LONG).show();
                                 }
-                            }else{
+                            } else {
                                 Toast.makeText(getApplicationContext(), "No está conectado a internet.",
                                         Toast.LENGTH_LONG).show();
                             }
 
                         } else if (id == R.id.nav_send_opinion) {
-                            fragmentManager.beginTransaction().replace(R.id.container_o,new SendFragment()).commit();
+                            fragmentManager.beginTransaction().replace(R.id.container_o, new SendFragment()).commit();
                         }
 
                         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -118,7 +116,7 @@ public class MainActivity extends AppCompatActivity {
         try {
             Process p = java.lang.Runtime.getRuntime().exec("ping -c 1 www.google.es");
 
-            int val           = p.waitFor();
+            int val = p.waitFor();
             boolean reachable = (val == 0);
             return reachable;
 

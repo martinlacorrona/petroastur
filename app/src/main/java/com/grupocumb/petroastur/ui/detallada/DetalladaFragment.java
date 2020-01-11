@@ -4,7 +4,6 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,7 +18,6 @@ import androidx.fragment.app.Fragment;
 import com.grupocumb.petroastur.MainActivity;
 import com.grupocumb.petroastur.R;
 import com.grupocumb.petroastur.model.EstacionServicio;
-import com.grupocumb.petroastur.ui.share.ShareFragment;
 
 import java.util.List;
 
@@ -87,18 +85,18 @@ public class DetalladaFragment extends Fragment {
         mostrarMapa.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (estaConectadoInternet()){
-                    if (hayInternet()){
+                if (estaConectadoInternet()) {
+                    if (hayInternet()) {
                         MapaDetalladoFragment fr = new MapaDetalladoFragment(seleccionada);
                         getActivity().getSupportFragmentManager().beginTransaction()
                                 .replace(R.id.container_o, fr)
                                 .addToBackStack(null)
                                 .commit();
-                    }else{
+                    } else {
                         Toast.makeText(getActivity().getApplicationContext(), "No hay conexión a internet.",
                                 Toast.LENGTH_LONG).show();
                     }
-                }else{
+                } else {
                     Toast.makeText(getActivity().getApplicationContext(), "No está conectado a internet.",
                             Toast.LENGTH_LONG).show();
                 }
@@ -107,11 +105,12 @@ public class DetalladaFragment extends Fragment {
         });
         return root;
     }
+
     private boolean hayInternet() {
         try {
             Process p = java.lang.Runtime.getRuntime().exec("ping -c 1 www.google.es");
 
-            int val           = p.waitFor();
+            int val = p.waitFor();
             boolean reachable = (val == 0);
             return reachable;
 

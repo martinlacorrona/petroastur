@@ -3,9 +3,7 @@ package com.grupocumb.petroastur.ui.gallery;
 import android.Manifest;
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.pm.PackageManager;
-import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
 import android.net.ConnectivityManager;
@@ -23,16 +21,13 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
-import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.grupocumb.petroastur.MainActivity;
@@ -44,8 +39,6 @@ import com.grupocumb.petroastur.ui.home.HomeViewModel;
 
 import java.util.Comparator;
 import java.util.List;
-import java.util.Locale;
-import java.util.stream.Collectors;
 
 import static androidx.core.content.ContextCompat.checkSelfPermission;
 
@@ -115,7 +108,7 @@ public class GalleryFragment extends Fragment implements OnMapReadyCallback {
                     .min(Comparator.comparingDouble(estacionServicio -> estacionServicio
                             .getPrecioCombustible(favorito))).get().getPrecioCombustible(favorito);
             Double diferenciaMaximoMinimo = precioMaximo - precioMinimo;
-            Double diferenciaEnTresPartes = diferenciaMaximoMinimo/3;
+            Double diferenciaEnTresPartes = diferenciaMaximoMinimo / 3;
             Double precioLimiteHastaVerde = precioMinimo + diferenciaEnTresPartes * 1;
             Double precioLimiteHastaAmarillo = precioMinimo + diferenciaEnTresPartes * 2;
 
@@ -132,9 +125,9 @@ public class GalleryFragment extends Fragment implements OnMapReadyCallback {
                             .position(latLng)
                             .title(e.getEmpresa())
                             .snippet(snippet);
-                    if(precio < precioLimiteHastaVerde)
+                    if (precio < precioLimiteHastaVerde)
                         markerES.icon(BitmapDescriptorFactory.fromResource(R.drawable.preciobajo));
-                    else if(precio >= precioLimiteHastaVerde && precio < precioLimiteHastaAmarillo)
+                    else if (precio >= precioLimiteHastaVerde && precio < precioLimiteHastaAmarillo)
                         markerES.icon(BitmapDescriptorFactory.fromResource(R.drawable.preciomedio));
                     else
                         markerES.icon(BitmapDescriptorFactory.fromResource(R.drawable.precioalto));
@@ -170,7 +163,7 @@ public class GalleryFragment extends Fragment implements OnMapReadyCallback {
                 loc = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 
                 //LatLng centro = new LatLng(43.3602900, -5.8447600);
-                if(loc == null) { //No tiene la loc activada, la mandamos a oviedo
+                if (loc == null) { //No tiene la loc activada, la mandamos a oviedo
                     LatLng gpsUserPos = new LatLng(43.3602900, -5.8447600);
                     gmap.animateCamera(CameraUpdateFactory.newLatLngZoom(centro, 10f));
                 } else {

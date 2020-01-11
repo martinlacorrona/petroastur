@@ -2,13 +2,11 @@ package com.grupocumb.petroastur.controller.impl;
 
 import android.Manifest;
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationManager;
 
-import com.grupocumb.petroastur.R;
 import com.grupocumb.petroastur.controller.AppController;
 import com.grupocumb.petroastur.controller.DataController;
 import com.grupocumb.petroastur.controller.SettingsController;
@@ -79,8 +77,8 @@ public class AppControllerImpl implements AppController, Serializable {
     public List<EstacionServicio> getFavouritesOrdered() {
         String[] idsFavoritas = settingsController.getFavourites();
         List<EstacionServicio> favoritas = new ArrayList<EstacionServicio>();
-        for(int i=0; i<idsFavoritas.length; i++) {
-            if(! idsFavoritas[i].equals("null") && ! idsFavoritas[i].equals(""))
+        for (int i = 0; i < idsFavoritas.length; i++) {
+            if (!idsFavoritas[i].equals("null") && !idsFavoritas[i].equals(""))
                 favoritas.add(dataController.getById(Integer.parseInt(idsFavoritas[i])));
         }
 
@@ -114,11 +112,10 @@ public class AppControllerImpl implements AppController, Serializable {
     public void addFavourite(String id) {
         String[] listaActual = settingsController.getFavourites();
         String[] listaNueva;
-        if(listaActual.length == 0) {
+        if (listaActual.length == 0) {
             listaNueva = new String[1];
             listaNueva[0] = id;
-        }
-        else {
+        } else {
             listaNueva = new String[listaActual.length + 1];
             for (int i = 0; i < listaActual.length; i++) {
                 listaNueva[i] = listaActual[i];
@@ -131,11 +128,11 @@ public class AppControllerImpl implements AppController, Serializable {
     @Override
     public void removeFavourite(String id) {
         String[] listaActual = settingsController.getFavourites();
-        String[] listaNueva = new String[listaActual.length-1];
-        if(listaNueva.length != 0) {
+        String[] listaNueva = new String[listaActual.length - 1];
+        if (listaNueva.length != 0) {
             int j = 0;
             for (int i = 0; i < listaActual.length; i++) {
-                if (! listaActual[i].equals(id)) {
+                if (!listaActual[i].equals(id)) {
                     listaNueva[j] = listaActual[i];
                     j++;
                 }
@@ -186,6 +183,7 @@ public class AppControllerImpl implements AppController, Serializable {
 
     /**
      * Metodo para sacar la localizacion, si esta desactivada, muestra Oviedo como el cnetro.
+     *
      * @return
      */
     private Location getLocation() {
@@ -201,7 +199,7 @@ public class AppControllerImpl implements AppController, Serializable {
             //Tengo permisos, lo obtengo
             location = new Location("LocationGPS");
             //Chequear si tenemos ultima localizacion, puede ser que no...
-            if(locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER) == null) {
+            if (locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER) == null) {
                 //Ponemos voiedo de nuevo si no va...
                 location.setLatitude(43.3602900);
                 location.setLongitude(-5.8447600);

@@ -11,7 +11,6 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 import androidx.annotation.NonNull;
-import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 
@@ -114,8 +113,7 @@ public class ToolsFragment extends Fragment {
 
         requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, 100);
 
-        radioButtonCombustPreferido.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
-        {
+        radioButtonCombustPreferido.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
 
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
@@ -142,8 +140,7 @@ public class ToolsFragment extends Fragment {
             }
         });
 
-        radioButtonListado.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
-        {
+        radioButtonListado.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 if (checkedId == R.id.preci) {
@@ -163,8 +160,7 @@ public class ToolsFragment extends Fragment {
             }
         });
 
-        radioButtonDistancia.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
-        {
+        radioButtonDistancia.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 if (checkedId == R.id.disMax1) {

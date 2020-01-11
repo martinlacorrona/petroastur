@@ -72,7 +72,7 @@ public class SlideshowFragment extends Fragment {
                         .getPrecioCombustible(favorito))).get().getPrecioCombustible(favorito);
 
         Double diferenciaMaximoMinimo = precioMaximo - precioMinimo;
-        Double diferenciaEnTresPartes = diferenciaMaximoMinimo/3;
+        Double diferenciaEnTresPartes = diferenciaMaximoMinimo / 3;
         precioLimiteHastaVerde = precioMinimo + diferenciaEnTresPartes * 1;
         precioLimiteHastaAmarillo = precioMinimo + diferenciaEnTresPartes * 2;
 

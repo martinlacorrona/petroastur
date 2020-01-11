@@ -40,6 +40,7 @@ public class EstacionServicioAdapter extends RecyclerView.Adapter<EstacionServic
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView nombre, direccion, precio;
         public ImageView logoPrecio;
+
         public MyViewHolder(View view) {
             super(view);
             nombre = view.findViewById(R.id.nombre);
@@ -83,15 +84,13 @@ public class EstacionServicioAdapter extends RecyclerView.Adapter<EstacionServic
                         " €");
 
 
-        if(precioFavorito < precioHastaVerde) {
+        if (precioFavorito < precioHastaVerde) {
             holder.logoPrecio.setImageResource(R.drawable.preciobajo);
             holder.precio.setTextColor(Color.parseColor("#28B463"));
-        }
-        else if(precioFavorito >= precioHastaVerde && precioFavorito < precioHastaAmarillo) {
+        } else if (precioFavorito >= precioHastaVerde && precioFavorito < precioHastaAmarillo) {
             holder.logoPrecio.setImageResource(R.drawable.preciomedio);
             holder.precio.setTextColor(Color.parseColor("#F1C40F"));
-        }
-        else {
+        } else {
             holder.logoPrecio.setImageResource(R.drawable.precioalto);
             holder.precio.setTextColor(Color.parseColor("#CB4335"));
         }
