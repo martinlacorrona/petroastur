@@ -232,8 +232,14 @@ public class GalleryFragment extends Fragment implements OnMapReadyCallback {
                 locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
                 loc = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 
-                LatLng gpsUserPos = new LatLng(loc.getLatitude(), loc.getLongitude());
-                gmap.animateCamera(CameraUpdateFactory.newLatLngZoom(gpsUserPos, 13f));
+                if(loc == null) { //Al aceptar la localizacion hay algunos dipositivos que petan
+                    //Por si acaso le mando a oviedo, la siguiente vez funcionara
+                    LatLng centro = new LatLng(43.3602900, -5.8447600);
+                    gmap.animateCamera(CameraUpdateFactory.newLatLngZoom(centro, 10f));
+                } else {
+                    LatLng gpsUserPos = new LatLng(loc.getLatitude(), loc.getLongitude());
+                    gmap.animateCamera(CameraUpdateFactory.newLatLngZoom(gpsUserPos, 13f));
+                }
 
             } else {
                 permisos = false;

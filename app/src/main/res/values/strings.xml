@@ -19,8 +19,8 @@
     <string name="gasNaturalComprimido">Gas natural comprimido</string>
     <string name="gasNaturalLicuado">Gas natural licuado</string>
     <string name="gasesLicuadosDelPetroleo">Gases licuados del petroleo</string>
-    <string name="gasoleoA">GasoleoA</string>
-    <string name="gasoleoB">GasoleoB</string>
+    <string name="gasoleoA">Gasoleo A</string>
+    <string name="gasoleoB">Gasoleo B</string>
     <string name="nuevoGasoleoA">Nuevo gasoleo A</string>
 
     <string name="orden_listado">Ordenar listado por:</string>
