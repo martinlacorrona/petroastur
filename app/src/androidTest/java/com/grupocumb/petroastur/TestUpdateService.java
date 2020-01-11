@@ -45,8 +45,6 @@ public class TestUpdateService {
 
         updateService = new UpdateServiceImpl(sqlService, apiRequestService);
 
-        appController = new AppControllerImpl(mockContext);
-
         //Reset database
         mockContext.deleteDatabase("estacionesservicio-db");
     }
