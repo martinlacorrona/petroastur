@@ -47,10 +47,8 @@ import static androidx.core.content.ContextCompat.checkSelfPermission;
 
 public class MapaDetalladoFragment extends Fragment implements OnMapReadyCallback {
 
-    private GalleryViewModel galleryViewModel;
     private GoogleMap gmap;
     private MapView mapView;
-    private LocationManager locationManager;
 
     private boolean permisos;
     private Marker posUsuario;
@@ -94,7 +92,7 @@ public class MapaDetalladoFragment extends Fragment implements OnMapReadyCallbac
             MapsInitializer.initialize(getContext());
             gmap = googleMap;
             if (validaPermisos()) {
-                if (checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                if (checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                     AlertDialog.Builder dialog = new AlertDialog.Builder(getContext());
                     dialog.setTitle(R.string.nopermisos);
                     dialog.setMessage(R.string.nopermisos2);
@@ -114,16 +112,13 @@ public class MapaDetalladoFragment extends Fragment implements OnMapReadyCallbac
                         .title(e.getEmpresa())
                         .snippet(e.getDireccion());
 
-                gmap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
-                    @Override
-                    public void onInfoWindowClick(Marker marker) {
-                        DetalladaFragment fr = new DetalladaFragment(e);
-                        getFragmentManager()
-                                .beginTransaction()
-                                .replace(R.id.container_o, fr)
-                                .addToBackStack(null)
-                                .commit();
-                    }
+                gmap.setOnInfoWindowClickListener(marker -> {
+                    DetalladaFragment fr = new DetalladaFragment(e);
+                    getFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.container_o, fr)
+                            .addToBackStack(null)
+                            .commit();
                 });
                 gmap.addMarker(markerES);
 

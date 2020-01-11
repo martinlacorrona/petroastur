@@ -39,6 +39,7 @@ import com.grupocumb.petroastur.MainActivity;
 import com.grupocumb.petroastur.R;
 import com.grupocumb.petroastur.model.EstacionServicio;
 import com.grupocumb.petroastur.model.FuelType;
+import com.grupocumb.petroastur.ui.detallada.DetalladaFragment;
 import com.grupocumb.petroastur.ui.home.HomeViewModel;
 
 import java.util.List;
@@ -120,12 +121,21 @@ public class GalleryFragment extends Fragment implements OnMapReadyCallback {
                         markerES.icon(BitmapDescriptorFactory.fromResource(R.drawable.preciomedio));
                     else
                         markerES.icon(BitmapDescriptorFactory.fromResource(R.drawable.precioalto));
-                    gmap.addMarker(markerES);
+                    gmap.addMarker(markerES).setTag(e);
                 }
             }
 
             LatLng centro = new LatLng(43.3602900, -5.8447600);
             gmap.moveCamera(CameraUpdateFactory.newLatLngZoom(centro, 5f));
+
+            gmap.setOnInfoWindowClickListener(marker -> {
+                DetalladaFragment fr = new DetalladaFragment((EstacionServicio) marker.getTag());
+                getFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.container_o, fr)
+                        .addToBackStack(null)
+                        .commit();
+            });
 
             if (validaPermisos()) {
                 if (checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
