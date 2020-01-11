@@ -50,10 +50,14 @@ public class AppControllerImpl implements AppController, Serializable {
         OrderType favouriteOrder = settingsController.getFavouriteOrder();
         FuelType favouriteFuel = settingsController.getFavouriteFuel();
 
+        Location loc = getLocation();
+        double distance = settingsController.getMaxDistance() * 1000;
+
         if (favouriteOrder == OrderType.PRECIO) {
             return dataController.getAll().stream().parallel()
                     .filter(estacionServicio -> estacionServicio
-                            .getPrecioCombustible(favouriteFuel) > 0.0)
+                        .getPrecioCombustible(favouriteFuel) > 0.0 &&
+                            (distance == Double.MAX_VALUE || isNear(estacionServicio, distance, loc)))
                     .sorted(Comparator.comparingDouble(estacionServicio -> estacionServicio
                             .getPrecioCombustible(favouriteFuel)))
                     .collect(Collectors.toList());
@@ -61,7 +65,8 @@ public class AppControllerImpl implements AppController, Serializable {
             Location locationGPS = getLocation();
             return dataController.getAll().stream().parallel()
                     .filter(estacionServicio -> estacionServicio
-                            .getPrecioCombustible(favouriteFuel) > 0.0)
+                            .getPrecioCombustible(favouriteFuel) > 0.0 &&
+                            (distance == Double.MAX_VALUE || isNear(estacionServicio, distance, loc)))
                     .sorted(Comparator.comparingDouble(estacionServicio -> {
                         Location locationES = new Location("LocationES");
                         locationES.setLatitude(Double.parseDouble(estacionServicio.getLatitud().replace(",", ".")));
@@ -87,16 +92,12 @@ public class AppControllerImpl implements AppController, Serializable {
 
         if (favouriteOrder == OrderType.PRECIO) {
             return favoritas.stream().parallel()
-                    .filter(estacionServicio -> estacionServicio
-                            .getPrecioCombustible(favouriteFuel) > 0.0)
                     .sorted(Comparator.comparingDouble(estacionServicio -> estacionServicio
                             .getPrecioCombustible(favouriteFuel)))
                     .collect(Collectors.toList());
         } else { //por distancia
             Location locationGPS = getLocation();
             return favoritas.stream().parallel()
-                    .filter(estacionServicio -> estacionServicio
-                            .getPrecioCombustible(favouriteFuel) > 0.0)
                     .sorted(Comparator.comparingDouble(estacionServicio -> {
                         Location locationES = new Location("LocationES");
                         locationES.setLatitude(Double.parseDouble(estacionServicio.getLatitud().replace(",", ".")));
@@ -207,5 +208,21 @@ public class AppControllerImpl implements AppController, Serializable {
             }
         }
         return location;
+    }
+
+    /**
+     * Metodo que devuelve si esta dentro del rango permitido
+     * @param estacionServicio estacion de servicio a chequear
+     * @param distance la distancia maxima que puede haber en metros
+     * @param location localizacion donde esta el usuario
+     * @return true si esta en el rango, false si no lo esta
+     */
+    private boolean isNear(EstacionServicio estacionServicio, double distance, Location location) {
+        Location locationES = new Location("LocationES");
+        locationES.setLatitude(
+                Double.parseDouble(estacionServicio.getLatitud().replace(",", ".")));
+        locationES.setLongitude(
+                Double.parseDouble(estacionServicio.getLongitudWGS84().replace(",", ".")));
+        return locationES.distanceTo(location) <= ((float) distance);
     }
 }
