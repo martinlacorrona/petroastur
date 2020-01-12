@@ -4,142 +4,155 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/combustPref"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10sp"
-        android:layout_marginLeft="10sp"
-        android:layout_marginRight="10sp"
-        android:layout_marginBottom="0sp"
+        android:layout_height="match_parent">
 
-        android:text="@string/tipo_combustible" />
-
-    <RadioGroup
-        android:id="@+id/grupoCarburante"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10sp">
-
-        <RadioButton
-            android:id="@+id/gasolina95Button"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/gasolina_95" />
+            android:orientation="vertical">
 
-        <RadioButton
-            android:id="@+id/gasolina98Button"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/gasolina_98" />
+            <TextView
+                android:id="@+id/combustPref"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10sp"
+                android:layout_marginTop="10sp"
+                android:layout_marginRight="10sp"
+                android:layout_marginBottom="0sp"
 
-        <RadioButton
-            android:id="@+id/bioEtanolButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/bioetanol" />
+                android:text="@string/tipo_combustible" />
 
-        <RadioButton
-            android:id="@+id/gasNaturalLicuadoButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/gasNaturalLicuado" />
+            <RadioGroup
+                android:id="@+id/grupoCarburante"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10sp">
 
-        <RadioButton
-            android:id="@+id/gasNaturalComprimidoButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/gasNaturalComprimido" />
+                <RadioButton
+                    android:id="@+id/gasolina95Button"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/gasolina_95" />
 
-        <RadioButton
-            android:id="@+id/gasesLicuadosDelPetroleoButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/gasesLicuadosDelPetroleo" />
+                <RadioButton
+                    android:id="@+id/gasolina98Button"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/gasolina_98" />
 
-        <RadioButton
-            android:id="@+id/gasoleoAButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/gasoleoA" />
+                <RadioButton
+                    android:id="@+id/bioEtanolButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/bioetanol" />
 
-        <RadioButton
-            android:id="@+id/gasoleoBButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/gasoleoB" />
+                <RadioButton
+                    android:id="@+id/gasNaturalLicuadoButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/gasNaturalLicuado" />
 
-        <RadioButton
-            android:id="@+id/nuevoGasoleoA"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/nuevoGasoleoA" />
+                <RadioButton
+                    android:id="@+id/gasNaturalComprimidoButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/gasNaturalComprimido" />
 
-    </RadioGroup>
+                <RadioButton
+                    android:id="@+id/gasesLicuadosDelPetroleoButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/gasesLicuadosDelPetroleo" />
 
-    <TextView
-        android:id="@+id/listaOrden"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10sp"
-        android:layout_marginLeft="10sp"
-        android:layout_marginRight="10sp"
-        android:layout_marginBottom="0sp"
-        android:text="@string/orden_listado" />
+                <RadioButton
+                    android:id="@+id/gasoleoAButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/gasoleoA" />
 
-    <RadioGroup
-        android:id="@+id/grupoListado"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10sp">
+                <RadioButton
+                    android:id="@+id/gasoleoBButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/gasoleoB" />
 
-        <RadioButton
-            android:id="@+id/distanc"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:checked="false"
-            android:text="@string/distancia" />
+                <RadioButton
+                    android:id="@+id/nuevoGasoleoA"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/nuevoGasoleoA" />
 
-        <RadioButton
-            android:id="@+id/preci"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/precio" />
-    </RadioGroup>
+            </RadioGroup>
 
-    <TextView
-        android:id="@+id/distaMax"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10sp"
-        android:layout_marginLeft="10sp"
-        android:layout_marginRight="10sp"
-        android:layout_marginBottom="0sp"
-        android:text="@string/distancia_maxima" />
+            <TextView
+                android:id="@+id/listaOrden"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10sp"
+                android:layout_marginTop="10sp"
+                android:layout_marginRight="10sp"
+                android:layout_marginBottom="0sp"
+                android:text="@string/orden_listado" />
 
-    <RadioGroup
-        android:id="@+id/grupoDistancia"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_margin="10sp">
+            <RadioGroup
+                android:id="@+id/grupoListado"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10sp">
 
-        <RadioButton
-            android:id="@+id/disMax1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/distancia_max_1" />
+                <RadioButton
+                    android:id="@+id/distanc"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:checked="false"
+                    android:text="@string/distancia" />
 
-        <RadioButton
-            android:id="@+id/distaMax_2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:checked="false"
-            android:text="@string/distancia_max_2" />
+                <RadioButton
+                    android:id="@+id/preci"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/precio" />
+            </RadioGroup>
 
-        <RadioButton
-            android:id="@+id/sin_maxima"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/sin_maxima" />
-    </RadioGroup>
+            <TextView
+                android:id="@+id/distaMax"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10sp"
+                android:layout_marginTop="10sp"
+                android:layout_marginRight="10sp"
+                android:layout_marginBottom="0sp"
+                android:text="@string/distancia_maxima" />
+
+            <RadioGroup
+                android:id="@+id/grupoDistancia"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="10sp">
+
+                <RadioButton
+                    android:id="@+id/disMax1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/distancia_max_1" />
+
+                <RadioButton
+                    android:id="@+id/distaMax_2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:checked="false"
+                    android:text="@string/distancia_max_2" />
+
+                <RadioButton
+                    android:id="@+id/sin_maxima"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/sin_maxima" />
+            </RadioGroup>
+
+        </LinearLayout>
+    </ScrollView>
+
 </LinearLayout>
