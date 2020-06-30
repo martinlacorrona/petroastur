@@ -4,8 +4,9 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.view.Menu;
-import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -29,6 +30,10 @@ import com.grupocumb.petroastur.ui.slideshow.SlideshowFragment;
 import com.grupocumb.petroastur.ui.task.ASyncBBDDLoader;
 import com.grupocumb.petroastur.ui.tools.ToolsFragment;
 
+import org.apache.http.params.HttpConnectionParams;
+
+import java.net.InetAddress;
+
 public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
@@ -38,6 +43,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
 
         appController = new AppControllerImpl(getApplicationContext(), this);
 
@@ -79,11 +87,13 @@ public class MainActivity extends AppCompatActivity {
                     } else if (id == R.id.nav_favoritas) {
                         fragmentManager.beginTransaction().replace(R.id.container_o, new SlideshowFragment()).commit();
                     } else if (id == R.id.nav_ajustes) {
-                        fragmentManager.beginTransaction().replace(R.id.container_o, new ToolsFragment()).commit();
+                        fragmentManager.beginTransaction().replace(R.id.container_o, new ToolsFragment())
+                                .addToBackStack(null).commit();
                     } else if (id == R.id.nav_share) {
                         if (estaConectadoInternet()) {
                             if (hayInternet()) {
-                                fragmentManager.beginTransaction().replace(R.id.container_o, new ShareFragment()).commit();
+                                fragmentManager.beginTransaction().replace(R.id.container_o, new ShareFragment())
+                                        .addToBackStack(null).commit();
                             } else {
                                 Toast.makeText(getApplicationContext(), "No hay conexión a internet.",
                                         Toast.LENGTH_LONG).show();
@@ -94,10 +104,11 @@ public class MainActivity extends AppCompatActivity {
                         }
 
                     } else if (id == R.id.nav_send_opinion) {
-                        fragmentManager.beginTransaction().replace(R.id.container_o, new SendFragment()).commit();
+                        fragmentManager.beginTransaction().replace(R.id.container_o, new SendFragment())
+                                .addToBackStack(null).commit();
                     }
 
-                    DrawerLayout drawer1 = (DrawerLayout) findViewById(R.id.drawer_layout);
+                    DrawerLayout drawer1 = findViewById(R.id.drawer_layout);
                     drawer1.closeDrawer(GravityCompat.START);
                     return true;
                 });
@@ -108,16 +119,13 @@ public class MainActivity extends AppCompatActivity {
 
     private boolean hayInternet() {
         try {
-            Process p = java.lang.Runtime.getRuntime().exec("ping -c 1 www.google.es");
-
-            int val = p.waitFor();
-            return (val == 0);
+            InetAddress ipAddr = InetAddress.getByName("google.com");
+            return !ipAddr.equals("");
 
         } catch (Exception e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
+            return false;
         }
-        return false;
     }
 
     private boolean estaConectadoInternet() {
@@ -147,5 +155,11 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void desactivarBarra() {
+    }
+
+    public void finishFragmentTools(View v) {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.popBackStack();
+        fragmentManager.beginTransaction().replace(R.id.container_o, new HomeFragment()).commit();
     }
 }

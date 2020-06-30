@@ -12,6 +12,7 @@ import android.widget.RadioGroup;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.grupocumb.petroastur.MainActivity;
@@ -19,6 +20,7 @@ import com.grupocumb.petroastur.R;
 import com.grupocumb.petroastur.controller.AppController;
 import com.grupocumb.petroastur.model.FuelType;
 import com.grupocumb.petroastur.model.OrderType;
+import com.grupocumb.petroastur.ui.home.HomeFragment;
 
 public class ToolsFragment extends Fragment {
 

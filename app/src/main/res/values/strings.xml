@@ -54,5 +54,6 @@
     <string name="twitter">Twitter</string>
     <string name="facebook">Facebook</string>
     <string name="whatsapp">WhatsApp</string>
+    <string name="saveSettings">Guardar ajustes</string>
 
 </resources>

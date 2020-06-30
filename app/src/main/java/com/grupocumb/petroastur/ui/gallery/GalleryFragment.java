@@ -57,13 +57,7 @@ public class GalleryFragment extends Fragment implements OnMapReadyCallback {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        GalleryViewModel galleryViewModel = ViewModelProviders.of(this).get(GalleryViewModel.class);
-
-        HomeViewModel homeViewModel = ViewModelProviders.of(getActivity()).get(HomeViewModel.class);
         View root = inflater.inflate(R.layout.fragment_gallery, container, false);
-
-        galleryViewModel.getText().observe(this, s -> {
-        });
         return root;
     }
 
@@ -85,7 +79,6 @@ public class GalleryFragment extends Fragment implements OnMapReadyCallback {
         if (isConnected(getContext())) {
             MapsInitializer.initialize(getContext());
             gmap = googleMap;
-
             //CARGA LOS MARKERS
             List<EstacionServicio> estaciones = ((MainActivity) getActivity()).getAppController().getAllEESSOrdered();
             FuelType favorito = ((MainActivity) getActivity()).getAppController().getSettingFavouriteFuel();
