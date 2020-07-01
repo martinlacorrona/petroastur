@@ -334,28 +334,40 @@ public class EstacionServicio {
     }
 
     private String getPrecioCombustibleConcreto(FuelType type) {
+        String typeFormatted = null;
         switch (type) {
             case BIODIESEL:
-                return getPrecioBiodiesel();
+                typeFormatted = getPrecioBiodiesel();
+                break;
             case BIOETANOL:
-                return getPrecioBioetanol();
+                typeFormatted =  getPrecioBioetanol();
+                break;
             case GASOLEO_A:
-                return getPrecioGasoleoA();
+                typeFormatted =  getPrecioGasoleoA();
+                break;
             case GASOLEO_B:
-                return getPrecioGasoleoB();
+                typeFormatted =  getPrecioGasoleoB();
+                break;
             case GASOLINA_95:
-                return getPrecioGasolina95Proteccion();
+                typeFormatted =  getPrecioGasolina95Proteccion();
+                break;
             case GASOLINA_98:
-                return getPrecioGasolina98();
+                typeFormatted =  getPrecioGasolina98();
+                break;
             case NUEVO_GASOLEO_A:
-                return getPrecioNuevoGasoleoA();
+                typeFormatted =  getPrecioNuevoGasoleoA();
+                break;
             case GAS_NATURAL_LICUADO:
-                return getPrecioGasNaturalLicuado();
+                typeFormatted =  getPrecioGasNaturalLicuado();
+                break;
             case GAS_NATURAL_COMPRIMIDO:
-                return getPrecioGasNaturalComprimido();
+                typeFormatted =  getPrecioGasNaturalComprimido();
+                break;
             case GASES_LICUADOS_PETROLEO:
-                return getPrecioGasesLicuadosDelPetroleo();
+                typeFormatted =  getPrecioGasesLicuadosDelPetroleo();
+                break;
         }
-        return null;
+
+        return typeFormatted.contains(",") ? typeFormatted : null;
     }
 }
