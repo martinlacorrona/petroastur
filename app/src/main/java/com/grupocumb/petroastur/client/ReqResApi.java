@@ -7,14 +7,13 @@ import retrofit2.http.GET;
 
 public interface ReqResApi {
     String BASE_URL = "https://sedeaplicaciones.minetur.gob.es/ServiciosRESTCarburantes/" +
-            "PreciosCarburantes/EstacionesTerrestres/";
+            "PreciosCarburantes/";
 
     /**
      * Petición get al servicio
-     * 03 -> Código Asturias
      *
      * @return Objeto ResponseApi con la lista de estaciones de servicio
      */
-    @GET("FiltroCCAA/03")
+    @GET("EstacionesTerrestres/")
     Call<ResponseAPI> getEstaciones();
 }

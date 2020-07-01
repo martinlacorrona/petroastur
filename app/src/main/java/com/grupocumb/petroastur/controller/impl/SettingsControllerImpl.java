@@ -119,7 +119,7 @@ public class SettingsControllerImpl implements SettingsController {
         String settingName = context.getString(R.string.SETTINGS_DISTANCE_MAX);
         String value = settingsService.getSetting(settingName);
         if (value == null)
-            return Double.MAX_VALUE;
+            return 20.0;
         return Double.parseDouble(value);
     }
 

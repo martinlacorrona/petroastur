@@ -30,12 +30,15 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.maps.android.clustering.ClusterManager;
 import com.grupocumb.petroastur.MainActivity;
 import com.grupocumb.petroastur.R;
+import com.grupocumb.petroastur.model.ClusterEstacionServicio;
 import com.grupocumb.petroastur.model.EstacionServicio;
 import com.grupocumb.petroastur.model.FuelType;
 import com.grupocumb.petroastur.ui.detallada.DetalladaFragment;
 import com.grupocumb.petroastur.ui.home.HomeViewModel;
+import com.grupocumb.petroastur.util.ClusterEstacionServicioAdapter;
 
 import java.util.Comparator;
 import java.util.List;
@@ -47,6 +50,7 @@ public class GalleryFragment extends Fragment implements OnMapReadyCallback {
 
     private GoogleMap gmap;
     private LocationManager locationManager;
+    private ClusterManager<ClusterEstacionServicio> mClusterManager;
 
     private Marker posUsuario;
     private String coordenada = "";
@@ -79,62 +83,17 @@ public class GalleryFragment extends Fragment implements OnMapReadyCallback {
         if (isConnected(getContext())) {
             MapsInitializer.initialize(getContext());
             gmap = googleMap;
-            //CARGA LOS MARKERS
-            List<EstacionServicio> estaciones = ((MainActivity) getActivity()).getAppController().getAllEESSOrdered();
-            FuelType favorito = ((MainActivity) getActivity()).getAppController().getSettingFavouriteFuel();
-            Double precio;
+            mClusterManager = new ClusterManager(getContext(), gmap);
+            gmap.setOnCameraIdleListener(mClusterManager);
+            gmap.setOnMarkerClickListener(mClusterManager);
 
-            Double precioMaximo;
-            try {
-                precioMaximo = estaciones.stream().parallel()
-                        .filter(estacionServicio -> estacionServicio.getPrecioCombustible(favorito) > 0)
-                        .max(Comparator.comparingDouble(estacionServicio -> estacionServicio
-                                .getPrecioCombustible(favorito))).get().getPrecioCombustible(favorito);
-            } catch (NoSuchElementException e) {
-                precioMaximo = 2.50;
-            }
-            Double precioMinimo;
-            try {
-                precioMinimo = estaciones.stream().parallel()
-                        .filter(estacionServicio -> estacionServicio.getPrecioCombustible(favorito) > 0)
-                        .min(Comparator.comparingDouble(estacionServicio -> estacionServicio
-                                .getPrecioCombustible(favorito))).get().getPrecioCombustible(favorito);
-            } catch (NoSuchElementException e) {
-                precioMinimo = 0.50;
-            }
-
-            Double diferenciaMaximoMinimo = precioMaximo - precioMinimo;
-            Double diferenciaEnTresPartes = diferenciaMaximoMinimo / 3;
-            Double precioLimiteHastaVerde = precioMinimo + diferenciaEnTresPartes * 1;
-            Double precioLimiteHastaAmarillo = precioMinimo + diferenciaEnTresPartes * 2;
-
-            if (estaciones != null) {
-                for (EstacionServicio e : estaciones) {
-                    precio = e.getPrecioCombustible(favorito);
-                    //Necesitamos la altitud y longitud de las estaciones de servicio
-                    LatLng latLng = new LatLng(
-                            Double.parseDouble(e.getLatitud().replace(",", ".")),
-                            Double.parseDouble(e.getLongitudWGS84().replace(",", ".")));
-                    String snippet = "Precio " + favorito.getFormattedName() + ": " + precio.toString().replace(".", ",") + "€";
-                    MarkerOptions markerES = new MarkerOptions()
-                            .position(latLng)
-                            .title(e.getEmpresa())
-                            .snippet(snippet);
-                    if (precio < precioLimiteHastaVerde)
-                        markerES.icon(BitmapDescriptorFactory.fromResource(R.drawable.preciobajo));
-                    else if (precio >= precioLimiteHastaVerde && precio < precioLimiteHastaAmarillo)
-                        markerES.icon(BitmapDescriptorFactory.fromResource(R.drawable.preciomedio));
-                    else
-                        markerES.icon(BitmapDescriptorFactory.fromResource(R.drawable.precioalto));
-                    gmap.addMarker(markerES).setTag(e);
-                }
-            }
+            addItems();
 
             LatLng centro = new LatLng(43.3602900, -5.8447600);
             gmap.moveCamera(CameraUpdateFactory.newLatLngZoom(centro, 5f));
 
-            gmap.setOnInfoWindowClickListener(marker -> {
-                DetalladaFragment fr = new DetalladaFragment((EstacionServicio) marker.getTag());
+            mClusterManager.setOnClusterItemInfoWindowClickListener(listener -> {
+                DetalladaFragment fr = new DetalladaFragment(listener.getEstacionServicio());
                 getFragmentManager()
                         .beginTransaction()
                         .replace(R.id.container_o, fr)
@@ -179,9 +138,68 @@ public class GalleryFragment extends Fragment implements OnMapReadyCallback {
         }
     }
 
+    private void addItems() {
+        List<EstacionServicio> estaciones = ((MainActivity) getActivity()).getAppController().getAllEESSOrdered();
+        FuelType favorito = ((MainActivity) getActivity()).getAppController().getSettingFavouriteFuel();
+
+        estaciones.forEach(estacionServicio -> {
+            ClusterEstacionServicio cluster = ClusterEstacionServicioAdapter.convertEstacionServicioToCluster(estacionServicio, favorito);
+            mClusterManager.addItem(cluster);
+        });
+
+        //CARGA LOS MARKERS
+//        List<EstacionServicio> estaciones = ((MainActivity) getActivity()).getAppController().getAllEESSOrdered();
+//        FuelType favorito = ((MainActivity) getActivity()).getAppController().getSettingFavouriteFuel();
+//        Double precio;
+//
+//        Double precioMaximo;
+//        try {
+//            precioMaximo = estaciones.stream().parallel()
+//                    .filter(estacionServicio -> estacionServicio.getPrecioCombustible(favorito) > 0)
+//                    .max(Comparator.comparingDouble(estacionServicio -> estacionServicio
+//                            .getPrecioCombustible(favorito))).get().getPrecioCombustible(favorito);
+//        } catch (NoSuchElementException e) {
+//            precioMaximo = 2.50;
+//        }
+//        Double precioMinimo;
+//        try {
+//            precioMinimo = estaciones.stream().parallel()
+//                    .filter(estacionServicio -> estacionServicio.getPrecioCombustible(favorito) > 0)
+//                    .min(Comparator.comparingDouble(estacionServicio -> estacionServicio
+//                            .getPrecioCombustible(favorito))).get().getPrecioCombustible(favorito);
+//        } catch (NoSuchElementException e) {
+//            precioMinimo = 0.50;
+//        }
+//
+//        Double diferenciaMaximoMinimo = precioMaximo - precioMinimo;
+//        Double diferenciaEnTresPartes = diferenciaMaximoMinimo / 3;
+//        Double precioLimiteHastaVerde = precioMinimo + diferenciaEnTresPartes * 1;
+//        Double precioLimiteHastaAmarillo = precioMinimo + diferenciaEnTresPartes * 2;
+//
+//        if (estaciones != null) {
+//            for (EstacionServicio e : estaciones) {
+//                precio = e.getPrecioCombustible(favorito);
+//                //Necesitamos la altitud y longitud de las estaciones de servicio
+//                LatLng latLng = new LatLng(
+//                        Double.parseDouble(e.getLatitud().replace(",", ".")),
+//                        Double.parseDouble(e.getLongitudWGS84().replace(",", ".")));
+//                String snippet = "Precio " + favorito.getFormattedName() + ": " + precio.toString().replace(".", ",") + "€";
+//                MarkerOptions markerES = new MarkerOptions()
+//                        .position(latLng)
+//                        .title(e.getEmpresa())
+//                        .snippet(snippet);
+//                if (precio < precioLimiteHastaVerde)
+//                    markerES.icon(BitmapDescriptorFactory.fromResource(R.drawable.preciobajo));
+//                else if (precio >= precioLimiteHastaVerde && precio < precioLimiteHastaAmarillo)
+//                    markerES.icon(BitmapDescriptorFactory.fromResource(R.drawable.preciomedio));
+//                else
+//                    markerES.icon(BitmapDescriptorFactory.fromResource(R.drawable.precioalto));
+//                gmap.addMarker(markerES).setTag(e);
+//            }
+//        }
+    }
+
     public boolean isConnected(Context context) {
-        System.out.println("AQUI");
-        System.out.println(context);
         if(context != null) {
             ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
             NetworkInfo netinfo = cm.getActiveNetworkInfo();

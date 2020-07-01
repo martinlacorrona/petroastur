@@ -141,7 +141,7 @@ public class ToolsFragment extends Fragment {
             } else if (checkedId == R.id.distaMax_2) {
                 ap.setSettingMaxDistance(50);
             } else {
-                ap.setSettingMaxDistance(Double.MAX_VALUE);
+                ap.setSettingMaxDistance(100);
             }
             return;
         });
