@@ -20,7 +20,6 @@ public class ShareFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        ShareViewModel shareViewModel = ViewModelProviders.of(this).get(ShareViewModel.class);
         View root = inflater.inflate(R.layout.fragment_share, container, false);
         Button buttonFacebook = root.findViewById(R.id.buttonFace);
         Button buttonTwitter = root.findViewById(R.id.buttonTw);

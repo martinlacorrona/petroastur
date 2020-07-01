@@ -20,7 +20,6 @@ public class SendFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        SendViewModel sendViewModel = ViewModelProviders.of(this).get(SendViewModel.class);
         View root = inflater.inflate(R.layout.fragment_send, container, false);
         Button botonEnviar = root.findViewById(R.id.buttonEnviar);
         text = root.findViewById(R.id.textoParaEnviar);

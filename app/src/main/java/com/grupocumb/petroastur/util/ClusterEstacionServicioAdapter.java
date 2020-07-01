@@ -1,12 +1,13 @@
 package com.grupocumb.petroastur.util;
 
+import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.LatLng;
 import com.grupocumb.petroastur.model.ClusterEstacionServicio;
 import com.grupocumb.petroastur.model.EstacionServicio;
 import com.grupocumb.petroastur.model.FuelType;
 
 public class ClusterEstacionServicioAdapter {
-    public static ClusterEstacionServicio convertEstacionServicioToCluster(EstacionServicio e, FuelType favorito) {
+    public static ClusterEstacionServicio convertEstacionServicioToCluster(EstacionServicio e, FuelType favorito, BitmapDescriptor icon) {
         Double precio = e.getPrecioCombustible(favorito);
         return new ClusterEstacionServicio(
                 new LatLng(
@@ -14,6 +15,7 @@ public class ClusterEstacionServicioAdapter {
                 Double.parseDouble(e.getLongitudWGS84().replace(",", "."))),
                 e.getEmpresa(),
                 "Precio " + favorito.getFormattedName() + ": " + precio.toString().replace(".", ",") + "€",
-                e);
+                e,
+                icon);
     }
 }
