@@ -5,7 +5,7 @@ import androidx.room.RoomDatabase;
 
 import com.grupocumb.petroastur.model.EstacionServicio;
 
-@Database(entities = {EstacionServicio.class}, version = 1, exportSchema = false)
+@Database(entities = {EstacionServicio.class}, version = 2, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
     public abstract EstacionServicioDao estacionServicioDao();
 }

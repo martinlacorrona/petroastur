@@ -8,8 +8,8 @@ public enum FuelType {
     GASES_LICUADOS_PETROLEO("Gases licuados petroleo"),
     GASOLEO_A("Gasoleo A"),
     GASOLEO_B("Gasoleo B"),
-    GASOLINA_95("Gasolina 95"),
-    GASOLINA_98("Gasolina 98"),
+    GASOLINA_95("Gasolina 95 E5"),
+    GASOLINA_98("Gasolina 98 E5"),
     NUEVO_GASOLEO_A("Nuevo gasoleo A");
 
     private final String formattedName;

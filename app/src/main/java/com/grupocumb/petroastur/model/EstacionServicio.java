@@ -55,12 +55,18 @@ public class EstacionServicio {
     @SerializedName("Precio Gasoleo B")
     @Expose
     private String precioGasoleoB;
-    @SerializedName("Precio Gasolina 95 Protecci\u00f3n")
+    @SerializedName("Precio Gasolina 95 E10")
+    @Expose
+    private String precioGasolina95E10;
+    @SerializedName("Precio Gasolina 95 E5")
     @Expose
     private String precioGasolina95Proteccion;
-    @SerializedName("Precio Gasolina  98")
+    @SerializedName("Precio Gasolina 98 E5")
     @Expose
     private String precioGasolina98;
+    @SerializedName("Precio Gasolina 98 E10")
+    @Expose
+    private String precioGasolina98E10;
     @SerializedName("Precio Nuevo Gasoleo A")
     @Expose
     private String precioNuevoGasoleoA;
@@ -309,6 +315,22 @@ public class EstacionServicio {
         return esterMetilico;
     }
 
+    public String getPrecioGasolina95E10() {
+        return precioGasolina95E10;
+    }
+
+    public void setPrecioGasolina95E10(String precioGasolina95E10) {
+        this.precioGasolina95E10 = precioGasolina95E10;
+    }
+
+    public String getPrecioGasolina98E10() {
+        return precioGasolina98E10;
+    }
+
+    public void setPrecioGasolina98E10(String precioGasolina98E10) {
+        this.precioGasolina98E10 = precioGasolina98E10;
+    }
+
     @NonNull
     public String getId() {
         return id;
@@ -349,10 +371,16 @@ public class EstacionServicio {
                 typeFormatted =  getPrecioGasoleoB();
                 break;
             case GASOLINA_95:
-                typeFormatted =  getPrecioGasolina95Proteccion();
+                if(precioGasolina95Proteccion == null)
+                    typeFormatted = getPrecioGasolina95E10();
+                else
+                    typeFormatted =  getPrecioGasolina95Proteccion();
                 break;
             case GASOLINA_98:
-                typeFormatted =  getPrecioGasolina98();
+                if(precioGasolina98 == null)
+                    typeFormatted = getPrecioGasolina98E10();
+                else
+                    typeFormatted =  getPrecioGasolina98();
                 break;
             case NUEVO_GASOLEO_A:
                 typeFormatted =  getPrecioNuevoGasoleoA();
@@ -368,6 +396,7 @@ public class EstacionServicio {
                 break;
         }
 
+        if(typeFormatted == null) return null;
         return typeFormatted.contains(",") ? typeFormatted : null;
     }
 }
